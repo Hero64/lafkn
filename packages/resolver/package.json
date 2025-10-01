@@ -1,0 +1,31 @@
+{
+  "name": "@alicanto/resolver",
+  "version": "0.1.2",
+  "private": false,
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "src/index",
+  "scripts": {
+    "build": "yarn clean && tsc -p ./tsconfig.build.json",
+    "clean": "rm -rf ./lib",
+    "dev": "tsc -w",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "@alicanto/common": "workspace:*",
+    "@cdktf/provider-aws": "21.11.1",
+    "cdktf": "0.21.0",
+    "constructs": "10.4.2",
+    "dotenv": "17.2.2",
+    "esbuild": "0.25.10",
+    "reflect-metadata": "0.1.13"
+  },
+  "devDependencies": {
+    "@types/jest": "29.5.2",
+    "@types/node": "24.6.0",
+    "jest": "29.5.0",
+    "ts-jest": "29.1.0",
+    "ts-node": "10.9.1"
+  }
+}
