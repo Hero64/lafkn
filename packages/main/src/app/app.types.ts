@@ -1,6 +1,7 @@
 import type { LambdaGlobalConfig, ResolverType } from '@alicanto/resolver';
-import type { TerraformStack } from 'cdktf';
-import type { ModuleResource } from '../module/module.types';
+import type { StackModule } from '../module';
+import type { ModuleResolverType } from '../module/module.types';
+import type { AppStack } from './app';
 
 export interface GlobalConfig {
   lambda?: LambdaGlobalConfig;
@@ -31,9 +32,9 @@ export interface CreateAppProps {
    * Defines the set of modules to be created within the application.
    */
   modules: ((
-    scope: TerraformStack,
-    resources: Record<string, ResolverType>
-  ) => Promise<ModuleResource>)[];
+    scope: AppStack,
+    resources: Record<string, ModuleResolverType>
+  ) => Promise<StackModule>)[];
   /**
    * Resource resolvers.
    *

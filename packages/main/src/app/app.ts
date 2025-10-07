@@ -1,9 +1,11 @@
+import { enableBuildEnvVariable } from '@alicanto/common';
 import { ContextName, type ResolverType } from '@alicanto/resolver';
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { App, TerraformStack } from 'cdktf';
-
 import { AppContext } from '../context/context';
 import type { CreateAppProps } from './app.types';
+
+enableBuildEnvVariable();
 
 export class AppStack extends TerraformStack {
   constructor(
@@ -26,7 +28,6 @@ export class AppStack extends TerraformStack {
     await this.triggerHook(resolvers, 'beforeCreate');
     await this.resolveModuleResources();
     await this.triggerHook(resolvers, 'afterCreate');
-    // TODO: crear un aspect que resuelva
   }
 
   private async triggerHook(
@@ -55,9 +56,13 @@ export class AppStack extends TerraformStack {
 }
 
 export const createApp = async (props: CreateAppProps) => {
-  const app = new App();
+  const app = new App({
+    skipValidation: true,
+  });
   const appStack = new AppStack(app, props.name, props);
   await appStack.init();
+
+  app.synth();
 
   return {
     app,

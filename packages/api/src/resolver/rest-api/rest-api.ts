@@ -35,10 +35,14 @@ export class RestApi extends Construct {
   }
 
   public async addMethod(module: AppModule, props: Omit<ApiMethodProps, 'restApi'>) {
-    const method = new ApiMethod(module, props.resourceMetadata.name, {
-      ...props,
-      restApi: this,
-    });
+    const method = new ApiMethod(
+      module,
+      `${props.resourceMetadata.name}-${props.handler.name}`,
+      {
+        ...props,
+        restApi: this,
+      }
+    );
 
     await method.create();
   }
@@ -55,7 +59,7 @@ export class RestApi extends Construct {
       }
     );
 
-    this.stage = new ApiGatewayStage(this.scope, `${this.props.name}`, {
+    this.stage = new ApiGatewayStage(this.scope, `${this.props.name}-stage`, {
       ...(this.props.stage || {}),
       deploymentId: deployment.id,
       restApiId: this.api.id,

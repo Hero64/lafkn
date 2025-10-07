@@ -48,9 +48,10 @@ export class ApiResolver implements ResolverType {
     });
 
     const apiNames = Object.keys(this.apis);
+
     let api: RestApi = this.apis[apiNames[0]];
 
-    if (apiNames.length > 0) {
+    if (apiNames.length > 1) {
       api = this.apis[metadata.apiGatewayName];
 
       if (!metadata.apiGatewayName || !api) {

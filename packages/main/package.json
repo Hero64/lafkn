@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "types": "src/index",
   "scripts": {
-    "build": "yarn clean && tsc -p ./tsconfig.build.json",
+    "build": "clean && tsc -p ./tsconfig.build.json",
     "clean": "rm -rf ./lib",
     "dev": "tsc -w",
     "test": "jest",
@@ -16,9 +16,9 @@
     "@alicanto/common": "workspace:*",
     "@alicanto/resolver": "workspace:*",
     "@cdktf/provider-aws": "21.11.1",
+    "@cdktf/provider-random": "12.0.0",
     "cdktf": "0.21.0",
     "constructs": "10.4.2",
-    "dotenv": "16.4.5",
     "reflect-metadata": "0.1.13"
   },
   "devDependencies": {

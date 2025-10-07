@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "types": "src/index",
   "scripts": {
-    "build": "yarn clean && tsc -p ./tsconfig.build.json",
+    "build": "pnpm clean && tsc -p ./tsconfig.build.json",
     "clean": "rm -rf ./lib",
     "dev": "tsc -w",
     "test": "jest",

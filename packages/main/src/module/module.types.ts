@@ -38,3 +38,5 @@ export interface ModuleResource {
   metadata: ResourceMetadata;
   Resource: ClassResource;
 }
+
+export interface ModuleResolverType extends ResolverType {}

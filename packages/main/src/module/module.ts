@@ -1,10 +1,10 @@
 import { getResourceMetadata } from '@alicanto/common';
-import { ContextName, type ResolverType } from '@alicanto/resolver';
+import { ContextName } from '@alicanto/resolver';
 import { Construct } from 'constructs';
 
 import type { AppStack } from '../app/app';
 import { AppContext } from '../context/context';
-import type { CreateModuleProps, ModuleProps } from './module.types';
+import type { CreateModuleProps, ModuleProps, ModuleResolverType } from './module.types';
 
 export class StackModule extends Construct {
   constructor(
@@ -14,7 +14,7 @@ export class StackModule extends Construct {
   ) {
     super(scope, id);
     new AppContext(this, {
-      contextName: ContextName.APP,
+      contextName: ContextName.MODULE,
       globalConfig: props.globalConfig,
     });
   }
@@ -37,7 +37,7 @@ export class StackModule extends Construct {
 
 export const createModule =
   (props: CreateModuleProps) =>
-  async (scope: AppStack, resolvers: Record<string, ResolverType>) => {
+  async (scope: AppStack, resolvers: Record<string, ModuleResolverType>) => {
     const module = new StackModule(scope, props.name, {
       ...props,
       resolvers,
