@@ -1,8 +1,9 @@
 import { getResourceMetadata } from '@alicanto/common';
-import { ContextName } from '@alicanto/resolver';
+import { alicantoResource, ContextName, Role } from '@alicanto/resolver';
+import { Aspects } from 'cdktf';
 import { Construct } from 'constructs';
-
 import type { AppStack } from '../app/app';
+import { AppAspect } from '../aspect/aspect';
 import { AppContext } from '../context/context';
 import type { CreateModuleProps, ModuleProps, ModuleResolverType } from './module.types';
 
@@ -16,7 +17,9 @@ export class StackModule extends Construct {
     new AppContext(this, {
       contextName: ContextName.MODULE,
       globalConfig: props.globalConfig,
+      contextCreator: props.name,
     });
+    this.createRole();
   }
 
   async generateResources() {
@@ -32,6 +35,34 @@ export class StackModule extends Construct {
 
       await resolver.create(this, resource);
     }
+
+    this.addAspectProperties();
+  }
+
+  private createRole() {
+    if (this.props.globalConfig?.lambda?.services) {
+      return;
+    }
+
+    const roleName = `${this.props.name}-module-role`;
+
+    const lambdaRole = alicantoResource.create('module', Role, this, roleName, {
+      name: roleName,
+      services: this.props.globalConfig?.lambda?.services || [],
+    });
+
+    lambdaRole.isGlobal();
+  }
+
+  private addAspectProperties() {
+    Aspects.of(this).add(
+      new AppAspect({
+        tags: {
+          ...(this.props.globalConfig?.tags || {}),
+          'alicanto:module': this.props.name,
+        },
+      })
+    );
   }
 }
 

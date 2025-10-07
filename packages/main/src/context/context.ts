@@ -7,6 +7,9 @@ export class AppContext {
     const { contextName, globalConfig = {} } = props;
     const { services: _services, ...contextData } = globalConfig.lambda || {};
 
-    scope.node.setContext(contextName, contextData);
+    scope.node.setContext(contextName, {
+      ...contextData,
+      contextCreator: props.contextCreator,
+    });
   }
 }

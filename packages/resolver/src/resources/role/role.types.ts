@@ -8,7 +8,7 @@ export interface RoleProps {
   /**
    * Role name
    */
-  name?: string;
+  name: string;
   /**
    * Reference to aws service
    */

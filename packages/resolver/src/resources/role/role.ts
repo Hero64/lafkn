@@ -119,7 +119,7 @@ export class Role extends IamRole {
   }
 
   private createPolicy() {
-    const policyName = `${this.name}-policy`;
+    const policyName = `${this.props.name}-policy`;
     new IamRolePolicy(this, policyName, {
       name: `${this.name}-policy`,
       role: this.name,

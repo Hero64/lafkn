@@ -17,7 +17,7 @@ class AlicantoResource {
 
     class Resource extends ExtendResource {
       isGlobal() {
-        const id = props[0] as string;
+        const id = props[1] as string;
         self.globals[`${module}-${id}`] = this;
       }
 
@@ -35,7 +35,7 @@ class AlicantoResource {
     };
   };
 
-  getResource<T = unknown>(id: string): any {
+  getResource<T = any>(id: string): T {
     return this.globals[id] as T;
   }
 }

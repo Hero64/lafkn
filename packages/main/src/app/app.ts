@@ -1,7 +1,13 @@
 import { enableBuildEnvVariable } from '@alicanto/common';
-import { ContextName, type ResolverType } from '@alicanto/resolver';
+import {
+  alicantoResource,
+  ContextName,
+  type ResolverType,
+  Role,
+} from '@alicanto/resolver';
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
-import { App, TerraformStack } from 'cdktf';
+import { App, Aspects, TerraformStack } from 'cdktf';
+import { AppAspect } from '../aspect/aspect';
 import { AppContext } from '../context/context';
 import type { CreateAppProps } from './app.types';
 
@@ -18,8 +24,10 @@ export class AppStack extends TerraformStack {
     new AppContext(this, {
       contextName: ContextName.APP,
       globalConfig: props.globalConfig,
+      contextCreator: props.name,
     });
     new AwsProvider(scope, 'AWS');
+    this.createRole();
   }
 
   async init() {
@@ -28,6 +36,7 @@ export class AppStack extends TerraformStack {
     await this.triggerHook(resolvers, 'beforeCreate');
     await this.resolveModuleResources();
     await this.triggerHook(resolvers, 'afterCreate');
+    this.addAspectProperties();
   }
 
   private async triggerHook(
@@ -52,6 +61,38 @@ export class AppStack extends TerraformStack {
     );
 
     await Promise.all(modules.map((module) => module(this, resolversByType)));
+  }
+
+  private createRole() {
+    const roleName = `${this.props.name}-global-role`;
+
+    const lambdaRole = alicantoResource.create('app', Role, this, roleName, {
+      name: roleName,
+      services: this.props.globalConfig?.lambda?.services || [
+        'dynamodb',
+        's3',
+        'lambda',
+        'cloudwatch',
+        'sqs',
+        'state_machine',
+        'kms',
+        'ssm',
+        'event',
+      ],
+    });
+
+    lambdaRole.isGlobal();
+  }
+
+  private addAspectProperties() {
+    Aspects.of(this).add(
+      new AppAspect({
+        tags: {
+          ...(this.props.globalConfig?.tags || {}),
+          'alicanto:app': this.id,
+        },
+      })
+    );
   }
 }
 

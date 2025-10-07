@@ -96,7 +96,7 @@ export class LambdaHandler extends Construct {
     return this.node.tryGetContext(ContextName.MODULE);
   }
 
-  private getCurrentOrContextValue<T extends keyof GlobalContext>(
+  private getCurrentOrContextValue<T extends keyof Omit<GlobalContext, 'contextCreator'>>(
     key: T,
     defaultValue?: GlobalContext[T]
   ) {
@@ -133,7 +133,15 @@ export class LambdaHandler extends Construct {
 
   private getRoleArn(name: string) {
     if (!this.props.lambda?.services) {
-      return '';
+      const appRole = alicantoResource.getResource<Role>(
+        `app-${this.appContext.contextCreator}-global-role`
+      );
+
+      const moduleRole = alicantoResource.getResource<Role | undefined>(
+        `module-${this.appContext.contextCreator}-module-role`
+      );
+
+      return moduleRole?.arn || appRole.arn;
     }
 
     const role = new Role(this, 'lambda-role', {

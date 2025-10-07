@@ -29,7 +29,9 @@ export interface LambdaGlobalConfig extends Omit<LambdaProps, 'tags' | 'env'> {
   env?: Record<string, string>;
 }
 
-export interface GlobalContext extends Omit<LambdaGlobalConfig, 'services'> {}
+export interface GlobalContext extends Omit<LambdaGlobalConfig, 'services'> {
+  contextCreator: string;
+}
 
 export enum ContextName {
   APP = 'app',
