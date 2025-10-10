@@ -1,5 +1,6 @@
 import type { FieldTypes } from '@alicanto/common';
 import type { ApiParamMetadata } from '../../../../../main';
+import type { ProxyValueResolver } from '../proxy/proxy.types';
 
 export type TemplateParam = ApiParamMetadata & {
   directTemplateValue?: string;
@@ -16,8 +17,8 @@ export interface GenerateTemplateProps {
 export interface GenerateTemplateByObjectProps {
   value: any;
   quoteType?: string;
-  templateOptions?: Omit<GenerateTemplateProps, 'fieldParams'>;
-  // resolveValue: (value: any) => ProxyValueResolver;
+  templateOptions?: Omit<GenerateTemplateProps, 'field'>;
+  resolveValue: (value: any) => ProxyValueResolver;
   parseObjectValue?: (
     value: string,
     fieldType: FieldTypes,

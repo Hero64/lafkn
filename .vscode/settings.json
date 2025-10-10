@@ -10,7 +10,7 @@
   },
   "explorer.excludeGitIgnore": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "never"
+    "source.fixAll.biome": "always"
   },
   "editor.defaultFormatter": "biomejs.biome",
   "[json]": {

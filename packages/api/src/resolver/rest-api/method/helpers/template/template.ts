@@ -1,5 +1,15 @@
-import type { GenerateTemplateProps, TemplateParam } from './template.types';
-import { requestTemplateMap, TEMPLATE_KEY_REPLACE } from './template.utils';
+import type { FieldTypes } from '@alicanto/common';
+import type { ProxyValueResolver } from '../proxy/proxy.types';
+import type {
+  GenerateTemplateByObjectProps,
+  GenerateTemplateProps,
+  TemplateParam,
+} from './template.types';
+import {
+  PRIMITIVE_TYPES,
+  requestTemplateMap,
+  TEMPLATE_KEY_REPLACE,
+} from './template.utils';
 
 export class TemplateHelper {
   public generateTemplate(
@@ -117,95 +127,96 @@ export class TemplateHelper {
     return template;
   }
 
-  // getTemplateFromProxyValue(resolver: ProxyValueResolver, quoteType = '"') {
-  //   if (resolver.field) {
-  //     return this.generateTemplate({
-  //       fieldParams: resolver.field,
-  //       currentValue: resolver.path,
-  //       quoteType,
-  //     });
-  //   }
+  generateTemplateByObject(
+    {
+      value,
+      quoteType = '"',
+      resolveValue,
+      parseObjectValue = (template: string) => template,
+      templateOptions = {},
+    }: GenerateTemplateByObjectProps,
+    isRoot = true
+  ) {
+    const { field, path, type } = resolveValue(value);
 
-  //   if (
-  //     typeof resolver.value === 'string' ||
-  //     resolver.value?.value?.['Fn::GetAtt'] !== undefined
-  //   ) {
-  //     return `${quoteType}${resolver.value}${quoteType}`;
-  //   }
+    if (field) {
+      const fieldTemplate = this.generateTemplate({
+        field: field,
+        currentValue: path,
+        quoteType,
+        ...templateOptions,
+      });
 
-  //   return resolver.value;
-  // }
+      return parseObjectValue(fieldTemplate, type, isRoot, true);
+    }
 
-  // generateTemplateByObject(
-  //   {
-  //     value,
-  //     quoteType = '"',
-  //     resolveValue,
-  //     parseObjectValue = (template: string) => template,
-  //     templateOptions = {},
-  //   }: GenerateTemplateByObjectProps,
-  //   isRoot = true
-  // ) {
-  //   const { field, path, type } = resolveValue(value);
+    if (PRIMITIVE_TYPES.has(type)) {
+      return parseObjectValue(
+        type === 'String' ? `${quoteType}${value}${quoteType}` : value,
+        type,
+        isRoot,
+        false
+      );
+    }
 
-  //   if (field) {
-  //     const fieldTemplate = this.generateTemplate({
-  //       field: field,
-  //       currentValue: path,
-  //       quoteType,
-  //       ...templateOptions,
-  //     });
+    let template = '';
+    let comma = '';
+    if (type === 'Object') {
+      for (const objectKey in value) {
+        const fieldTemplate = this.generateTemplateByObject(
+          {
+            value: value[objectKey],
+            quoteType,
+            resolveValue,
+            parseObjectValue,
+            templateOptions,
+          },
+          false
+        );
+        template += `${comma}${quoteType}${objectKey}${quoteType}: ${fieldTemplate}`;
+        comma = ',';
+      }
+      template = `{ ${template} }`;
 
-  //     return parseObjectValue(fieldTemplate, type, isRoot, true);
-  //   }
+      return parseObjectValue(template, type, isRoot, false);
+    }
 
-  //   if (PRIMITIVE_TYPES.has(type)) {
-  //     return parseObjectValue(
-  //       type === 'String' ? `${quoteType}${value}${quoteType}` : value,
-  //       type,
-  //       isRoot,
-  //       false
-  //     );
-  //   }
+    for (const itemValue of value) {
+      const fieldTemplate = this.generateTemplateByObject(
+        {
+          value: itemValue,
+          quoteType,
+          resolveValue,
+          parseObjectValue,
+          templateOptions,
+        },
+        false
+      );
+      template += `${comma}${fieldTemplate}`;
+      comma = ',';
+    }
+    template = `[${template}]`;
 
-  //   let template = '';
-  //   let comma = '';
-  //   if (type === 'Object') {
-  //     for (const objectKey in value) {
-  //       const fieldTemplate = this.generateTemplateByObject(
-  //         {
-  //           value: value[objectKey],
-  //           quoteType,
-  //           resolveValue,
-  //           parseObjectValue,
-  //           templateOptions,
-  //         },
-  //         false
-  //       );
-  //       template += `${comma}${quoteType}${objectKey}${quoteType}: ${fieldTemplate}`;
-  //       comma = ',';
-  //     }
-  //     template = `{ ${template} }`;
+    return parseObjectValue(template, type, isRoot, false);
+  }
 
-  //     return parseObjectValue(template, type, isRoot, false);
-  //   }
+  getTemplateFromProxyValue(resolver: ProxyValueResolver, quoteType = '"') {
+    if (resolver.field) {
+      return this.generateTemplate({
+        field: resolver.field,
+        currentValue: resolver.path,
+        quoteType,
+      });
+    }
 
-  //   for (const itemValue of value) {
-  //     const fieldTemplate = this.generateTemplateByObject(
-  //       {
-  //         value: itemValue,
-  //         quoteType,
-  //         resolveValue,
-  //         parseObjectValue,
-  //         templateOptions,
-  //       },
-  //       false
-  //     );
-  //     template += `${comma}${fieldTemplate}`;
-  //     comma = ',';
-  //   }
-  //   template = `[${template}]`;
+    if (typeof resolver.value === 'string') {
+      return `${quoteType}${resolver.value}${quoteType}`;
+    }
 
-  //   return parseObjectValue(template, type, isRoot, false);
-  // // }
+    return resolver.value;
+  }
+
+  scapeJavascriptValue(value: string, type: FieldTypes) {
+    return type === 'String' ? `$util.escapeJavaScript(${value})` : value;
+  }
 }
