@@ -1,4 +1,3 @@
-import type { AppModule } from '@alicanto/resolver';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import { ApiGatewayIntegrationResponse } from '@cdktf/provider-aws/lib/api-gateway-integration-response';
 import { ApiGatewayMethod } from '@cdktf/provider-aws/lib/api-gateway-method';
@@ -12,12 +11,14 @@ import { ResponseHelper } from './helpers/response/response';
 import { TemplateHelper } from './helpers/template/template';
 import type { Integration, IntegrationProps } from './integrations/integration.types';
 import { LambdaIntegration } from './integrations/lambda/lambda';
+import { QueueIntegration } from './integrations/queue/queue';
 import { BucketIntegration } from './integrations/s3/bucket';
+import { StateMachineIntegration } from './integrations/state-machine/state-machine';
 import type { ApiMethodProps } from './method.types';
 
 export class ApiMethod extends Construct {
   constructor(
-    scope: AppModule,
+    scope: Construct,
     id: string,
     private props: ApiMethodProps
   ) {
@@ -219,6 +220,14 @@ export class ApiMethod extends Construct {
     switch (handler.integration) {
       case 'bucket': {
         integration = new BucketIntegration(props);
+        break;
+      }
+      case 'state-machine': {
+        integration = new StateMachineIntegration(props);
+        break;
+      }
+      case 'queue': {
+        integration = new QueueIntegration(props);
         break;
       }
       default: {

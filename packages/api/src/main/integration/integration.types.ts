@@ -65,7 +65,7 @@ export interface DynamoDeleteIntegrationResponse<T = any>
   extends DynamoIntegrationPartitionBase<T> {}
 
 export interface QueueSendMessageIntegrationResponse {
-  queueUrl: string;
+  queueName: string;
   attributes?: Partial<Record<string, string | number>>;
   body?: any;
 }

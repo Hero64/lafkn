@@ -22,7 +22,6 @@ export class StateMachineBaseIntegration<T> implements Integration {
     } = this.props;
 
     const { integrationResponse, optionResolver } = await this.callIntegrationMethod<T>();
-    optionResolver.hasUnresolved();
 
     const integration = alicantoResource.create(
       'integration',

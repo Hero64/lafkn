@@ -4,6 +4,7 @@ export class ResolveResources<T = string> {
   private unresolved: string[] = [];
 
   public getResourceValue(value: T) {
+    this.unresolved = [];
     const resourceValues = String(value).split('::');
 
     if (resourceValues.length !== 3) {

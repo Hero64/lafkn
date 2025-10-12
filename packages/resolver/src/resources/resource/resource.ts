@@ -38,6 +38,12 @@ class AlicantoResource {
   getResource<T = any>(id: string): T {
     return this.globals[id] as T;
   }
+
+  async callDependentCallbacks() {
+    for (const resource of this.dependent) {
+      await resource.resolveDependency();
+    }
+  }
 }
 
 export const alicantoResource = new AlicantoResource();

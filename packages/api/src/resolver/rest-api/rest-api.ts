@@ -1,4 +1,4 @@
-import { type AppModule, type AppStack, alicantoResource } from '@alicanto/resolver';
+import { alicantoResource } from '@alicanto/resolver';
 import { ApiGatewayDeployment } from '@cdktf/provider-aws/lib/api-gateway-deployment';
 import {
   ApiGatewayRestApi,
@@ -26,7 +26,7 @@ export class RestApi extends Construct {
   public responseFactory: ResponseFactory;
 
   constructor(
-    private scope: AppStack,
+    private scope: Construct,
     id: string,
     private props: RestApiProps
   ) {
@@ -40,7 +40,7 @@ export class RestApi extends Construct {
     this.responseFactory = new ResponseFactory(this);
   }
 
-  public async addMethod(module: AppModule, props: Omit<ApiMethodProps, 'restApi'>) {
+  public async addMethod(module: Construct, props: Omit<ApiMethodProps, 'restApi'>) {
     const method = new ApiMethod(
       module,
       `${props.resourceMetadata.name}-${props.handler.name}`,
