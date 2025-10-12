@@ -1,6 +1,6 @@
 import type { ResourceIdentifiers, ScopedResourceNames } from './utilities.types';
 
-export interface StacksAvailable {}
+export interface ModulesAvailable {}
 export interface AuthAvailable {}
 export interface BucketAvailable {}
 export interface ApiRestAvailable {}
@@ -14,7 +14,7 @@ type StackResourceName<T, S extends string> =
   | `${S}::${Extract<keyof T, string | number>}`
   | (string & {});
 
-export type StackNames = ResourceNames<StacksAvailable>;
+export type ModuleNames = ResourceNames<ModulesAvailable>;
 export type AuthNames = ResourceNames<AuthAvailable>;
 export type AuthRestScopedNames = StackResourceName<AuthAvailable, 'auth'>;
 export type BucketNames = ResourceNames<BucketAvailable>;
@@ -32,10 +32,10 @@ export type DynamoDbNames = ResourceNames<DynamoDBAvailable>;
 export type DynamoDbScopedNames = StackResourceName<DynamoDBAvailable, 'dynamo'>;
 
 export type StateMachineNames =
-  | ResourceIdentifiers<StacksAvailable, 'StateMachine'>
+  | ResourceIdentifiers<ModulesAvailable, 'StateMachine'>
   | (string & {});
 export type StateMachineScopedNames = ScopedResourceNames<
-  StacksAvailable,
+  ModulesAvailable,
   'StateMachine'
 >;
 
