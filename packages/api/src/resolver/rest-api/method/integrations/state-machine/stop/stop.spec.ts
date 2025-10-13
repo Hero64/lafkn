@@ -3,88 +3,69 @@ import { alicantoResource } from '@alicanto/resolver';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import { ApiGatewayIntegrationResponse } from '@cdktf/provider-aws/lib/api-gateway-integration-response';
 import { ApiGatewayMethodResponse } from '@cdktf/provider-aws/lib/api-gateway-method-response';
-import { ApiGatewayModel } from '@cdktf/provider-aws/lib/api-gateway-model';
 import { SfnStateMachine } from '@cdktf/provider-aws/lib/sfn-state-machine';
 import { Testing } from 'cdktf';
 import {
   Api,
   Event,
+  Get,
   IntegrationOptions,
   Param,
   Payload,
-  Post,
   type StateMachineIntegrationOption,
-  type StateMachineStartIntegrationResponse,
+  type StateMachineStatusIntegrationResponse,
 } from '../../../../../../main';
 import { setupTestingRestApi } from '../../../../rest-api.spec';
 import { initializeMethod } from '../../../method.spec';
 
-describe('State machine start integration', () => {
+describe('State machine status integration', () => {
   enableBuildEnvVariable();
 
   @Payload()
-  class Data {
-    @Param({
-      source: 'body',
-    })
-    foo: string;
-
-    @Param({
-      source: 'body',
-      type: [Number],
-    })
-    ids: number[];
-
+  class Status {
     @Param({
       source: 'path',
     })
-    name: string;
+    id: string;
   }
 
   @Api()
   class StateMachineIntegrationApi {
-    @Post({
+    @Get({
       integration: 'state-machine',
-      action: 'Start',
-      path: 'start',
+      action: 'Stop',
+      path: 'stop',
     })
-    start(): StateMachineStartIntegrationResponse {
+    status(): StateMachineStatusIntegrationResponse {
       return {
-        input: {
-          name: 'test',
-        },
+        executionId: '1',
         stateMachineArn: 'arn',
       };
     }
 
-    @Post({
+    @Get({
       integration: 'state-machine',
-      action: 'Start',
-      path: 'start',
+      action: 'Stop',
+      path: 'stop',
     })
-    startWithResource(
+    statusWithResource(
       @IntegrationOptions() { getResourceValue }: StateMachineIntegrationOption
-    ): StateMachineStartIntegrationResponse {
+    ): StateMachineStatusIntegrationResponse {
       return {
-        input: {
-          name: 'test',
-        },
+        executionId: '1',
         stateMachineArn: getResourceValue('state-machine::test', 'arn'),
       };
     }
 
-    @Post({
-      path: 'start/{name}',
+    @Get({
+      path: 'stop/{id}',
       integration: 'state-machine',
-      action: 'Start',
+      action: 'Stop',
     })
-    startEvent(@Event(Data) e: Data): StateMachineStartIntegrationResponse {
+    statusEvent(@Event(Status) e: Status): StateMachineStatusIntegrationResponse {
       return {
-        stateMachineArn: e.name,
-        input: {
-          foo: e.foo,
-          ids: e.ids,
-        },
+        executionId: e.id,
+        stateMachineArn: 'arn',
       };
     }
   }
@@ -92,7 +73,7 @@ describe('State machine start integration', () => {
   it('should create state machine integration', async () => {
     const { restApi, stack } = setupTestingRestApi();
 
-    await initializeMethod(restApi, stack, StateMachineIntegrationApi, 'start');
+    await initializeMethod(restApi, stack, StateMachineIntegrationApi, 'status');
 
     const synthesized = Testing.synth(stack);
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegration, {
@@ -100,26 +81,16 @@ describe('State machine start integration', () => {
       passthrough_behavior: 'WHEN_NO_TEMPLATES',
       type: 'AWS',
       request_templates: {
-        'application/json':
-          '{"input": "{ \\"name\\": \\"$util.escapeJavaScript(\'test\')\\" }","stateMachineArn": "arn"}',
+        'application/json': '{ "executionArn": "arn:1" }',
       },
-      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-rest-api.region}:states:action/StartExecution',
+      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-rest-api.region}:states:action/StopExecution',
     });
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayMethodResponse, {
-      status_code: '201',
-    });
-
-    expect(synthesized).toHaveResourceWithProperties(ApiGatewayModel, {
-      schema:
-        '${jsonencode({"type" = "object", "required" = ["startDate", "executionId"], "properties" = {"startDate" = {"type" = "string"}, "executionId" = {"type" = "string"}}})}',
+      status_code: '200',
     });
 
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegrationResponse, {
-      response_templates: {
-        'application/json':
-          '#set($startDate = $input.path(\'$.startDate\')) #set($executionArn = $input.path(\'$.executionArn\')) #set($executionId = $executionArn.split(\':\')[6]) #set($id = $executionId.split(\'/\')[1]) { "startDate": "$startDate", "executionId": "$id" }',
-      },
-      status_code: '201',
+      status_code: '200',
     });
 
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegrationResponse, {
@@ -157,7 +128,7 @@ describe('State machine start integration', () => {
       restApi,
       stack,
       StateMachineIntegrationApi,
-      'startWithResource'
+      'statusWithResource'
     );
 
     const synthesized = Testing.synth(stack);
@@ -166,8 +137,7 @@ describe('State machine start integration', () => {
       integration_http_method: 'POST',
       type: 'AWS',
       request_templates: {
-        'application/json':
-          '{"input": "{ \\"name\\": \\"$util.escapeJavaScript(\'test\')\\" }","stateMachineArn": "${aws_sfn_state_machine.test.arn}"}',
+        'application/json': '{ "executionArn": "${aws_sfn_state_machine.test.arn}:1" }',
       },
     });
   });
@@ -175,7 +145,7 @@ describe('State machine start integration', () => {
   it('should create state machine integration with event props', async () => {
     const { restApi, stack } = setupTestingRestApi();
 
-    await initializeMethod(restApi, stack, StateMachineIntegrationApi, 'startEvent');
+    await initializeMethod(restApi, stack, StateMachineIntegrationApi, 'statusEvent');
 
     const synthesized = Testing.synth(stack);
 
@@ -183,8 +153,7 @@ describe('State machine start integration', () => {
       integration_http_method: 'POST',
       type: 'AWS',
       request_templates: {
-        'application/json':
-          '{"input": "{ \\"foo\\": $util.escapeJavaScript($input.json(\'$.foo\')),\\"ids\\": [#foreach($item0 in $input.json(\'$.ids\')) $item0 #if($foreach.hasNext),#end #end] }","stateMachineArn": "$input.params().path.get(\'name\')"}',
+        'application/json': '{ "executionArn": "arn:$input.params().path.get(\'id\')" }',
       },
     });
   });
