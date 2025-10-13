@@ -36,8 +36,10 @@ export interface StateMachineStatusIntegrationResponse {
 export interface StateMachineStopIntegrationResponse
   extends StateMachineStatusIntegrationResponse {}
 
-export type StateMachineIntegrationOption =
-  IntegrationOptionBase<StateMachineScopedNames>;
+export type StateMachineIntegrationOption = IntegrationOptionBase<
+  StateMachineScopedNames,
+  'id' | 'arn'
+>;
 
 export type DynamoIntegrationOption = IntegrationOptionBase<DynamoDbScopedNames>;
 

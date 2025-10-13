@@ -99,7 +99,6 @@ describe('Bucket delete integration', () => {
     const synthesized = Testing.synth(stack);
 
     expect(synthesized).toHaveResource(ApiGatewayResource);
-    expect(synthesized).toHaveResource(ApiGatewayResource);
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegration, {
       integration_http_method: 'DELETE',
       type: 'AWS',

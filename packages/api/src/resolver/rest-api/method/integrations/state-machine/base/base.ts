@@ -104,6 +104,7 @@ export class StateMachineBaseIntegration<T> implements Integration {
   }
 
   protected getResponseValue(value: any, quoteType = '"') {
+    console.log({ value });
     const { proxyHelper, paramHelper, templateHelper } = this.props;
     const responseValue = proxyHelper.resolveProxyValue(value, paramHelper.pathParams);
 

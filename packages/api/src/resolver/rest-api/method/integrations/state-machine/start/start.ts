@@ -1,3 +1,4 @@
+import { cleanTemplateString } from '@alicanto/common';
 import type { StateMachineStartIntegrationResponse } from '../../../../../../main';
 import type { Integration, IntegrationProps } from '../../integration.types';
 import { StateMachineBaseIntegration } from '../base/base';
@@ -41,14 +42,14 @@ export class StartIntegration
           },
           validation: {},
         },
-        template: `#set($startDate = $input.path('$.startDate'))
-            #set($executionArn = $input.path('$.executionArn'))
-            #set($executionId = $executionArn.split(':')[6])
-            #set($id = $executionId.split('/')[1])
-            {
-              "startDate": "$startDate",
-              "executionId": "$id"
-            }`,
+        template: cleanTemplateString(`#set($startDate = $input.path('$.startDate'))
+          #set($executionArn = $input.path('$.executionArn'))
+          #set($executionId = $executionArn.split(':')[6])
+          #set($id = $executionId.split('/')[1])
+          {
+            "startDate": "$startDate",
+            "executionId": "$id"
+          }`),
       },
       createTemplate: (integrationResponse) => {
         const { templateHelper, proxyHelper, paramHelper } = props;
@@ -73,10 +74,9 @@ export class StartIntegration
           },
         });
 
-        return `{
-          "input": "${input}",
-          "stateMachineArn": ${this.getResponseValue(integrationResponse.stateMachineArn)}
-        }`;
+        const inputTemplate = `"input": "${input}",`;
+        const stateMachineArnTemplate = `"stateMachineArn": ${this.getResponseValue(integrationResponse.stateMachineArn)}`;
+        return `{${inputTemplate}${stateMachineArnTemplate}}`;
       },
     });
   }
