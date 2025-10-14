@@ -14,11 +14,23 @@ export enum ModelMetadataKeys {
   FIELDS = 'dynamo:fields',
 }
 
-export interface DynamoIndex<T extends Function> {
+interface IndexBase<T extends Function> {
   name: string;
+  projection?: (keyof T['prototype'])[] | 'ALL';
+}
+
+export interface LocalIndex<T extends Function> extends IndexBase<T> {
+  type: 'local';
+  sortKey: keyof OnlyNumberString<T['prototype']>;
+}
+
+export interface GlobalIndex<T extends Function> extends IndexBase<T> {
+  type?: 'global';
   partitionKey: keyof OnlyNumberString<T['prototype']>;
   sortKey?: keyof OnlyNumberString<T['prototype']>;
 }
+
+export type DynamoIndex<T extends Function> = LocalIndex<T> | GlobalIndex<T>;
 
 export type StreamTypes = 'NEW_IMAGE' | 'OLD_IMAGE' | 'NEW_AND_OLD_IMAGES' | 'KEYS_ONLY';
 

@@ -88,6 +88,11 @@ describe('Dynamo table', () => {
           partitionKey: 'age',
           sortKey: 'name',
         },
+        {
+          type: 'local',
+          name: 'name_age_index',
+          sortKey: 'age',
+        },
       ],
     })
     class Test {
@@ -114,6 +119,13 @@ describe('Dynamo table', () => {
           name: 'age_name_index',
           projection_type: 'ALL',
           range_key: 'name',
+        },
+      ],
+      local_secondary_index: [
+        {
+          name: 'name_age_index',
+          projection_type: 'ALL',
+          range_key: 'age',
         },
       ],
     });
@@ -156,7 +168,7 @@ describe('Dynamo table', () => {
           starting_position: 'LATEST',
         },
       },
-      target: '${aws_cloudwatch_event_bus.DefaultBus.arn}',
+      target: '${data.aws_cloudwatch_event_bus.DefaultBus.arn}',
       target_parameters: {
         eventbridge_event_bus_parameters: {
           detail_type: 'db:stream',

@@ -46,11 +46,19 @@ export class QueryBuilderBase<E extends ClassResource> {
 
     const { indexes } = this.options.modelProps;
 
-    const selectedIndex = indexes.find(
-      (index) =>
+    const selectedIndex = indexes.find((index) => {
+      if (index.type === 'local') {
+        return (
+          selectedPartitionKey === this.options.partitionKey &&
+          selectedSortKey === index.sortKey
+        );
+      }
+
+      return (
         index.partitionKey === selectedPartitionKey &&
         (!sort || selectedSortKey === index.sortKey)
-    );
+      );
+    });
 
     if (!selectedIndex) {
       throw new Error('Partition key or sort key not found');
@@ -70,7 +78,12 @@ export class QueryBuilderBase<E extends ClassResource> {
     ];
 
     if (index) {
-      conditionKeys = [index.partitionKey as string, index.sortKey as string];
+      conditionKeys = [
+        index.type === 'local'
+          ? this.options.partitionKey
+          : (index.partitionKey as string),
+        index.sortKey as string,
+      ];
     }
 
     let filterKeys = new Set<string>([]);

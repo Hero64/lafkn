@@ -1,10 +1,12 @@
 import type { FieldTypes } from '@alicanto/common';
 import { alicantoResource, Role } from '@alicanto/resolver';
 import { marshall } from '@aws-sdk/util-dynamodb';
-import { CloudwatchEventBus } from '@cdktf/provider-aws/lib/cloudwatch-event-bus';
+import { DataAwsCloudwatchEventBus } from '@cdktf/provider-aws/lib/data-aws-cloudwatch-event-bus';
 import {
   DynamodbTable,
   type DynamodbTableAttribute,
+  type DynamodbTableGlobalSecondaryIndex,
+  type DynamodbTableLocalSecondaryIndex,
 } from '@cdktf/provider-aws/lib/dynamodb-table';
 import { PipesPipe } from '@cdktf/provider-aws/lib/pipes-pipe';
 import { Construct } from 'constructs';
@@ -29,6 +31,8 @@ export class Table extends Construct {
 
     super(scope, `${modelProps.name}-table`);
 
+    const { globalIndexes, localIndexes } = this.getIndexes(modelProps.indexes);
+
     const table = alicantoResource.create(
       'dynamo',
       DynamodbTable,
@@ -39,7 +43,8 @@ export class Table extends Construct {
         rangeKey: sortKeyName,
         hashKey: partitionKeyName,
         attribute: this.getAttributes(fields),
-        globalSecondaryIndex: this.getSecondaryIndexes(modelProps.indexes),
+        globalSecondaryIndex: globalIndexes,
+        localSecondaryIndex: localIndexes,
         streamEnabled: !!modelProps.stream?.enabled,
         streamViewType: modelProps.stream?.enabled
           ? modelProps.stream?.type || 'NEW_AND_OLD_IMAGES'
@@ -56,7 +61,7 @@ export class Table extends Construct {
     table.isGlobal();
 
     if (modelProps.stream?.enabled) {
-      const defaultBus = new CloudwatchEventBus(scope, 'DefaultBus', {
+      const defaultBus = new DataAwsCloudwatchEventBus(scope, 'DefaultBus', {
         name: 'default',
       });
 
@@ -131,13 +136,43 @@ export class Table extends Construct {
     return attributes;
   }
 
-  private getSecondaryIndexes(indexes: DynamoIndex<any>[] = []) {
-    return indexes.map((index) => ({
-      hashKey: index.partitionKey.toString(),
-      rangeKey: index.sortKey ? index.sortKey.toString() : undefined,
-      name: index.name,
-      projectionType: 'ALL',
-    }));
+  private getIndexes(indexes: DynamoIndex<any>[] = []) {
+    if (indexes.length === 0) {
+      return {};
+    }
+    const globalIndexes: DynamodbTableGlobalSecondaryIndex[] = [];
+    const localIndexes: DynamodbTableLocalSecondaryIndex[] = [];
+
+    for (const index of indexes) {
+      const projectionType = 'ALL';
+      let nonKeyAttributes: string[] | undefined;
+      if (Array.isArray(index.projection)) {
+        nonKeyAttributes = index.projection as string[];
+      }
+
+      if (index.type === 'local') {
+        localIndexes.push({
+          name: index.name,
+          rangeKey: index.sortKey.toString(),
+          projectionType,
+          nonKeyAttributes,
+        });
+        continue;
+      }
+
+      globalIndexes.push({
+        name: index.name,
+        hashKey: index.partitionKey.toString(),
+        rangeKey: index.sortKey ? index.sortKey.toString() : undefined,
+        projectionType,
+        nonKeyAttributes,
+      });
+    }
+
+    return {
+      localIndexes,
+      globalIndexes,
+    };
   }
 
   private createFilterCriteria(stream: DynamoStream<any>) {
