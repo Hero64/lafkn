@@ -1,6 +1,10 @@
 import { enableBuildEnvVariable, getResourceHandlerMetadata } from '../../utils';
-import { createLambdaDecorator } from './lambda';
-import type { LambdaMetadata } from './lambda.types';
+import { Callback, Context, createEventDecorator, createLambdaDecorator } from './lambda';
+import {
+  LambdaArgumentTypes,
+  type LambdaMetadata,
+  LambdaReflectKeys,
+} from './lambda.types';
 
 describe('Lambda Decorators', () => {
   describe('Default decorator', () => {
@@ -83,51 +87,47 @@ describe('Lambda Decorators', () => {
     });
   });
 
-  // describe('Lambda arguments', () => {
-  //   enableBuildEnvVariable();
-  //   const Lambda = createLambdaDecorator({
-  //     getLambdaMetadata: (props) => props,
-  //   });
-  //   const Event = createEventDecorator(() => {
-  //     return {
-  //       fields: 'Test',
-  //     };
-  //   });
+  describe('Lambda arguments', () => {
+    enableBuildEnvVariable();
+    const Lambda = createLambdaDecorator({
+      getLambdaMetadata: (props) => props,
+    });
+    const Event = createEventDecorator();
 
-  //   class Field {}
+    class Field {}
 
-  //   class Test {
-  //     @Lambda()
-  //     test(
-  //       @Callback() _callback: () => void,
-  //       @Context() _context: any,
-  //       @Event(Field) _e: Field
-  //     ) {}
-  //   }
+    class Test {
+      @Lambda()
+      test(
+        @Callback() _callback: () => void,
+        @Context() _context: any,
+        @Event(Field) _e: Field
+      ) {}
+    }
 
-  //   const eventParamsByMethod = Reflect.getMetadata(
-  //     LambdaReflectKeys.ARGUMENTS,
-  //     Test.prototype
-  //   );
+    const eventParamsByMethod = Reflect.getMetadata(
+      LambdaReflectKeys.arguments,
+      Test.prototype
+    );
 
-  //   it('should add event argument', () => {
-  //     expect(eventParamsByMethod.test).toContainEqual(LambdaArgumentTypes.EVENT);
-  //   });
+    it('should add event argument', () => {
+      expect(eventParamsByMethod.test).toContainEqual(LambdaArgumentTypes.event);
+    });
 
-  //   it('should add callback argument', () => {
-  //     expect(eventParamsByMethod.test).toContainEqual(LambdaArgumentTypes.CALLBACK);
-  //   });
+    it('should add callback argument', () => {
+      expect(eventParamsByMethod.test).toContainEqual(LambdaArgumentTypes.callback);
+    });
 
-  //   it('should add context argument', () => {
-  //     expect(eventParamsByMethod.test).toContainEqual(LambdaArgumentTypes.CONTEXT);
-  //   });
+    it('should add context argument', () => {
+      expect(eventParamsByMethod.test).toContainEqual(LambdaArgumentTypes.context);
+    });
 
-  //   it('should include arguments in order', () => {
-  //     expect(eventParamsByMethod.test).toEqual([
-  //       LambdaArgumentTypes.CALLBACK,
-  //       LambdaArgumentTypes.CONTEXT,
-  //       LambdaArgumentTypes.EVENT,
-  //     ]);
-  //   });
-  // });
+    it('should include arguments in order', () => {
+      expect(eventParamsByMethod.test).toEqual([
+        LambdaArgumentTypes.callback,
+        LambdaArgumentTypes.context,
+        LambdaArgumentTypes.event,
+      ]);
+    });
+  });
 });

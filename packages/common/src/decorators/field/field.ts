@@ -58,11 +58,10 @@ const getObjectMetadata = (
   const payloadMetadata = getMetadataByKey<PayloadMetadata>(
     payloadClass,
     FieldProperties.payload
-  );
-
-  if (!payloadMetadata) {
-    throw new Error('Field should be decorated by @Payload decorator');
-  }
+  ) || {
+    name: payloadClass.name,
+    id: payloadClass.name,
+  };
 
   return {
     ...metadata,
@@ -87,18 +86,7 @@ const getFieldMetadata = (props: GetFieldMetadataProps): FieldMetadata => {
 
   const typeHasValue = mapTypeofValueToPrimitiveType[typeof fieldProps?.type];
 
-  if (
-    primitiveTypeValues.has(type as PrimitiveTypes) ||
-    primitiveTypeValues.has(primitiveType as PrimitiveTypes) ||
-    typeHasValue
-  )
-    return {
-      type: primitiveType || typeHasValue || (type as PrimitiveTypes),
-      initialValue: typeHasValue ? (fieldProps?.type as any) : undefined,
-      ...metadata,
-    };
-
-  if (fieldProps?.type !== undefined) {
+  if (fieldProps?.type !== undefined && !typeHasValue) {
     if (typeof fieldProps.type === 'function') {
       return getObjectMetadata(metadata, fieldProps.type as ClassResource);
     }
@@ -132,6 +120,17 @@ const getFieldMetadata = (props: GetFieldMetadataProps): FieldMetadata => {
       };
     }
   }
+
+  if (
+    primitiveTypeValues.has(type as PrimitiveTypes) ||
+    primitiveTypeValues.has(primitiveType as PrimitiveTypes) ||
+    typeHasValue
+  )
+    return {
+      type: primitiveType || typeHasValue || (type as PrimitiveTypes),
+      initialValue: typeHasValue ? (fieldProps?.type as any) : undefined,
+      ...metadata,
+    };
 
   throw new Error(`unidentified type ${type} in ${destinationName} field`);
 };
