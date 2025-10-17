@@ -40,12 +40,15 @@ export interface BaseFieldMetadata {
 }
 export interface StringField extends BaseFieldMetadata {
   type: 'String';
+  initialValue?: string;
 }
 export interface NumberField extends BaseFieldMetadata {
   type: 'Number';
+  initialValue?: number;
 }
 export interface BooleanField extends BaseFieldMetadata {
   type: 'Boolean';
+  initialValue?: boolean;
 }
 export interface ObjectField extends BaseFieldMetadata {
   type: 'Object';

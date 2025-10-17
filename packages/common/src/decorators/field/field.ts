@@ -20,6 +20,14 @@ export const primitiveTypeValues = new Set<PrimitiveTypes>([
   'String',
 ]);
 
+export const primitiveTypeofValues = new Set(['boolean', 'number', 'string']);
+
+export const mapTypeofValueToPrimitiveType: Record<string, PrimitiveTypes> = {
+  boolean: 'Boolean',
+  number: 'Number',
+  string: 'String',
+};
+
 export const getPrimitiveType = (type: AllowedTypes): PrimitiveTypes | undefined => {
   if (type === String) return 'String';
   if (type === Number) return 'Number';
@@ -77,15 +85,18 @@ const getFieldMetadata = (props: GetFieldMetadataProps): FieldMetadata => {
 
   const primitiveType = getPrimitiveType(type);
 
+  const typeHasValue = mapTypeofValueToPrimitiveType[typeof fieldProps?.type];
+
   if (
     primitiveTypeValues.has(type as PrimitiveTypes) ||
-    primitiveTypeValues.has(primitiveType as PrimitiveTypes)
-  ) {
+    primitiveTypeValues.has(primitiveType as PrimitiveTypes) ||
+    typeHasValue
+  )
     return {
-      type: primitiveType || (type as PrimitiveTypes),
+      type: primitiveType || typeHasValue || (type as PrimitiveTypes),
+      initialValue: typeHasValue ? (fieldProps?.type as any) : undefined,
       ...metadata,
     };
-  }
 
   if (fieldProps?.type !== undefined) {
     if (typeof fieldProps.type === 'function') {

@@ -45,7 +45,19 @@ const defaultPermissions: Record<ServicesName, string[]> = {
     'RestoreObject',
   ],
   lambda: ['InvokeFunction'],
-  cloudwatch: ['CreateLogGroup', 'CreateLogStream', 'PutLogEvents'],
+  cloudwatch: [
+    'CreateLogGroup',
+    'CreateLogStream',
+    'PutLogEvents',
+    'CreateLogDelivery',
+    'GetLogDelivery',
+    'UpdateLogDelivery',
+    'DeleteLogDelivery',
+    'ListLogDeliveries',
+    'PutResourcePolicy',
+    'DescribeResourcePolicies',
+    'DescribeLogGroups',
+  ],
   sqs: [
     'DeleteMessage',
     'GetQueueUrl',
@@ -59,6 +71,7 @@ const defaultPermissions: Record<ServicesName, string[]> = {
     'DescribeExecution',
     'StartExecution',
     'StopExecution',
+    'GetExecutionHistory',
   ],
   kms: [
     'Decrypt',

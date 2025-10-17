@@ -74,7 +74,8 @@ export type StateMachinePermissions =
   | 'DescribeExecution'
   | 'StartExecution'
   | 'StopExecution'
-  | 'DescribeExecution';
+  | 'DescribeExecution'
+  | 'GetExecutionHistory';
 
 export type KMSPermissions =
   | 'Decrypt'
