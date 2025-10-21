@@ -1,3 +1,4 @@
+import 'cdktf/lib/testing/adapters/jest';
 import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
@@ -22,7 +23,7 @@ import {
   Param,
   Payload,
 } from '../../../../../../main';
-import { setupTestingRestApi } from '../../../../rest-api.spec';
+import { setupTestingRestApi } from '../../../../../utils/testing.utils';
 
 describe('Bucket delete integration', () => {
   enableBuildEnvVariable();

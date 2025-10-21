@@ -38,6 +38,8 @@ export class ResourceFactory {
       resourceId = resource.id;
     }
 
+    // console.log(this.resources, resourceId);
+
     return resourceId;
   }
 }

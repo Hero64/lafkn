@@ -5,6 +5,7 @@ import {
   Method,
   type QueueSendMessageIntegrationResponse,
 } from '../../../../../../main';
+import { getSuccessStatusCode } from '../../../helpers/response/response.utils';
 import type {
   InitializedClass,
   Integration,
@@ -23,6 +24,7 @@ export class SendMessageIntegration implements Integration {
       apiGatewayMethod,
       resourceMetadata,
       integrationHelper,
+      responseHelper,
     } = this.props;
 
     const { options, resolveResource } = integrationHelper.generateIntegrationOptions();
@@ -72,13 +74,26 @@ export class SendMessageIntegration implements Integration {
         );
       });
     }
+
+    restApi.responseFactory.createResponses(
+      apiGatewayMethod,
+      [
+        {
+          statusCode: getSuccessStatusCode(handler.method).toString(),
+        },
+        responseHelper.getPatternResponse('400'),
+        responseHelper.getPatternResponse('500'),
+      ],
+      `${resourceMetadata.name}-${handler.name}`
+    );
   }
 
   private getUri(integrationResponse: QueueSendMessageIntegrationResponse) {
     const { restApi } = this.props;
 
     const queueName = this.getFieldAndParseTemplate(
-      integrationResponse.queueName
+      integrationResponse.queueName,
+      false
     ).template;
 
     return `arn:aws:apigateway:${restApi.api.region}:sqs:path/${queueName}`;

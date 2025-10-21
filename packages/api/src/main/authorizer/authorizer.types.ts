@@ -15,7 +15,7 @@ export enum AuthorizerReflectKeys {
 export enum ApiAuthorizerType {
   custom = 'custom',
   cognito = 'cognito',
-  apiKey = 'api-ket',
+  apiKey = 'api-key',
 }
 
 export interface CognitoAuthorizerProps extends ResourceProps {

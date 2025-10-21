@@ -16,8 +16,10 @@ import {
   Param,
   Payload,
 } from '../../../../../../main';
-import { setupTestingRestApi } from '../../../../rest-api.spec';
-import { initializeMethod } from '../../../method.spec';
+import {
+  initializeMethod,
+  setupTestingRestApi,
+} from '../../../../../utils/testing.utils';
 
 describe('Dynamo delete integration', () => {
   enableBuildEnvVariable();

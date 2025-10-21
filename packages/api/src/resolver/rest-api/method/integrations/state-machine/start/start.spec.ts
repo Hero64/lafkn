@@ -1,3 +1,4 @@
+import 'cdktf/lib/testing/adapters/jest';
 import { enableBuildEnvVariable } from '@alicanto/common';
 import { alicantoResource } from '@alicanto/resolver';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
@@ -16,8 +17,10 @@ import {
   type StateMachineIntegrationOption,
   type StateMachineStartIntegrationResponse,
 } from '../../../../../../main';
-import { setupTestingRestApi } from '../../../../rest-api.spec';
-import { initializeMethod } from '../../../method.spec';
+import {
+  initializeMethod,
+  setupTestingRestApi,
+} from '../../../../../utils/testing.utils';
 
 describe('State machine start integration', () => {
   enableBuildEnvVariable();

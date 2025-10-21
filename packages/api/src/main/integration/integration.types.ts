@@ -59,7 +59,7 @@ export interface DynamoPutIntegrationResponse<T = any> extends DynamoIntegration
     | [keyof OnlyNumberString<Required<T>>];
 }
 
-export type QueueIntegrationOptionBase = IntegrationOptionBase<QueueNames>;
+export type QueueIntegrationOption = IntegrationOptionBase<QueueNames>;
 
 export interface DynamoDeleteIntegrationResponse<T = any>
   extends DynamoIntegrationPartitionBase<T> {}

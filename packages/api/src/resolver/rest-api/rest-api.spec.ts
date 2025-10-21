@@ -1,30 +1,23 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { alicantoResource } from '@alicanto/resolver';
+import {
+  enableBuildEnvVariable,
+  getResourceHandlerMetadata,
+  getResourceMetadata,
+} from '@alicanto/common';
 import { ApiGatewayDeployment } from '@cdktf/provider-aws/lib/api-gateway-deployment';
+import { ApiGatewayMethod } from '@cdktf/provider-aws/lib/api-gateway-method';
+import { ApiGatewayResource } from '@cdktf/provider-aws/lib/api-gateway-resource';
 import { ApiGatewayRestApi } from '@cdktf/provider-aws/lib/api-gateway-rest-api';
 import { ApiGatewayStage } from '@cdktf/provider-aws/lib/api-gateway-stage';
-import { TerraformStack, Testing } from 'cdktf';
-import type { RestApiProps } from '../resolver.types';
-import { RestApi } from './rest-api';
-
-export const setupTestingRestApi = (props: Omit<RestApiProps, 'name'> = {}) => {
-  const app = Testing.app();
-
-  const stack = alicantoResource.create('app', TerraformStack, app, 'testing-stack');
-  stack.isGlobal();
-
-  const restApi = new RestApi(stack, 'testing-api', {
-    ...props,
-    name: 'testing-rest-api',
-  });
-
-  return {
-    app,
-    stack,
-    restApi,
-  };
-};
+import { Testing } from 'cdktf';
+import {
+  Api,
+  type ApiLambdaMetadata,
+  type ApiResourceMetadata,
+  type BucketIntegrationResponse,
+  Get,
+} from '../../main';
+import { setupTestingRestApi } from '../utils/testing.utils';
 
 describe('RestApi', () => {
   enableBuildEnvVariable();
@@ -68,7 +61,79 @@ describe('RestApi', () => {
     });
   });
 
-  //TODO: test method with cors
+  it('should create a new method', async () => {
+    @Api()
+    class TestingApi {
+      @Get({
+        integration: 'bucket',
+        action: 'Download',
+        path: 'test/method',
+      })
+      get(): BucketIntegrationResponse {
+        return {
+          bucket: 'test',
+          object: 'foo.json',
+        };
+      }
+    }
 
-  //TODO
+    const { stack, restApi, app } = setupTestingRestApi();
+
+    const method = getResourceHandlerMetadata<ApiLambdaMetadata>(TestingApi);
+    const metadata = getResourceMetadata<ApiResourceMetadata>(TestingApi);
+
+    await restApi.addMethod(app, {
+      classResource: TestingApi,
+      handler: method[0],
+      resourceMetadata: metadata,
+    });
+
+    const synthesized = Testing.synth(stack);
+
+    expect(synthesized).toHaveResourceWithProperties(ApiGatewayResource, {
+      path_part: 'test',
+    });
+    expect(synthesized).toHaveResourceWithProperties(ApiGatewayResource, {
+      path_part: 'method',
+    });
+    expect(synthesized).toHaveResource(ApiGatewayMethod);
+  });
+
+  it('should enable cors in  method', async () => {
+    @Api()
+    class TestingApi {
+      @Get({
+        integration: 'bucket',
+        action: 'Download',
+        path: 'test/method',
+      })
+      get(): BucketIntegrationResponse {
+        return {
+          bucket: 'test',
+          object: 'foo.json',
+        };
+      }
+    }
+
+    const { stack, restApi, app } = setupTestingRestApi({
+      cors: {
+        allowOrigins: true,
+      },
+    });
+
+    const method = getResourceHandlerMetadata<ApiLambdaMetadata>(TestingApi);
+    const metadata = getResourceMetadata<ApiResourceMetadata>(TestingApi);
+
+    await restApi.addMethod(app, {
+      classResource: TestingApi,
+      handler: method[0],
+      resourceMetadata: metadata,
+    });
+
+    const synthesized = Testing.synth(stack);
+
+    expect(synthesized).toHaveResourceWithProperties(ApiGatewayMethod, {
+      http_method: 'OPTIONS',
+    });
+  });
 });
