@@ -1,6 +1,5 @@
 export enum ResourceReflectKeys {
-  // TODO: esto en minusculas
-  RESOURCE = 'resource',
+  resource = 'resource',
 }
 
 export interface ResourceProps {

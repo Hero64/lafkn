@@ -9,7 +9,7 @@ import type { ClassResource } from '../types';
 export const getResourceMetadata = <T = ResourceMetadata>(
   classResource: ClassResource
 ): T => {
-  return Reflect.getMetadata(ResourceReflectKeys.RESOURCE, classResource);
+  return Reflect.getMetadata(ResourceReflectKeys.resource, classResource);
 };
 
 export const getResourceHandlerMetadata = <T = LambdaMetadata>(

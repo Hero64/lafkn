@@ -2,7 +2,7 @@ import type { BucketNames, OnlyOne } from '@alicanto/common';
 import 'reflect-metadata';
 
 export enum BucketMetadataKeys {
-  BUCKET = 's3:bucket',
+  bucket = 's3:bucket',
 }
 
 export type TransitionStorage =

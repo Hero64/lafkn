@@ -20,7 +20,7 @@ export const createResourceDecorator =
     const additionalMetadata = getMetadata(props || ({} as T));
     const callerFile = getCallerFileName(callerFileIndex);
     Reflect.defineMetadata(
-      ResourceReflectKeys.RESOURCE,
+      ResourceReflectKeys.resource,
       {
         ...additionalMetadata,
         type,

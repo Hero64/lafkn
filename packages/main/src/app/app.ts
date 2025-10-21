@@ -24,7 +24,7 @@ export class AppStack extends TerraformStack {
     super(scope, id);
 
     new AppContext(this, {
-      contextName: ContextName.APP,
+      contextName: ContextName.app,
       globalConfig: props.globalConfig,
       contextCreator: props.name,
     });

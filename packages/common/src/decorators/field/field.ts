@@ -63,13 +63,19 @@ const getObjectMetadata = (
     id: payloadClass.name,
   };
 
+  const properties = getMetadataPrototypeByKey<FieldMetadata[]>(
+    payloadClass,
+    FieldProperties.field
+  );
+
+  if (!properties?.length) {
+    throw new Error(`should include Field properties in ${payloadClass.name} class`);
+  }
+
   return {
     ...metadata,
+    properties,
     type: 'Object',
-    properties: getMetadataPrototypeByKey<FieldMetadata[]>(
-      payloadClass,
-      FieldProperties.field
-    ),
     payload: payloadMetadata,
   };
 };

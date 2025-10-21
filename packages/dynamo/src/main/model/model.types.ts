@@ -8,10 +8,10 @@ import type {
 } from '@alicanto/common';
 
 export enum ModelMetadataKeys {
-  MODEL = 'dynamo:model',
-  PARTITION_KEY = 'dynamo:partition_key',
-  SORT_KEY = 'dynamo:sort_key',
-  FIELDS = 'dynamo:fields',
+  model = 'dynamo:model',
+  partition_key = 'dynamo:partition_key',
+  sort_key = 'dynamo:sort_key',
+  fields = 'dynamo:fields',
 }
 
 interface IndexBase<T extends Function> {

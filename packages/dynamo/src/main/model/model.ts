@@ -12,7 +12,7 @@ export const Model =
     const { name = constructor.name, indexes = [], ...dynamoProps } = props;
 
     Reflect.defineMetadata(
-      ModelMetadataKeys.MODEL,
+      ModelMetadataKeys.model,
       {
         ...dynamoProps,
         name,
@@ -28,13 +28,13 @@ export const Field =
     const { type: fieldType } = props;
 
     const fields: FieldsMetadata[] =
-      Reflect.getMetadata(ModelMetadataKeys.FIELDS, constructor) || {};
+      Reflect.getMetadata(ModelMetadataKeys.fields, constructor) || {};
     const type = fieldType
       ? getPrimitiveType(fieldType) || 'Object'
       : Reflect.getMetadata('design:type', constructor, name).name;
 
     Reflect.defineMetadata(
-      ModelMetadataKeys.FIELDS,
+      ModelMetadataKeys.fields,
       {
         ...fields,
         [name]: {
@@ -49,11 +49,11 @@ export const Field =
 export const PartitionKey =
   (type: StringConstructor | NumberConstructor) => (constructor: any, name: string) => {
     Field({ type })(constructor, name);
-    Reflect.defineMetadata(ModelMetadataKeys.PARTITION_KEY, name, constructor);
+    Reflect.defineMetadata(ModelMetadataKeys.partition_key, name, constructor);
   };
 
 export const SortKey =
   (type: StringConstructor | NumberConstructor) => (constructor: any, name: string) => {
     Field({ type })(constructor, name);
-    Reflect.defineMetadata(ModelMetadataKeys.SORT_KEY, name, constructor);
+    Reflect.defineMetadata(ModelMetadataKeys.sort_key, name, constructor);
   };

@@ -15,7 +15,7 @@ export class StackModule extends Construct {
   ) {
     super(scope, id);
     new AppContext(this, {
-      contextName: ContextName.MODULE,
+      contextName: ContextName.module,
       globalConfig: props.globalConfig,
       contextCreator: props.name,
     });

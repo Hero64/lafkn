@@ -84,7 +84,7 @@ export class LambdaHandler extends Construct {
   }
 
   private getAppContext() {
-    const context = this.node.tryGetContext(ContextName.APP);
+    const context = this.node.tryGetContext(ContextName.app);
     if (!context) {
       throw new Error('Context not found');
     }
@@ -93,7 +93,7 @@ export class LambdaHandler extends Construct {
   }
 
   private getModuleContext() {
-    return this.node.tryGetContext(ContextName.MODULE);
+    return this.node.tryGetContext(ContextName.module);
   }
 
   private getCurrentOrContextValue<T extends keyof Omit<GlobalContext, 'contextCreator'>>(

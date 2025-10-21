@@ -34,8 +34,8 @@ export interface GlobalContext extends Omit<LambdaGlobalConfig, 'services'> {
 }
 
 export enum ContextName {
-  APP = 'app',
-  MODULE = 'module',
+  app = 'app',
+  module = 'module',
 }
 
 export interface ResolverType {

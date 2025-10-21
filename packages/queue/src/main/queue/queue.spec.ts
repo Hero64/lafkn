@@ -25,7 +25,7 @@ describe('Queue Decorator', () => {
 
       testQueue = TestQueue;
 
-      resource = Reflect.getMetadata(ResourceReflectKeys.RESOURCE, TestQueue);
+      resource = Reflect.getMetadata(ResourceReflectKeys.resource, TestQueue);
     });
 
     it('Should exist queue resource', () => {

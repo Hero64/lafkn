@@ -6,7 +6,7 @@ export const Bucket =
     const { name = constructor.name } = props;
 
     Reflect.defineMetadata(
-      BucketMetadataKeys.BUCKET,
+      BucketMetadataKeys.bucket,
       {
         name,
         ...props,
