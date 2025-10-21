@@ -20,7 +20,6 @@ export class ModelFactory {
 
   public getModel(field: ApiFieldMetadata, defaultModelName?: string) {
     const { schema, model } = this.createModel(field);
-
     if (model) {
       return model;
     }
@@ -74,7 +73,7 @@ export class ModelFactory {
     }
 
     if (field.type === 'Object') {
-      const model = this.models[field.name];
+      const model = this.models[field.payload.id];
       if (model) {
         return {
           model,
@@ -88,7 +87,14 @@ export class ModelFactory {
       const requiredField: string[] = [];
 
       for (const property of field.properties) {
-        properties[property.name] = this.createModel(property).schema;
+        const { schema, model } = this.createModel(property);
+        if (model) {
+          properties[property.name] = {
+            $ref: `http://apigateway.amazonaws.com/restapis/${this.scope.api.id}/models/${model.name}`,
+          };
+        } else {
+          properties[property.name] = schema;
+        }
 
         if (property.validation.required) {
           requiredField.push(property.name);
@@ -101,7 +107,7 @@ export class ModelFactory {
         properties,
       };
 
-      this.models[field.name] = new ApiGatewayModel(this.scope, field.payload.id, {
+      this.models[field.payload.id] = new ApiGatewayModel(this.scope, field.payload.id, {
         contentType: 'application/json',
         name: field.payload.id,
         restApiId: this.scope.api.id,
@@ -109,7 +115,7 @@ export class ModelFactory {
       });
 
       return {
-        model: this.models[field.name],
+        model: this.models[field.payload.id],
         schema,
       };
     }

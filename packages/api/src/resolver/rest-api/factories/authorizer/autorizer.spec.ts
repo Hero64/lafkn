@@ -1,0 +1,147 @@
+import 'cdktf/lib/testing/adapters/jest';
+import { enableBuildEnvVariable } from '@alicanto/common';
+import { alicantoResource } from '@alicanto/resolver';
+import { ApiGatewayAuthorizer } from '@cdktf/provider-aws/lib/api-gateway-authorizer';
+import { ApiGatewayUsagePlan } from '@cdktf/provider-aws/lib/api-gateway-usage-plan';
+import { ApiGatewayUsagePlanKey } from '@cdktf/provider-aws/lib/api-gateway-usage-plan-key';
+import { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
+import { Testing } from 'cdktf';
+import {
+  ApiKeyAuthorizer,
+  AuthorizerHandler,
+  CognitoAuthorizer,
+  CustomAuthorizer,
+} from '../../../../main';
+import { setupTestingRestApi } from '../../../utils/testing.utils';
+
+jest.mock('@alicanto/resolver', () => {
+  const actual = jest.requireActual('@alicanto/resolver');
+
+  return {
+    ...actual,
+    LambdaHandler: jest.fn().mockImplementation(() => ({
+      generate: jest.fn().mockReturnValue({
+        arn: 'test-function',
+        invokeArn: 'invokeArn',
+      }),
+    })),
+  };
+});
+
+describe('authorizer factory', () => {
+  enableBuildEnvVariable();
+
+  it('should get a none authorizer properties', async () => {
+    const { restApi } = setupTestingRestApi();
+    const properties = await restApi.authorizerFactory.getAuthorizerProps();
+
+    expect(properties).toStrictEqual({
+      authorization: 'NONE',
+    });
+  });
+
+  it('should create an api key authorizer', async () => {
+    @ApiKeyAuthorizer({
+      name: 'api-key-auth',
+      defaultKeys: ['test-key'],
+    })
+    class ApiKeyAuthTest {}
+
+    const { restApi, stack } = setupTestingRestApi({
+      auth: {
+        authorizers: [ApiKeyAuthTest],
+        defaultAuthorizerName: 'api-key-auth',
+      },
+    });
+
+    const properties = await restApi.authorizerFactory.getAuthorizerProps({
+      authorizerName: 'api-key-auth',
+    });
+
+    const synthesized = Testing.synth(stack);
+
+    expect(properties).toStrictEqual({ authorization: 'NONE', apiKeyRequired: true });
+
+    expect(synthesized).toHaveResourceWithProperties(ApiGatewayUsagePlan, {
+      name: 'api-key-auth',
+    });
+    expect(synthesized).toHaveResourceWithProperties(ApiGatewayUsagePlanKey, {
+      key_id: 'test-key',
+      key_type: 'API_KEY',
+    });
+  });
+
+  it('should create a custom authorizer', async () => {
+    @CustomAuthorizer({
+      name: 'custom-auth',
+    })
+    class CustomAuthTest {
+      @AuthorizerHandler()
+      handler() {}
+    }
+
+    const { restApi, stack } = setupTestingRestApi({
+      auth: {
+        authorizers: [CustomAuthTest],
+        defaultAuthorizerName: 'custom-auth',
+      },
+    });
+
+    const properties = await restApi.authorizerFactory.getAuthorizerProps({
+      authorizerName: 'custom-auth',
+    });
+
+    const synthesized = Testing.synth(stack);
+
+    expect(properties).toMatchObject({
+      authorization: 'CUSTOM',
+    });
+
+    expect(synthesized).toHaveResourceWithProperties(ApiGatewayAuthorizer, {
+      authorizer_uri: 'test-function',
+      name: 'custom-auth',
+    });
+  });
+
+  it('should create a cognito authorizer', async () => {
+    @CognitoAuthorizer({
+      name: 'cognito-auth',
+      userPool: 'testing-user-pool',
+    })
+    class CognitoAuthTest {}
+
+    const { restApi, stack } = setupTestingRestApi({
+      auth: {
+        authorizers: [CognitoAuthTest],
+        defaultAuthorizerName: 'cognito-auth',
+      },
+    });
+
+    const userPool = alicantoResource.create(
+      'auth',
+      CognitoUserPool,
+      stack,
+      'testing-user-pool',
+      {
+        name: 'testing-user-pool',
+      }
+    );
+
+    userPool.isGlobal();
+
+    const properties = await restApi.authorizerFactory.getAuthorizerProps({
+      authorizerName: 'cognito-auth',
+    });
+
+    const synthesized = Testing.synth(stack);
+
+    expect(properties).toMatchObject({
+      authorization: 'COGNITO_USER_POOLS',
+      authorizationScopes: [],
+    });
+
+    expect(synthesized).toHaveResourceWithProperties(ApiGatewayAuthorizer, {
+      type: 'COGNITO_USER_POOLS',
+    });
+  });
+});

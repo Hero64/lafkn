@@ -19,7 +19,7 @@ export class ResourceFactory {
     }
 
     const paths = [];
-    const resourcePaths = fullPath.split('/');
+    const resourcePaths = fullPath.split('/').filter(Boolean);
     for (const resourcePath of resourcePaths) {
       paths.push(resourcePath);
       const path = paths.join('/');
@@ -37,8 +37,6 @@ export class ResourceFactory {
       this.resources[path] = resource;
       resourceId = resource.id;
     }
-
-    // console.log(this.resources, resourceId);
 
     return resourceId;
   }

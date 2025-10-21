@@ -106,6 +106,10 @@ export class AuthorizerFactory {
       AuthorizerReflectKeys.HANDLER
     );
 
+    if (!handler) {
+      throw new Error('custom authorizer require a lambda handler');
+    }
+
     const lambdaHandler = new LambdaHandler(
       this.scope,
       `${metadata.name}-${resource.name}`,
@@ -137,7 +141,7 @@ export class AuthorizerFactory {
 
   private createCognitoAuthorizer({ metadata }: AuthorizerDataCognito) {
     const userPool = alicantoResource.getResource<CognitoUserPool>(
-      `auth_${metadata.userPool}`
+      `auth-${metadata.userPool}`
     );
 
     if (!userPool) {

@@ -24,11 +24,11 @@ export const CognitoAuthorizer = createResourceDecorator<CognitoAuthorizerProps>
 });
 
 export const ApiKeyAuthorizer = createResourceDecorator<ApiKeyAuthorizerProps>({
-  type: ApiAuthorizerType.custom,
+  type: ApiAuthorizerType.apiKey,
 });
 
 export const CustomAuthorizer = createResourceDecorator<CustomAuthorizerProps>({
-  type: ApiAuthorizerType.apiKey,
+  type: ApiAuthorizerType.custom,
 });
 
 export const AuthorizerHandler =
