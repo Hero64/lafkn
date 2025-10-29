@@ -1,5 +1,7 @@
 import { CognitoIdentityProvider } from '@cdktf/provider-aws/lib/cognito-identity-provider';
 import { Construct } from 'constructs';
+import type { AuthAttributes } from '../../../../main';
+import { mapUserAttributes } from '../../auth.utils';
 import type {
   AmazonIdentityProvider,
   AppleIdentityProvider,
@@ -61,6 +63,7 @@ export class IdentityProvider extends Construct {
         client_id: props.clientId,
         client_secret: props.clientSecret,
         authorize_scopes: props.scopes.join(','),
+        ...(props.apiVersion ? { api_version: props.apiVersion } : {}),
       },
       attributeMapping: this.getProviderAttributes(
         props.attributes as Record<string, string>
@@ -72,7 +75,7 @@ export class IdentityProvider extends Construct {
     new CognitoIdentityProvider(this, 'amazon-identity-provider', {
       userPoolId: this.props.userPoolId,
       providerName: `${this.id}-identity-provider`,
-      providerType: 'Amazon',
+      providerType: 'LoginWithAmazon',
       providerDetails: {
         client_id: props.clientId,
         client_secret: props.clientSecret,
@@ -88,7 +91,7 @@ export class IdentityProvider extends Construct {
     new CognitoIdentityProvider(this, 'amazon-identity-provider', {
       userPoolId: this.props.userPoolId,
       providerName: `${this.id}-identity-provider`,
-      providerType: 'Apple',
+      providerType: 'SignInWithApple',
       providerDetails: {
         client_id: props.clientId,
         team_id: props.teamId,
@@ -112,7 +115,7 @@ export class IdentityProvider extends Construct {
         client_secret: props.clientSecret,
         authorize_scopes: props.scopes.join(' '),
         attributes_request_method: props.attributesRequestMethod,
-        authorize_url: props.attributesUrl,
+        authorize_url: props.authorizeUrl,
         token_url: props.tokenUrl,
         attributes_url: props.attributesUrl,
         jwks_uri: props.jwksUri,
@@ -134,7 +137,7 @@ export class IdentityProvider extends Construct {
 
       const attributeName =
         attribute.attributeType === 'standard'
-          ? attribute.name
+          ? mapUserAttributes[attribute.name as keyof AuthAttributes]
           : `custom:${attribute.name}`;
 
       attributes[attributeName] = providerAttributes[providerAttribute];

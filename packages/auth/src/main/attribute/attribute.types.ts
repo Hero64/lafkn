@@ -31,22 +31,24 @@ export interface StringCustomAttribute extends CommonCustomAttribute {
 }
 
 export interface AuthAttributes {
-  address?: string;
-  birthdate?: Date;
-  email?: string;
+  name?: string;
   familyName?: string;
-  fullname?: string;
-  gender?: string;
   givenName?: string;
-  lastUpdateTime?: string;
-  locale?: string;
   middleName?: string;
   nickname?: string;
-  phoneNumber?: string;
   preferredUsername?: string;
-  profilePage?: string;
-  profilePicture?: string;
-  timezone?: string;
+  profile?: string;
+  picture?: string;
+  website?: string;
+  gender?: string;
+  birthdate?: Date;
+  zoneInfo?: string;
+  locale?: string;
+  updated_at?: string;
+  address?: string;
+  email?: string;
+  phoneNumber?: string;
+  sub?: string;
 }
 
 export type CustomAttributeProps<T> = T extends number

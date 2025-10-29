@@ -19,9 +19,14 @@ import {
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { Token } from 'cdktf';
 import { Construct } from 'constructs';
-import type { CustomAttributesMetadata, StandardAttributeMetadata } from '../../../main';
+import type {
+  AuthAttributes,
+  CustomAttributesMetadata,
+  StandardAttributeMetadata,
+} from '../../../main';
 import { RESOURCE_TYPE } from '../../../main/extension/extension';
 import type { TriggerMetadata } from '../../../main/extension/extension.types';
+import { mapUserAttributes } from '../auth.utils';
 import { Extension } from './extension/extension';
 import { IdentityProvider } from './identity-provider/identity-provider';
 import type {
@@ -36,22 +41,6 @@ import type {
   UserPoolProps,
   UserVerification,
 } from './user-pool.types';
-
-const standardAttributes = new Set([
-  'email',
-  'fullName',
-  'nickname',
-  'birthday',
-  'lastName',
-  'gender',
-  'firstName',
-  'lastUpdateTime',
-  'locale',
-  'middleName',
-  'phoneNumber',
-  'picture',
-  'website',
-]);
 
 export class UserPool extends Construct {
   public attributeByName: Record<
@@ -227,14 +216,16 @@ export class UserPool extends Construct {
     >(attributeClass, FieldProperties.field);
 
     for (const attribute of attributeMetadata) {
-      this.attributeByName[attribute.name] === attribute;
+      this.attributeByName[attribute.name] = attribute;
       if (attribute.attributeType === 'standard') {
-        if (!standardAttributes.has(attribute.name)) {
+        const attributeName = mapUserAttributes[attribute.name as keyof AuthAttributes];
+
+        if (!attributeName) {
           throw new Error(`${attribute.name} is not a standard cognito attribute`);
         }
         schema.push({
-          attributeDataType: attribute.attributeType,
-          name: attribute.name,
+          attributeDataType: attribute.type,
+          name: attributeName,
           mutable: attribute.mutable,
           required: attribute.required,
         });

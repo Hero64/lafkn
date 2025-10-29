@@ -36,19 +36,24 @@ export const Custom =
  * Decorator that marks a property as a standard attribute supported by Cognito.
  *
  * This decorator can only be applied to the following attributes:
- * - `"email"`
- * - `"fullName"`
- * - `"nickname"`
- * - `"birthday"`
- * - `"lastName"`
- * - `"gender"`
- * - `"firstName"`
- * - `"lastUpdateTime"`
- * - `"locale"`
+ * - `"name"`
+ * - `"familyName"`
+ * - `"givenName"`
  * - `"middleName"`
- * - `"phoneNumber"`
+ * - `"nickname"`
+ * - `"preferredUsername"`
+ * - `"profile"`
  * - `"picture"`
  * - `"website"`
+ * - `"gender"`
+ * - `"birthdate"`
+ * - `"zoneInfo"`
+ * - `"locale"`
+ * - `"updated_at"`
+ * - `"address"`
+ * - `"email"`
+ * - `"phoneNumber"`
+ * - `"sub"`
  */
 export const Standard =
   (props: CommonStandardAttribute = {}) =>

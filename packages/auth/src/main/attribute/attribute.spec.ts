@@ -27,7 +27,7 @@ describe('Attribute', () => {
     @Attributes()
     class Test {
       @Standard({})
-      fullname: string;
+      name: string;
 
       @Standard({
         required: true,
@@ -46,10 +46,10 @@ describe('Attribute', () => {
     expect(metadata).toStrictEqual([
       {
         attributeType: 'standard',
-        destinationName: 'fullname',
+        destinationName: 'name',
         initialValue: undefined,
         mutable: true,
-        name: 'fullname',
+        name: 'name',
         required: true,
         type: 'String',
       },

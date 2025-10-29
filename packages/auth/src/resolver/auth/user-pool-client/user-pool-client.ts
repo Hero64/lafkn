@@ -1,11 +1,11 @@
-import { alicantoResource } from '@alicanto/resolver';
-import type { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
 import {
   CognitoUserPoolClient,
   type CognitoUserPoolClientConfig,
   type CognitoUserPoolClientRefreshTokenRotation,
 } from '@cdktf/provider-aws/lib/cognito-user-pool-client';
 import { Construct } from 'constructs';
+import type { AuthAttributes } from '../../../main';
+import { mapUserAttributes } from '../auth.utils';
 import type {
   AuthFlow,
   OAuthConfig,
@@ -23,13 +23,11 @@ export class UserPoolClient extends Construct {
   ) {
     super(scope, 'user-pool-client');
 
-    const userPool = alicantoResource.getResource<CognitoUserPool>(`auth-${id}`);
-
     this.cognitoUserPoolClient = new CognitoUserPoolClient(this, id, {
       ...this.getValidity(props),
       ...this.getOauthConfig(props.oauth),
-      name: `${id}-client`,
-      userPoolId: userPool.id,
+      name: id,
+      userPoolId: props.userPoolId,
       enableTokenRevocation: props.enableTokenRevocation,
       generateSecret: props.generateSecret,
       preventUserExistenceErrors: props.preventUserExistenceErrors
@@ -92,7 +90,7 @@ export class UserPoolClient extends Construct {
       idTokenValidity: idToken.value,
       refreshTokenValidity: refreshToken.value,
       tokenValidityUnits:
-        accessToken.unit || idToken.unit || refreshToken
+        accessToken.unit || idToken.unit || refreshToken.unit
           ? [
               {
                 accessToken: accessToken.unit,
@@ -135,11 +133,16 @@ export class UserPoolClient extends Construct {
         throw new Error(`Attribute ${providerAttribute} not exist in attribute class`);
       }
 
-      attributes.push(
+      const attributeName =
         attribute.attributeType === 'standard'
-          ? attribute.name
-          : `custom:${attribute.name}`
-      );
+          ? mapUserAttributes[attribute.name as keyof AuthAttributes]
+          : `custom:${attribute.name}`;
+
+      if (!attributeName) {
+        throw new Error(`Attribute ${attribute.name} is not a standard attribute`);
+      }
+
+      attributes.push(attributeName);
     }
 
     return attributes;
