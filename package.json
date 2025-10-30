@@ -4,10 +4,12 @@
   "scripts": {
     "build": "turbo run build",
     "check-types": "turbo run check-types",
+    "clean": "find . -name \"node_modules\" -type d -prune -exec rm -rf {} +",
     "dev": "turbo run dev",
     "format": "pnpm biome format --write . ",
     "lint": "turbo run lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "turbo run test --concurrency=2"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.6",
