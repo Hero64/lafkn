@@ -1,4 +1,3 @@
-import type { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import type { IAspect } from 'cdktf';
 import type { Construct, IConstruct } from 'constructs';
 
@@ -9,7 +8,6 @@ interface TaggableResource extends Construct {
 
 interface AppAspectProps {
   tags: Record<string, string>;
-  role?: IamRole;
 }
 
 export class AppAspect implements IAspect {

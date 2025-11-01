@@ -9,7 +9,7 @@ export interface LambdaProps {
    *
    * @default true
    */
-  minify?: boolean;
+  minify?: boolean; // TODO: remover esto
   /**
    * Lambda execution timeout.
    *

@@ -25,20 +25,25 @@ export class AppStack extends TerraformStack {
 
     new AppContext(this, {
       contextName: ContextName.app,
-      globalConfig: props.globalConfig,
+      globalConfig: props.globalConfig?.lambda,
       contextCreator: props.name,
     });
-    new AwsProvider(scope, 'AWS');
+    new AwsProvider(scope, 'AWS', props.awsProviderConfig);
     this.createRole();
   }
 
   async init() {
-    const { resolvers } = this.props;
+    const { resolvers, extend } = this.props;
 
     await this.triggerHook(resolvers, 'beforeCreate');
     await this.resolveModuleResources();
     await this.triggerHook(resolvers, 'afterCreate');
+
     this.addAspectProperties();
+    await alicantoResource.callDependentCallbacks();
+    if (extend) {
+      await extend(this);
+    }
   }
 
   private async triggerHook(

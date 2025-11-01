@@ -2,21 +2,20 @@ import { getResourceMetadata } from '@alicanto/common';
 import { alicantoResource, ContextName, Role } from '@alicanto/resolver';
 import { Aspects } from 'cdktf';
 import { Construct } from 'constructs';
-import type { AppStack } from '../app/app';
 import { AppAspect } from '../aspect/aspect';
 import { AppContext } from '../context/context';
 import type { CreateModuleProps, ModuleProps, ModuleResolverType } from './module.types';
 
 export class StackModule extends Construct {
   constructor(
-    scope: AppStack,
+    scope: Construct,
     public id: string,
     private props: ModuleProps
   ) {
     super(scope, id);
     new AppContext(this, {
       contextName: ContextName.module,
-      globalConfig: props.globalConfig,
+      globalConfig: props.globalConfig?.lambda,
       contextCreator: props.name,
     });
     this.createRole();
@@ -68,7 +67,7 @@ export class StackModule extends Construct {
 
 export const createModule =
   (props: CreateModuleProps) =>
-  async (scope: AppStack, resolvers: Record<string, ModuleResolverType>) => {
+  async (scope: Construct, resolvers: Record<string, ModuleResolverType>) => {
     const module = new StackModule(scope, props.name, {
       ...props,
       resolvers,

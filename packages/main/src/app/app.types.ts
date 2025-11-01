@@ -1,4 +1,5 @@
 import type { LambdaGlobalConfig, ResolverType } from '@alicanto/resolver';
+import type { AwsProviderConfig } from '@cdktf/provider-aws/lib/provider';
 import type { StackModule } from '../module';
 import type { ModuleResolverType } from '../module/module.types';
 import type { AppStack } from './app';
@@ -55,4 +56,12 @@ export interface CreateAppProps {
    * and resource tags.
    */
   globalConfig?: GlobalConfig;
+  /**
+   *
+   */
+  awsProviderConfig?: AwsProviderConfig;
+  /**
+   *
+   */
+  extend?: (scope: AppStack) => Promise<void>;
 }

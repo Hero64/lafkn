@@ -1,7 +1,7 @@
-import type { GlobalConfig } from '../app/app.types';
+import type { LambdaGlobalConfig } from '@alicanto/resolver';
 
 export interface ContextProps {
-  globalConfig?: GlobalConfig;
+  globalConfig?: LambdaGlobalConfig;
   contextCreator: string;
   contextName: string;
 }
