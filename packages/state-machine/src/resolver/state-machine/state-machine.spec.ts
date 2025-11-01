@@ -94,7 +94,7 @@ describe('State Machine', () => {
     expect(synthesized).toHaveResourceWithProperties(SfnStateMachine, {
       name: 'TestingSM',
       definition:
-        '{"StartAt":"task1","States":{"task2":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","End":true,"Arguments":{"Payload":"{% $state.input.data %}","FunctionName":"test-function"}},"task1":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","Next":"task2","Arguments":{"Payload":{"executionId":"{% $states.context.Execution.Id %}"},"FunctionName":"test-function"},"Assign":{"foo":1}}},"QueryLanguage":"JSONata"}',
+        '{"StartAt":"wait-1","States":{"succeed-1":{"Type":"Succeed"},"fail-1":{"Type":"Fail","Error":"Error"},"pass-1":{"Type":"Pass","End":true},"pass-2":{"Type":"Pass","End":true},"choice-1":{"Type":"Choice","Choices":[{"Condition":"{% $foo = 1 %}","Next":"succeed-1"},{"Condition":"{% $foo = 2 %}","Next":"fail-1"},{"Condition":"{% $foo = 3 %}","Next":"pass-1"}],"Default":"pass-2"},"wait-1":{"Type":"Wait","Seconds":2,"Next":"choice-1"}},"QueryLanguage":"JSONata"}',
     });
   });
 
@@ -132,7 +132,7 @@ describe('State Machine', () => {
 
     expect(synthesized).toHaveResourceWithProperties(SfnStateMachine, {
       definition:
-        '"StartAt":"task1","States":{"task2":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","End":true,"Arguments":{"Payload":"{% $state.input.data %}","FunctionName":"test-function"}},"task1":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","Next":"task2","Arguments":{"Payload":{},"FunctionName":"test-function"},"Assign":{"foo":1}}},"QueryLanguage":"JSONata"}',
+        '{"StartAt":"task1","States":{"task2":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","End":true,"Arguments":{"Payload":"{% $state.input.data %}","FunctionName":"test-function"}},"task1":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","Next":"task2","Arguments":{"Payload":{"executionId":"{% $states.context.Execution.Id %}"},"FunctionName":"test-function"},"Assign":{"foo":1}}},"QueryLanguage":"JSONata"}',
       name: 'TestingSM',
     });
   });
