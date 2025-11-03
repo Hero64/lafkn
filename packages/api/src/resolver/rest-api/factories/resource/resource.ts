@@ -34,6 +34,8 @@ export class ResourceFactory {
         restApiId: this.scope.api.id,
       });
 
+      this.scope.addDependency(resource);
+
       this.resources[path] = resource;
       resourceId = resource.id;
     }

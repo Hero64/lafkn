@@ -10,28 +10,30 @@ describe('Model factory', () => {
     const { restApi, stack } = setupTestingRestApi();
 
     restApi.modelFactory.getModel({
-      destinationName: 'test',
-      type: 'Object',
-      name: 'test',
-      payload: {
-        id: 'test-model',
-        name: 'test-model',
-      },
-      properties: [
-        {
-          destinationName: 'foo',
-          name: 'foo',
-          type: 'String',
-          validation: {
-            required: true,
-            maxLength: 100,
-            minLength: 10,
-            format: 'password',
-          },
+      field: {
+        destinationName: 'test',
+        type: 'Object',
+        name: 'test',
+        payload: {
+          id: 'test-model',
+          name: 'test-model',
         },
-      ],
-      validation: {
-        required: true,
+        properties: [
+          {
+            destinationName: 'foo',
+            name: 'foo',
+            type: 'String',
+            validation: {
+              required: true,
+              maxLength: 100,
+              minLength: 10,
+              format: 'password',
+            },
+          },
+        ],
+        validation: {
+          required: true,
+        },
       },
     });
 
@@ -49,54 +51,58 @@ describe('Model factory', () => {
     const { restApi } = setupTestingRestApi();
 
     const modelA = restApi.modelFactory.getModel({
-      destinationName: 'test',
-      type: 'Object',
-      name: 'test',
-      payload: {
-        id: 'test-model',
-        name: 'test-model',
-      },
-      properties: [
-        {
-          destinationName: 'foo',
-          name: 'foo',
-          type: 'String',
-          validation: {
-            required: true,
-            maxLength: 100,
-            minLength: 10,
-            format: 'password',
-          },
+      field: {
+        destinationName: 'test',
+        type: 'Object',
+        name: 'test',
+        payload: {
+          id: 'test-model',
+          name: 'test-model',
         },
-      ],
-      validation: {
-        required: true,
+        properties: [
+          {
+            destinationName: 'foo',
+            name: 'foo',
+            type: 'String',
+            validation: {
+              required: true,
+              maxLength: 100,
+              minLength: 10,
+              format: 'password',
+            },
+          },
+        ],
+        validation: {
+          required: true,
+        },
       },
     });
 
     const modelB = restApi.modelFactory.getModel({
-      destinationName: 'test',
-      type: 'Object',
-      name: 'test',
-      payload: {
-        id: 'test-model',
-        name: 'test-model',
-      },
-      properties: [
-        {
-          destinationName: 'foo',
-          name: 'foo',
-          type: 'String',
-          validation: {
-            required: true,
-            maxLength: 100,
-            minLength: 10,
-            format: 'password',
-          },
+      field: {
+        destinationName: 'test',
+        type: 'Object',
+        name: 'test',
+        payload: {
+          id: 'test-model',
+          name: 'test-model',
         },
-      ],
-      validation: {
-        required: true,
+        properties: [
+          {
+            destinationName: 'foo',
+            name: 'foo',
+            type: 'String',
+            validation: {
+              required: true,
+              maxLength: 100,
+              minLength: 10,
+              format: 'password',
+            },
+          },
+        ],
+        validation: {
+          required: true,
+        },
       },
     });
 
@@ -107,50 +113,52 @@ describe('Model factory', () => {
     const { restApi, stack } = setupTestingRestApi();
 
     restApi.modelFactory.getModel({
-      destinationName: 'test',
-      type: 'Object',
-      name: 'test',
-      payload: {
-        id: 'test-model',
-        name: 'test-model',
-      },
-      properties: [
-        {
-          destinationName: 'foo',
-          name: 'foo',
-          type: 'String',
-          validation: {
-            required: true,
-            maxLength: 100,
-            minLength: 10,
-            format: 'password',
-          },
+      field: {
+        destinationName: 'test',
+        type: 'Object',
+        name: 'test',
+        payload: {
+          id: 'test-model',
+          name: 'test-model',
         },
-        {
-          destinationName: 'bar',
-          name: 'bar',
-          type: 'Object',
-          payload: {
-            id: 'sub-model',
-            name: 'sub-model',
-          },
-          validation: {
-            required: true,
-          },
-          properties: [
-            {
-              destinationName: 'sub-bar',
-              name: 'sub-bar',
-              type: 'Number',
-              validation: {
-                required: false,
-              },
+        properties: [
+          {
+            destinationName: 'foo',
+            name: 'foo',
+            type: 'String',
+            validation: {
+              required: true,
+              maxLength: 100,
+              minLength: 10,
+              format: 'password',
             },
-          ],
+          },
+          {
+            destinationName: 'bar',
+            name: 'bar',
+            type: 'Object',
+            payload: {
+              id: 'sub-model',
+              name: 'sub-model',
+            },
+            validation: {
+              required: true,
+            },
+            properties: [
+              {
+                destinationName: 'sub-bar',
+                name: 'sub-bar',
+                type: 'Number',
+                validation: {
+                  required: false,
+                },
+              },
+            ],
+          },
+        ],
+        validation: {
+          required: true,
         },
-      ],
-      validation: {
-        required: true,
       },
     });
 

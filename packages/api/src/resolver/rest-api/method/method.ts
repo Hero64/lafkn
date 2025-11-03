@@ -45,24 +45,28 @@ export class ApiMethod extends Construct {
       handler.auth ?? resourceMetadata.auth
     );
 
-    let modelId: string | undefined;
+    let modelName: string | undefined;
 
     if (paramHelper.paramsBySource.body) {
-      const payloadName = `${paramHelper.params.payload.id}-body`;
+      const payloadName = `${paramHelper.params.payload.id}Body`;
 
       const model = this.props.restApi.modelFactory.getModel({
-        destinationName: 'body',
-        name: 'body',
-        type: 'Object',
-        payload: {
-          id: payloadName,
-          name: payloadName,
+        field: {
+          destinationName: 'body',
+          name: 'body',
+          type: 'Object',
+          payload: {
+            id: payloadName,
+            name: payloadName,
+          },
+          properties: paramHelper.paramsBySource.body,
+          validation: {},
         },
-        properties: paramHelper.paramsBySource.body,
-        validation: {},
       });
 
-      modelId = model.id;
+      restApi.addDependency(model);
+
+      modelName = model.name;
     }
 
     const methodName = `${resourceMetadata.name}-${handler.name}-${handler.method.toLowerCase()}`;
@@ -71,16 +75,19 @@ export class ApiMethod extends Construct {
       ...authorizationProps,
       resourceId,
       restApiId: restApi.api.id,
-      httpMethod: handler.method.toLowerCase(),
+      httpMethod: handler.method,
       requestParameters: requestHelper.getRequestParameters(),
       requestValidatorId: validatorId,
-      requestModels: modelId
+      requestModels: modelName
         ? {
-            'application/json': modelId,
+            'application/json': modelName,
           }
         : undefined,
     });
-    await this.integrateMethod({
+
+    this.corsMethod(methodName, resourceId);
+
+    const integration = await this.integrateMethod({
       ...this.props,
       paramHelper,
       proxyHelper,
@@ -90,7 +97,13 @@ export class ApiMethod extends Construct {
       apiGatewayMethod: method,
     });
 
-    this.corsMethod(methodName, resourceId);
+    restApi.addDependency(method);
+    restApi.addDependency(integration);
+
+    return {
+      integration,
+      method,
+    };
   }
 
   private corsMethod(methodName: string, resourceId: string) {
@@ -101,37 +114,45 @@ export class ApiMethod extends Construct {
     const { cors, restApi } = this.props;
     const corsHeaders = this.buildCorsHeaders(cors);
 
-    const optionsMethod = new ApiGatewayMethod(restApi, `${methodName}-options-method`, {
+    const corsMethod = new ApiGatewayMethod(restApi, `${methodName}-options-method`, {
       resourceId,
       restApiId: restApi.api.id,
       httpMethod: 'OPTIONS',
       authorization: 'NONE',
     });
 
-    new ApiGatewayIntegration(restApi, `${methodName}-options-integration`, {
-      httpMethod: optionsMethod.httpMethod,
-      resourceId: optionsMethod.resourceId,
-      restApiId: restApi.api.id,
-      type: 'MOCK',
-      requestTemplates: {
-        'application/json': '{"statusCode": 200}',
-      },
-    });
+    const corsIntegration = new ApiGatewayIntegration(
+      restApi,
+      `${methodName}-options-integration`,
+      {
+        httpMethod: corsMethod.httpMethod,
+        resourceId: corsMethod.resourceId,
+        restApiId: restApi.api.id,
+        type: 'MOCK',
+        requestTemplates: {
+          'application/json': '{"statusCode": 200}',
+        },
+      }
+    );
 
-    new ApiGatewayMethodResponse(restApi, `${methodName}-options-method-response`, {
-      httpMethod: optionsMethod.httpMethod,
-      resourceId: optionsMethod.resourceId,
-      restApiId: restApi.api.id,
-      statusCode: '200',
-      responseParameters: this.buildCorsMethodResponseParameters(corsHeaders),
-    });
+    const corsResponse = new ApiGatewayMethodResponse(
+      restApi,
+      `${methodName}-options-method-response`,
+      {
+        httpMethod: corsMethod.httpMethod,
+        resourceId: corsMethod.resourceId,
+        restApiId: restApi.api.id,
+        statusCode: '200',
+        responseParameters: this.buildCorsMethodResponseParameters(corsHeaders),
+      }
+    );
 
-    new ApiGatewayIntegrationResponse(
+    const corsIntegrationResponse = new ApiGatewayIntegrationResponse(
       restApi,
       `${methodName}-options-integration-response`,
       {
-        httpMethod: optionsMethod.httpMethod,
-        resourceId: optionsMethod.resourceId,
+        httpMethod: corsMethod.httpMethod,
+        resourceId: corsMethod.resourceId,
         restApiId: restApi.api.id,
         statusCode: '200',
         responseParameters: corsHeaders,
@@ -140,6 +161,11 @@ export class ApiMethod extends Construct {
         },
       }
     );
+
+    restApi.addDependency(corsMethod);
+    restApi.addDependency(corsIntegration);
+    restApi.addDependency(corsResponse);
+    restApi.addDependency(corsIntegrationResponse);
   }
 
   private buildCorsHeaders(cors: NonNullable<typeof this.props.cors>) {
@@ -239,8 +265,7 @@ export class ApiMethod extends Construct {
       }
     }
 
-    await integration.create();
-    return false;
+    return integration.create();
   }
 
   private cleanPath(path: string) {

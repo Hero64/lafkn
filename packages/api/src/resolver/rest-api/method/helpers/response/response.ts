@@ -77,6 +77,7 @@ export class ResponseHelper {
       responses.push({
         statusCode,
         field: subResponse === true ? undefined : subResponse,
+        selectionPattern: `.*${HTTP_STATUS_CODE[statusCode as unknown as HTTP_STATUS_CODE_NUMBER]}.*`,
         template: defaultDataResponseTemplate(
           HTTP_STATUS_CODE[statusCode as unknown as HTTP_STATUS_CODE_NUMBER]
         ),

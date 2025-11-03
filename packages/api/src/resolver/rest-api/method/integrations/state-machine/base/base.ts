@@ -37,6 +37,7 @@ export class StateMachineBaseIntegration<T> implements Integration {
         uri: this.getUri(action),
         credentials: roleArn,
         passthroughBehavior: 'WHEN_NO_TEMPLATES',
+        dependsOn: [apiGatewayMethod],
         requestTemplates: {
           'application/json': resolveResource.hasUnresolved()
             ? ''
@@ -63,9 +64,12 @@ export class StateMachineBaseIntegration<T> implements Integration {
 
     restApi.responseFactory.createResponses(
       apiGatewayMethod,
+      integration,
       this.createResponse(),
       `${resourceMetadata.name}-${handler.name}`
     );
+
+    return integration;
   }
 
   protected async callIntegrationMethod<R>() {

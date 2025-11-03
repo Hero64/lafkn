@@ -29,6 +29,6 @@ export class DynamoDbIntegration implements Integration {
       throw new Error('Integration method not found');
     }
 
-    await integrationResolver.create();
+    return integrationResolver.create();
   }
 }

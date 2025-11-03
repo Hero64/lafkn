@@ -26,6 +26,7 @@ import type {
 export class AuthorizerFactory {
   private authorizerIds: Record<string, string> = {};
   private authorizerMetadata: Record<string, AuthorizerData> = {};
+
   constructor(
     private scope: RestApi,
     authorizerResources: ClassResource[]
@@ -134,6 +135,7 @@ export class AuthorizerFactory {
         : undefined,
     });
 
+    this.scope.addDependency(authorizer);
     this.authorizerIds[metadata.name] = authorizer.id;
   }
 
@@ -156,6 +158,8 @@ export class AuthorizerFactory {
         : undefined,
     });
 
+    this.scope.addDependency(authorizer);
+
     this.authorizerIds[metadata.name] = authorizer.id;
   }
 
@@ -165,7 +169,7 @@ export class AuthorizerFactory {
       apiStages: [
         {
           apiId: this.scope.api.id,
-          stage: this.scope.stage.stageName,
+          stage: this.scope.stageName,
         },
       ],
       quotaSettings: metadata.quota
@@ -178,13 +182,17 @@ export class AuthorizerFactory {
       throttleSettings: metadata.throttle,
     });
 
+    this.scope.addDependency(usagePlan);
+
     if (metadata.defaultKeys) {
       for (const key of metadata.defaultKeys) {
-        new ApiGatewayUsagePlanKey(this.scope, key, {
+        const apiKey = new ApiGatewayUsagePlanKey(this.scope, key, {
           keyId: key,
           keyType: 'API_KEY',
           usagePlanId: usagePlan.id,
         });
+
+        this.scope.addDependency(apiKey);
       }
     }
 

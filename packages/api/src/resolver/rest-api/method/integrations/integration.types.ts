@@ -1,4 +1,5 @@
 import type { ClassResource } from '@alicanto/common';
+import type { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import type { ApiGatewayMethod } from '@cdktf/provider-aws/lib/api-gateway-method';
 import type { ApiLambdaMetadata, ApiResourceMetadata } from '../../../../main';
 import type { RestApi } from '../../rest-api';
@@ -9,7 +10,7 @@ import type { ResponseHelper } from '../helpers/response/response';
 import type { TemplateHelper } from '../helpers/template/template';
 
 export interface Integration {
-  create: () => void;
+  create: () => Promise<ApiGatewayIntegration>;
 }
 
 export interface IntegrationProps {

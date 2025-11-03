@@ -1,4 +1,6 @@
 import type { ApiGatewayModel } from '@cdktf/provider-aws/lib/api-gateway-model';
+import type { ITerraformDependable } from 'cdktf';
+import type { ApiFieldMetadata } from '../../../../main';
 
 export interface JsonSchema {
   type?: 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object';
@@ -38,4 +40,10 @@ export interface JsonSchema {
 export interface CreateModelResponse {
   model?: ApiGatewayModel;
   schema: JsonSchema;
+}
+
+export interface GetModelProps {
+  field: ApiFieldMetadata;
+  dependsOn?: ITerraformDependable[];
+  defaultModelName?: string;
 }

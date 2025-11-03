@@ -1,5 +1,6 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { enableBuildEnvVariable } from '@alicanto/common';
+import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import { ApiGatewayIntegrationResponse } from '@cdktf/provider-aws/lib/api-gateway-integration-response';
 import { ApiGatewayMethod } from '@cdktf/provider-aws/lib/api-gateway-method';
 import { ApiGatewayMethodResponse } from '@cdktf/provider-aws/lib/api-gateway-method-response';
@@ -18,8 +19,16 @@ describe('Response factory', () => {
       restApiId: restApi.api.id,
     });
 
+    const integration = new ApiGatewayIntegration(stack, 'test-integration', {
+      httpMethod: method.httpMethod,
+      resourceId: '',
+      restApiId: restApi.api.id,
+      type: '',
+    });
+
     restApi.responseFactory.createResponses(
       method,
+      integration,
       [
         {
           statusCode: '200',
@@ -46,8 +55,16 @@ describe('Response factory', () => {
       restApiId: restApi.api.id,
     });
 
+    const integration = new ApiGatewayIntegration(stack, 'test-integration', {
+      httpMethod: method.httpMethod,
+      resourceId: '',
+      restApiId: restApi.api.id,
+      type: '',
+    });
+
     restApi.responseFactory.createResponses(
       method,
+      integration,
       [
         {
           statusCode: '200',
@@ -88,8 +105,16 @@ describe('Response factory', () => {
       restApiId: restApi.api.id,
     });
 
+    const integration = new ApiGatewayIntegration(stack, 'test-integration', {
+      httpMethod: method.httpMethod,
+      resourceId: '',
+      restApiId: restApi.api.id,
+      type: '',
+    });
+
     restApi.responseFactory.createResponses(
       method,
+      integration,
       [
         {
           statusCode: '200',

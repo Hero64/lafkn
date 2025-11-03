@@ -72,18 +72,19 @@ export class ApiResolver implements ResolverType {
 
   public async afterCreate(scope: AppStack) {
     for (const option of this.options) {
+      const api = this.apis[option.restApi.name];
+      api.createStageDeployment();
+
       if (!option.extend) {
         continue;
       }
-
-      const api = this.apis[option.restApi.name];
 
       option.extend({
         scope,
         api,
       });
     }
-
+    // TODO: crear esto
     // const pathPermissions = apiManager.getPathPermissions();
     // for (const apiName in pathPermissions) {
     //   for (const authorizerName in pathPermissions[apiName]) {

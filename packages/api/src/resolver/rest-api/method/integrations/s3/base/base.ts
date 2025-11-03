@@ -41,7 +41,7 @@ export class BucketBaseIntegration implements Integration {
       options
     );
 
-    new ApiGatewayIntegration(
+    const integration = new ApiGatewayIntegration(
       restApi,
       `${resourceMetadata.name}-${handler.name}-integration`,
       {
@@ -53,6 +53,7 @@ export class BucketBaseIntegration implements Integration {
         uri: this.createUri(integrationResponse),
         credentials: this.getRole().arn,
         requestParameters: this.createRequestParameters(integrationResponse),
+        dependsOn: [apiGatewayMethod],
       }
     );
     const responses = [...responseHelper.handlerResponse];
@@ -70,9 +71,12 @@ export class BucketBaseIntegration implements Integration {
 
     restApi.responseFactory.createResponses(
       apiGatewayMethod,
+      integration,
       responses,
       `${resourceMetadata.name}-${handler.name}`
     );
+
+    return integration;
   }
 
   private getPathParam(key: keyof BucketIntegrationResponse, value: any) {

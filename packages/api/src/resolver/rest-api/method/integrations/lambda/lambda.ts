@@ -37,16 +37,17 @@ export class LambdaIntegration extends Construct implements Integration {
 
     const lambda = await lambdaHandler.generate();
 
-    new ApiGatewayIntegration(
+    const integration = new ApiGatewayIntegration(
       restApi,
       `${resourceMetadata.name}-${handler.name}-integration`,
       {
         httpMethod: apiGatewayMethod.httpMethod,
         resourceId: apiGatewayMethod.resourceId,
         restApiId: restApi.api.id,
-        type: 'AWS_PROXY',
+        type: 'AWS',
         uri: lambda.invokeArn,
         integrationHttpMethod: 'POST',
+        dependsOn: [apiGatewayMethod],
         requestTemplates: paramHelper.params
           ? {
               'application/json': templateHelper.generateTemplate({
@@ -59,8 +60,11 @@ export class LambdaIntegration extends Construct implements Integration {
 
     restApi.responseFactory.createResponses(
       apiGatewayMethod,
+      integration,
       responseHelper.handlerResponse,
       `${resourceMetadata.name}-${handler.name}`
     );
+
+    return integration;
   }
 }

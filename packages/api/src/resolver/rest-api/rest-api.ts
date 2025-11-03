@@ -5,6 +5,7 @@ import {
   type ApiGatewayRestApiConfig,
 } from '@cdktf/provider-aws/lib/api-gateway-rest-api';
 import { ApiGatewayStage } from '@cdktf/provider-aws/lib/api-gateway-stage';
+import type { TerraformResource } from 'cdktf';
 import { Construct } from 'constructs';
 import type { RestApiProps } from '../resolver.types';
 import { AuthorizerFactory } from './factories/authorizer/authorizer';
@@ -17,13 +18,15 @@ import type { ApiMethodProps } from './method/method.types';
 
 export class RestApi extends Construct {
   public api: ApiGatewayRestApi;
-  public stage: ApiGatewayStage;
+  public stageName: string;
 
   public resourceFactory: ResourceFactory;
   public validatorFactory: ValidatorFactory;
   public authorizerFactory: AuthorizerFactory;
   public modelFactory: ModelFactory;
   public responseFactory: ResponseFactory;
+
+  private dependencies: TerraformResource[] = [];
 
   constructor(
     private scope: Construct,
@@ -32,7 +35,7 @@ export class RestApi extends Construct {
   ) {
     super(scope, id);
     this.createRestApi();
-    this.createStageDeployment();
+    this.stageName = this.getStageName();
     this.resourceFactory = new ResourceFactory(this);
     this.validatorFactory = new ValidatorFactory(this);
     this.authorizerFactory = new AuthorizerFactory(this, props.auth?.authorizers || []);
@@ -55,23 +58,28 @@ export class RestApi extends Construct {
   }
 
   public createStageDeployment() {
-    const deployment = new ApiGatewayDeployment(
-      this.scope,
-      `${this.props.name}-deployment`,
-      {
-        restApiId: this.api.id,
-        triggers: {
-          redeployment: Date.now().toString(),
-        },
-      }
-    );
+    const deployment = new ApiGatewayDeployment(this, `${this.props.name}-deployment`, {
+      restApiId: this.api.id,
+      dependsOn: this.dependencies,
+      triggers: {
+        redeployment: Date.now().toString(),
+      },
+      lifecycle: {
+        createBeforeDestroy: true,
+      },
+    });
 
-    this.stage = new ApiGatewayStage(this.scope, `${this.props.name}-stage`, {
+    new ApiGatewayStage(this, `${this.props.name}-stage`, {
       ...(this.props.stage || {}),
       deploymentId: deployment.id,
       restApiId: this.api.id,
       stageName: this.getStageName(),
+      dependsOn: [deployment],
     });
+  }
+
+  public addDependency(dependency: TerraformResource) {
+    this.dependencies.push(dependency);
   }
 
   private createRestApi() {

@@ -53,6 +53,7 @@ export class DynamoBaseIntegration<T> implements Integration {
             ? ''
             : createTemplate(integrationResponse),
         },
+        dependsOn: [apiGatewayMethod],
       }
     );
 
@@ -74,9 +75,12 @@ export class DynamoBaseIntegration<T> implements Integration {
 
     restApi.responseFactory.createResponses(
       apiGatewayMethod,
+      integration,
       this.createResponse(),
       `${resourceMetadata.name}-${handler.name}`
     );
+
+    return integration;
   }
 
   protected async callIntegrationMethod<R>() {

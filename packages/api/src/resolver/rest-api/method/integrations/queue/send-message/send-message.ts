@@ -49,6 +49,7 @@ export class SendMessageIntegration implements Integration {
         uri: resolveResource.hasUnresolved() ? '' : this.getUri(integrationResponse),
         credentials: integrationHelper.createRole('sqs.write', restApi).arn,
         passthroughBehavior: 'WHEN_NO_TEMPLATES',
+        dependsOn: [apiGatewayMethod],
         requestTemplates: {
           'application/json': resolveResource.hasUnresolved()
             ? ''
@@ -77,6 +78,7 @@ export class SendMessageIntegration implements Integration {
 
     restApi.responseFactory.createResponses(
       apiGatewayMethod,
+      integration,
       [
         {
           statusCode: getSuccessStatusCode(handler.method).toString(),
@@ -86,6 +88,8 @@ export class SendMessageIntegration implements Integration {
       ],
       `${resourceMetadata.name}-${handler.name}`
     );
+
+    return integration;
   }
 
   private getUri(integrationResponse: QueueSendMessageIntegrationResponse) {
