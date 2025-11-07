@@ -15,7 +15,7 @@ export const setupTestingStackWithModule = () => {
   const { app, stack } = setupTestingStack();
 
   class Module extends Construct {
-    id: 'test';
+    id = 'test';
   }
 
   const module = new Module(stack, 'testing');
