@@ -34,7 +34,8 @@ export class LambdaHandler extends alicantoResource.make(LambdaFunction) {
       scope,
     };
 
-    let environments = LambdaHandler.getCurrentEnvironment(environmentProps);
+    const environments = LambdaHandler.getCurrentEnvironment(environmentProps);
+    let environmentValues = environments.getValues();
 
     const handlerName =
       `${id}-${moduleContext?.contextCreator || appContext.contextCreator}${props.suffix ? `-${props.suffix}` : ''}`.toLowerCase();
@@ -65,16 +66,16 @@ export class LambdaHandler extends alicantoResource.make(LambdaFunction) {
         mode: props.lambda?.enableTrace ? 'Active' : 'PassThrough',
       },
       environment: {
-        variables: !environments ? {} : environments,
+        variables: !environmentValues ? {} : environmentValues,
       },
     });
 
-    if (!environments) {
+    if (!environmentValues) {
       this.isDependent(() => {
-        environments = LambdaHandler.getCurrentEnvironment(environmentProps);
+        environmentValues = environments.getValues();
 
         if (environments) {
-          throw new Error(`unresolved dependencies in ${name} lambda`);
+          throw new Error(`unresolved dependencies in ${props.name} lambda`);
         }
 
         this.addOverride('environment.variables', environments);
@@ -128,6 +129,7 @@ export class LambdaHandler extends alicantoResource.make(LambdaFunction) {
       ...(appContext.env || {}),
       ...(moduleContext?.env || {}),
     };
+
     const env = new Environment(
       scope,
       `${id}-lambda-env`,
@@ -135,7 +137,7 @@ export class LambdaHandler extends alicantoResource.make(LambdaFunction) {
       globalEnv
     );
 
-    return env.getValues();
+    return env;
   }
 
   private static getRoleArn(props: GetRoleArnProps) {

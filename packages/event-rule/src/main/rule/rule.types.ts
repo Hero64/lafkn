@@ -1,6 +1,6 @@
 import type {
   BucketNames,
-  DynamoDbNames,
+  DynamoTableNames,
   EventBusNames,
   LambdaMetadata,
 } from '@alicanto/common';
@@ -158,7 +158,7 @@ export interface DynamoRuleProps extends EventRuleBaseProps {
      * Specifies the AWS service or custom source that emits the events
      * to be captured by this EventBridge rule.
      */
-    source: DynamoDbNames;
+    source: DynamoTableNames;
     /**
      * Additional filtering criteria on the event payload.
      *

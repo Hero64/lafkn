@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import type {
   DeepPartial,
-  DynamoDbNames,
+  DynamoTableNames,
   FieldTypes,
   OnlyNumber,
   OnlyNumberString,
@@ -131,7 +131,7 @@ export interface DynamoModelProps<T extends Function> {
    * Defines the logical name of the DynamoDB table.
    * If not specified, the name of the decorated class will be used.
    */
-  name?: DynamoDbNames;
+  name?: DynamoTableNames;
   /**
    * Table indexes.
    *

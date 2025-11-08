@@ -1,24 +1,21 @@
 import type { GetResourceValue } from './output.types';
 import type {
-  ApiAuthorizerNames,
-  ApiRestNames,
-  AuthNames,
-  BucketNames,
-  DynamoDbNames,
-  EventBusNames,
+  ApiRestScopedNames,
+  AuthScopedNames,
+  BucketScopedNames,
+  DynamoTableScopedNames,
+  EventBusScopedNames,
   QueueScopedNames,
   StateMachineScopedNames,
 } from './override-resources.types';
 
 interface EvnFunctionProps {
   getResourceValue: GetResourceValue<
-    | DynamoDbNames
-    | AuthNames
-    | BucketNames
-    | ApiRestNames
-    | ApiAuthorizerNames
-    | EventBusNames
-    | DynamoDbNames
+    | DynamoTableScopedNames
+    | AuthScopedNames
+    | BucketScopedNames
+    | ApiRestScopedNames
+    | EventBusScopedNames
     | StateMachineScopedNames
     | QueueScopedNames
   >;

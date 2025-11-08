@@ -20,6 +20,9 @@ export class GreetingApi {
     path: '/hello',
     response: [HelloResponse],
     lambda: {
+      env: ({ getResourceValue }) => ({
+        apiId: getResourceValue('api::ExampleApi', 'id'),
+      }),
       memory: 128,
       tags: {
         aa: 'bbb',

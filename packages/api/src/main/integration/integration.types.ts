@@ -1,6 +1,6 @@
 import type {
   BucketNames,
-  DynamoDbScopedNames,
+  DynamoTableScopedNames,
   GetResourceValue,
   OnlyNumberString,
   OnlyOne,
@@ -36,7 +36,7 @@ export interface StateMachineStopIntegrationResponse
 export type StateMachineIntegrationOption =
   IntegrationOptionBase<StateMachineScopedNames>;
 
-export type DynamoIntegrationOption = IntegrationOptionBase<DynamoDbScopedNames>;
+export type DynamoIntegrationOption = IntegrationOptionBase<DynamoTableScopedNames>;
 
 interface DynamoIntegrationBase {
   tableName: string;

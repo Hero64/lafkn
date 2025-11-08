@@ -1,3 +1,4 @@
+import type { ModuleGlobalReferenceNames } from '@alicanto/common';
 import { Construct } from 'constructs';
 
 class AlicantoResource {
@@ -12,7 +13,7 @@ class AlicantoResource {
     }
 
     class Resource extends ExtendResource {
-      isGlobal(module: string, id: string) {
+      isGlobal(module: ModuleGlobalReferenceNames | (string & {}), id: string) {
         self.globals[`${module}::${id}`] = this;
       }
 
@@ -23,7 +24,10 @@ class AlicantoResource {
 
     return Resource;
   }
-  getResource<T = any>(module: string, id: string): T {
+  getResource<T = any>(
+    module: ModuleGlobalReferenceNames | (string & {}),
+    id: string
+  ): T {
     return this.globals[`${module}::${id}`] as T;
   }
 

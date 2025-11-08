@@ -25,14 +25,14 @@ export class ApiResolver implements ResolverType {
   public async beforeCreate(scope: AppStack) {
     if (this.options.length === 0) {
       const id = `${scope.id}-general`;
-      this.apis[id] = new RestApi(scope, `${id}-api`, {
+      this.apis[id] = new RestApi(scope, id, {
         name: id,
       });
       return;
     }
 
     for (const option of this.options) {
-      const restApi = new RestApi(scope, `${option.restApi.name}-api`, option.restApi);
+      const restApi = new RestApi(scope, option.restApi.name, option.restApi);
       this.apis[option.restApi.name] = restApi;
     }
   }
