@@ -36,7 +36,7 @@ export class RestApi extends alicantoResource.make(ApiGatewayRestApi) {
         ? props.minCompressionSize.toString()
         : undefined,
     });
-    this.isGlobal('api');
+    this.isGlobal('api', id);
     this.stageName = this.getStageName();
     this.resourceFactory = new ResourceFactory(this);
     this.validatorFactory = new ValidatorFactory(this);

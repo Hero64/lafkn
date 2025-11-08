@@ -73,7 +73,7 @@ describe('Dynamo put integration', () => {
           name: 'foo',
           date: getCurrentDate(),
         },
-        tableName: getResourceValue('dynamo::test', 'id'),
+        tableName: getResourceValue('test', 'id'),
       };
     }
 
@@ -137,7 +137,7 @@ describe('Dynamo put integration', () => {
     const table = new Table(stack, 'test', {
       name: 'test',
     });
-    table.isGlobal('dynamo');
+    table.isGlobal('dynamo', 'test');
 
     await initializeMethod(restApi, stack, DynamoIntegrationApi, 'putWithResource');
 

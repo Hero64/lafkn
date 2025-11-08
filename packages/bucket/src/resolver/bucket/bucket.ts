@@ -34,7 +34,7 @@ export class Bucket extends alicantoResource.make(S3Bucket) {
       },
     });
 
-    this.isGlobal('bucket');
+    this.isGlobal('bucket', name);
 
     if (eventBridgeEnabled ?? props.eventBridgeEnabled) {
       new S3BucketNotification(this, `${name}-notification`, {

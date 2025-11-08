@@ -90,7 +90,7 @@ export class AppStack extends TerraformStack {
       ],
     });
 
-    lambdaRole.isGlobal('app');
+    lambdaRole.isGlobal('app', roleName);
   }
 
   private addAspectProperties() {

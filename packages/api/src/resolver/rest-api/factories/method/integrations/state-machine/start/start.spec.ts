@@ -72,7 +72,7 @@ describe('State machine start integration', () => {
         input: {
           name: 'test',
         },
-        stateMachineArn: getResourceValue('state-machine::test', 'arn'),
+        stateMachineArn: getResourceValue('test', 'arn'),
       };
     }
 
@@ -150,7 +150,7 @@ describe('State machine start integration', () => {
       definition: '',
       roleArn: '',
     });
-    stateMachine.isGlobal('state-machine');
+    stateMachine.isGlobal('state-machine', 'test');
 
     await initializeMethod(
       restApi,

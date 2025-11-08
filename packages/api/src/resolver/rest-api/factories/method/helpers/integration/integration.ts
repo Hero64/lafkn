@@ -11,7 +11,7 @@ import type { IntegrationOption, ServiceRoleName } from './integration.types';
 
 export class IntegrationHelper {
   public createRole(name: ServiceRoleName, scope: Construct) {
-    const role = alicantoResource.getResource<Role>(`role-${name}`);
+    const role = alicantoResource.getResource<Role>('role', name);
 
     if (role) {
       return role;
@@ -29,17 +29,17 @@ export class IntegrationHelper {
       principal: 'apigateway.amazonaws.com',
     });
 
-    serviceRole.isGlobal('role');
+    serviceRole.isGlobal('role', name);
     return serviceRole;
   }
 
-  public generateIntegrationOptions(): IntegrationOption {
+  public generateIntegrationOptions(module: string): IntegrationOption {
     const resolveResource = new ResolveResources();
 
     return {
       options: {
         getResourceValue(value, type) {
-          return resolveResource.getResourceValue(`${value}::${type}`);
+          return resolveResource.getResourceValue(module, value, type);
         },
         getCurrentDate() {
           return '$context.requestTimeEpoch';

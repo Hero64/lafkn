@@ -48,8 +48,19 @@ export class Environment extends Construct {
     if (typeof this.envs === 'function') {
       const resolveResources = new ResolveResources();
       values = this.envs({
-        getResourceValue: (value, type) =>
-          resolveResources.getResourceValue(`${value}::${type}`),
+        getResourceValue: (value, type) => {
+          const moduleWithId = value.split('::');
+
+          if (moduleWithId.length !== 2) {
+            throw new Error(`resource value ${value} is not valid`);
+          }
+
+          return resolveResources.getResourceValue(
+            moduleWithId[0],
+            moduleWithId[1],
+            type as string
+          );
+        },
       });
       if (resolveResources.hasUnresolved()) {
         return false;

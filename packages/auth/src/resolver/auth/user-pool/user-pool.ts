@@ -82,7 +82,7 @@ export class UserPool extends alicantoResource.make(CognitoUserPool) {
       this.attributeByName = attributes.attributeByName;
     }
 
-    this.isGlobal('auth');
+    this.isGlobal('auth', id);
     this.assignIdentityProviders(props.identityProviders);
   }
 

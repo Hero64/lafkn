@@ -83,7 +83,7 @@ describe('App', () => {
         },
       },
     });
-    const role = alicantoResource.getResource<Role>('app-testing-global-role');
+    const role = alicantoResource.getResource<Role>('app', 'testing-global-role');
 
     expect(role).toBeDefined();
     expect(role).toBeInstanceOf(Role);

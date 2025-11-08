@@ -64,7 +64,7 @@ describe('Bucket delete integration', () => {
       @IntegrationOptions() { getResourceValue }: BucketIntegrationOption
     ): BucketIntegrationResponse {
       return {
-        bucket: getResourceValue('bucket::test', 'id'),
+        bucket: getResourceValue('test', 'id'),
         object: 'test.json',
       };
     }
@@ -148,7 +148,7 @@ describe('Bucket delete integration', () => {
     const Bucket = alicantoResource.make(S3Bucket);
 
     const bucket = new Bucket(stack, 'test');
-    bucket.isGlobal('bucket');
+    bucket.isGlobal('bucket', 'test');
 
     await restApi.addMethod(stack, {
       classResource: BucketIntegrationApi,

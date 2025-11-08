@@ -1,5 +1,7 @@
 import { ApiResolver } from '@alicanto/api/resolver';
+import { BucketResolver } from '@alicanto/bucket/resolver';
 import { createApp } from '@alicanto/main';
+import { DocumentBucket } from './bucket/documents.bucket';
 import GreetingStack from './modules/greeting/greeting.module';
 
 createApp({
@@ -22,6 +24,7 @@ createApp({
       //   defaultAuthorizerName: 'ExampleCustomAuthorizer',
       // },
     }),
+    new BucketResolver([DocumentBucket]),
     // new StateMachineResolver(),
     // new EventResolver(),
   ],

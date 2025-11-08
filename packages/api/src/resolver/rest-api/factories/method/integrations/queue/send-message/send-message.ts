@@ -26,7 +26,8 @@ export class SendMessageIntegration implements Integration {
       responseHelper,
     } = this.props;
 
-    const { options, resolveResource } = integrationHelper.generateIntegrationOptions();
+    const { options, resolveResource } =
+      integrationHelper.generateIntegrationOptions('queue');
     const resource: InitializedClass<QueueSendMessageIntegrationResponse> =
       new classResource();
     const integrationResponse = await resource[handler.name](
@@ -59,7 +60,7 @@ export class SendMessageIntegration implements Integration {
       integration.isDependent(async () => {
         const integrationResponse = await resource[handler.name](
           proxyHelper.createEvent(),
-          resolveResource
+          options
         );
         if (resolveResource.hasUnresolved()) {
           throw new Error(`unresolved dependencies in ${handler.name} integration`);

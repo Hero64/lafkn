@@ -23,7 +23,7 @@ describe('Lambda handler', () => {
       services: ['cloudwatch'],
     });
 
-    role.isGlobal('app');
+    role.isGlobal('app', `${ContextName.app}-global-role`);
   });
 
   it('should create a lambda function', () => {

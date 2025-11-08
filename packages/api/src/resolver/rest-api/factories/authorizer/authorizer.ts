@@ -213,7 +213,8 @@ export class AuthorizerFactory {
 
   private createCognitoAuthorizer({ metadata }: AuthorizerDataCognito) {
     const userPool = alicantoResource.getResource<CognitoUserPool>(
-      `auth-${metadata.userPool}`
+      'auth',
+      metadata.userPool
     );
 
     if (!userPool) {

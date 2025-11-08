@@ -19,7 +19,7 @@ export class Rule extends alicantoResource.make(CloudwatchEventRule) {
       eventPattern: Fn.jsonencode(Rule.getEvent(handler)),
     });
 
-    this.isGlobal(scope.id);
+    this.isGlobal(scope.id, id);
     this.addEventTarget(id);
   }
 

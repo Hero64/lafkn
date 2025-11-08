@@ -56,7 +56,7 @@ describe('State machine status integration', () => {
     ): StateMachineStatusIntegrationResponse {
       return {
         executionId: '1',
-        stateMachineArn: getResourceValue('state-machine::test', 'arn'),
+        stateMachineArn: getResourceValue('test', 'arn'),
       };
     }
 
@@ -121,7 +121,7 @@ describe('State machine status integration', () => {
       definition: '',
       roleArn: '',
     });
-    stateMachine.isGlobal('state-machine');
+    stateMachine.isGlobal('state-machine', 'test');
 
     await initializeMethod(
       restApi,

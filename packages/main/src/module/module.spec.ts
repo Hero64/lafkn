@@ -77,7 +77,10 @@ describe('Module', () => {
     });
 
     await module(stack, {});
-    const role = alicantoResource.getResource<Role>('module-testing-module-module-role');
+    const role = alicantoResource.getResource<Role>(
+      'module',
+      'testing-module-module-role'
+    );
 
     expect(role).toBeDefined();
     expect(role).toBeInstanceOf(Role);

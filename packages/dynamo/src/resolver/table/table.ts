@@ -50,7 +50,7 @@ export class Table extends alicantoResource.make(DynamodbTable) {
         : undefined,
     });
 
-    this.isGlobal('dynamo');
+    this.isGlobal('dynamo', modelProps.name);
 
     if (modelProps.stream?.enabled) {
       const defaultBus = new DataAwsCloudwatchEventBus(scope, 'DefaultBus', {

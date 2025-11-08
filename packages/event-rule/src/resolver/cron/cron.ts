@@ -16,7 +16,7 @@ export class Cron extends alicantoResource.make(CloudwatchEventRule) {
       scheduleExpression: Cron.buildScheduleExpression(handler.schedule),
     });
 
-    this.isGlobal(scope.id);
+    this.isGlobal(scope.id, id);
     this.addEventTarget(id);
   }
 

@@ -12,14 +12,8 @@ class AlicantoResource {
     }
 
     class Resource extends ExtendResource {
-      #id: string;
-
-      constructor(...props: any[]) {
-        super(...props);
-        this.#id = props[1];
-      }
-      isGlobal(module: string) {
-        self.globals[`${module}-${this.#id}`] = this;
+      isGlobal(module: string, id: string) {
+        self.globals[`${module}::${id}`] = this;
       }
 
       isDependent(resolveDependency: () => void) {
@@ -29,8 +23,8 @@ class AlicantoResource {
 
     return Resource;
   }
-  getResource<T = any>(id: string): T {
-    return this.globals[id] as T;
+  getResource<T = any>(module: string, id: string): T {
+    return this.globals[`${module}::${id}`] as T;
   }
 
   async callDependentCallbacks() {

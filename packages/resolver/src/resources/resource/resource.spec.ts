@@ -18,9 +18,9 @@ describe('Alicanto resource', () => {
 
     const bucket = new Bucket(stack, 'testing');
 
-    bucket.isGlobal('bucket');
+    bucket.isGlobal('bucket', 'testing');
 
-    const resourceBucket = alicantoResource.getResource('bucket-testing');
+    const resourceBucket = alicantoResource.getResource('bucket', 'testing');
 
     expect(bucket).toBe(resourceBucket);
   });

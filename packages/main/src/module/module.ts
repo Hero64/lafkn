@@ -55,7 +55,7 @@ export class StackModule extends Construct {
       services: this.props.globalConfig?.lambda?.services || [],
     });
 
-    lambdaRole.isGlobal('module');
+    lambdaRole.isGlobal('module', roleName);
   }
 
   private addAspectProperties() {

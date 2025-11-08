@@ -143,11 +143,13 @@ export class LambdaHandler extends alicantoResource.make(LambdaFunction) {
 
     if (!services) {
       const appRole = alicantoResource.getResource<Role>(
-        `app-${appContext.contextCreator}-global-role`
+        'app',
+        `${appContext.contextCreator}-global-role`
       );
 
       const moduleRole = alicantoResource.getResource<Role | undefined>(
-        `module-${moduleContext?.contextCreator}-module-role`
+        'module',
+        `${moduleContext?.contextCreator}-module-role`
       );
 
       return moduleRole?.arn || appRole.arn;

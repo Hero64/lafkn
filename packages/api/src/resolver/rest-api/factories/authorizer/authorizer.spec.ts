@@ -133,7 +133,7 @@ describe('authorizer factory', () => {
       name: 'testing-user-pool',
     });
 
-    userPool.isGlobal('auth');
+    userPool.isGlobal('auth', 'testing-user-pool');
 
     const properties = restApi.authorizerFactory.getAuthorizerProps({
       fullPath: '/',

@@ -15,7 +15,7 @@ export const setupTestingRestApi = (props: Omit<RestApiProps, 'name'> = {}) => {
   const AppStack = alicantoResource.make(TerraformStack);
 
   const stack = new AppStack(app, 'testing-stack');
-  stack.isGlobal('app');
+  stack.isGlobal('app', 'testing-stack');
 
   const restApi = new RestApi(stack, 'testing-api', {
     ...props,

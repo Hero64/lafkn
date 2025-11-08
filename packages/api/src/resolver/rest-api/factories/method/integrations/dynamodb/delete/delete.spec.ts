@@ -65,7 +65,7 @@ describe('Dynamo delete integration', () => {
         sortKey: {
           age: 30,
         },
-        tableName: getResourceValue('dynamo::test', 'id'),
+        tableName: getResourceValue('test', 'id'),
       };
     }
 
@@ -131,7 +131,7 @@ describe('Dynamo delete integration', () => {
     const table = new Table(stack, 'test', {
       name: 'test',
     });
-    table.isGlobal('dynamo');
+    table.isGlobal('dynamo', 'test');
 
     await initializeMethod(restApi, stack, DynamoIntegrationApi, 'deleteWithResource');
 

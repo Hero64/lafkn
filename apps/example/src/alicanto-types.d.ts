@@ -13,6 +13,10 @@ declare module '@alicanto/common' {
     };
   }
 
+  interface BucketAvailable {
+    'alicanto-example-documents': true;
+  }
+
   interface ApiRestAvailable {
     ExampleApi: boolean;
   }

@@ -51,7 +51,7 @@ describe('Queue send message integration', () => {
       @IntegrationOptions() { getResourceValue }: QueueIntegrationOption
     ): QueueSendMessageIntegrationResponse {
       return {
-        queueName: getResourceValue('queue::test', 'id'),
+        queueName: getResourceValue('test', 'id'),
       };
     }
 
@@ -116,7 +116,7 @@ describe('Queue send message integration', () => {
     const Queue = alicantoResource.make(SqsQueue);
 
     const queue = new Queue(stack, 'test');
-    queue.isGlobal('queue');
+    queue.isGlobal('queue', 'test');
 
     await initializeMethod(restApi, stack, TestingApi, 'sendMessageWithResource');
 

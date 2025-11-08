@@ -1,4 +1,10 @@
-import { Api, type BucketIntegrationResponse, Get } from '@alicanto/api/main';
+import {
+  Api,
+  type BucketIntegrationOption,
+  type BucketIntegrationResponse,
+  Get,
+  IntegrationOptions,
+} from '@alicanto/api/main';
 
 @Api({
   path: 'bucket',
@@ -8,10 +14,12 @@ export class BucketIntegration {
     integration: 'bucket',
     action: 'Download',
   })
-  get(): BucketIntegrationResponse {
+  get(
+    @IntegrationOptions() { getResourceValue }: BucketIntegrationOption
+  ): BucketIntegrationResponse {
     return {
-      bucket: 'algo',
-      object: 'nuevo.json',
+      bucket: getResourceValue('alicanto-example-documents', 'id'),
+      object: 'new.json',
     };
   }
 }

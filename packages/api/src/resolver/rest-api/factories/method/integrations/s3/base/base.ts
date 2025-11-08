@@ -39,7 +39,8 @@ export class BucketBaseIntegration implements Integration {
 
     const resource: InitializedClass<BucketIntegrationResponse> = new classResource();
 
-    const { options } = integrationHelper.generateIntegrationOptions();
+    const { options, resolveResource } =
+      integrationHelper.generateIntegrationOptions('bucket');
     const integrationResponse: BucketIntegrationResponse = await resource[handler.name](
       proxyHelper.createEvent(),
       options
@@ -54,7 +55,7 @@ export class BucketBaseIntegration implements Integration {
         restApiId: restApi.id,
         type: 'AWS',
         integrationHttpMethod: httpMethod,
-        uri: this.createUri(integrationResponse),
+        uri: this.getUri(integrationResponse),
         credentials: this.getRole().arn,
         requestParameters: this.createRequestParameters(integrationResponse),
         dependsOn: [apiGatewayMethod],
@@ -80,6 +81,20 @@ export class BucketBaseIntegration implements Integration {
       `${resourceMetadata.name}-${handler.name}`
     );
 
+    if (resolveResource.hasUnresolved()) {
+      integration.isDependent(async () => {
+        const integrationResponse = await resource[handler.name](
+          proxyHelper.createEvent(),
+          options
+        );
+        if (resolveResource.hasUnresolved()) {
+          throw new Error(`unresolved dependencies in ${handler.name} integration`);
+        }
+
+        integration.addOverride('uri', this.getUri(integrationResponse));
+      });
+    }
+
     return integration;
   }
 
@@ -91,7 +106,7 @@ export class BucketBaseIntegration implements Integration {
     return value;
   }
 
-  private createUri(response: BucketIntegrationResponse) {
+  private getUri(response: BucketIntegrationResponse) {
     return `arn:aws:apigateway:${this.props.restApi.region}:s3:path/${this.getPathParam('bucket', response.bucket)}/${this.getPathParam('object', response.object)}`;
   }
 

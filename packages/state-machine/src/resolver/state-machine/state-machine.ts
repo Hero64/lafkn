@@ -20,6 +20,6 @@ export class StateMachine extends alicantoResource.make(SfnStateMachine) {
       }),
     });
 
-    this.isGlobal(scope.id);
+    this.isGlobal(scope.id, id);
   }
 }

@@ -30,7 +30,7 @@ export class Queue extends alicantoResource.make(SqsQueue) {
       maxMessageSize: handler.maxMessageSizeBytes,
       delaySeconds: handler.deliveryDelay,
     });
-    this.isGlobal(scope.id);
+    this.isGlobal(scope.id, id);
     this.validateEventParams();
     this.addEventSource();
   }

@@ -1,28 +1,21 @@
 import { alicantoResource } from '../resources';
 
-export class ResolveResources<T = string> {
+export class ResolveResources {
   private unresolved: string[] = [];
 
-  public getResourceValue(value: T) {
+  public getResourceValue(module: string, id: string, type: string) {
     this.unresolved = [];
-    const resourceValues = String(value).split('::');
 
-    if (resourceValues.length !== 3) {
-      throw new Error(`value ${value} is not valid resource`);
-    }
-
-    const [scope, id, property] = resourceValues;
-
-    const resource = alicantoResource.getResource(`${scope}-${id}`);
+    const resource = alicantoResource.getResource(module, id);
 
     if (!resource) {
-      this.unresolved.push(`${scope}_${id}`);
+      this.unresolved.push(`${module}::${id}::${type}`);
       return '';
     }
 
-    const propertyValue = resource[property];
+    const propertyValue = resource[type];
     if (!propertyValue) {
-      throw new Error(`property ${property} in ${scope}::${id} not found`);
+      throw new Error(`property ${type} in ${module}::${id} not found`);
     }
 
     return propertyValue;

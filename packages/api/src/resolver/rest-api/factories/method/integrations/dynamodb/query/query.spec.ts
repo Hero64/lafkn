@@ -64,7 +64,7 @@ describe('Dynamo query integration', () => {
         partitionKey: {
           name: 'foo',
         },
-        tableName: getResourceValue('dynamo::test', 'id'),
+        tableName: getResourceValue('test', 'id'),
       };
     }
 
@@ -133,7 +133,7 @@ describe('Dynamo query integration', () => {
     const table = new Table(stack, 'test', {
       name: 'test',
     });
-    table.isGlobal('dynamo');
+    table.isGlobal('dynamo', 'test');
 
     await initializeMethod(restApi, stack, DynamoIntegrationApi, 'queryWithResource');
 
