@@ -102,14 +102,6 @@ export class NewGreetingEvent extends BaseEvent {
 }
 
 @Payload()
-export class S3DownloadEvent extends BaseEvent {
-  @Param({
-    source: 'path',
-  })
-  file: string;
-}
-
-@Payload()
 export class DynamoQueryEvent extends BaseEvent {
   @Param({
     source: 'path',
@@ -147,4 +139,12 @@ export class DynamoDeleteEvent extends DynamoQueryEvent {
     source: 'query',
   })
   name: string;
+}
+
+@Payload()
+export class S3UploadFileEvent {
+  @Param({
+    source: 'path',
+  })
+  fileName: string;
 }

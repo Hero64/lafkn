@@ -2,9 +2,12 @@ import {
   Api,
   type BucketIntegrationOption,
   type BucketIntegrationResponse,
+  Event,
   Get,
   IntegrationOptions,
+  Post,
 } from '@alicanto/api/main';
+import { S3UploadFileEvent } from './greeting.field';
 
 @Api({
   path: 'bucket',
@@ -20,6 +23,20 @@ export class BucketIntegration {
     return {
       bucket: getResourceValue('alicanto-example-documents', 'id'),
       object: 'new.json',
+    };
+  }
+
+  @Post({
+    integration: 'bucket',
+    action: 'Upload',
+  })
+  upload(
+    @Event(S3UploadFileEvent) e: S3UploadFileEvent,
+    @IntegrationOptions() { getResourceValue }: BucketIntegrationOption
+  ): BucketIntegrationResponse {
+    return {
+      bucket: getResourceValue('alicanto-example-documents', 'id'),
+      object: e.fileName,
     };
   }
 }
