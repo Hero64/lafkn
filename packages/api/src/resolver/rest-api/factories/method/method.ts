@@ -36,6 +36,8 @@ export class MethodFactory {
     const integrationHelper = new IntegrationHelper();
 
     const fullPath = this.cleanPath(`${resourceMetadata.path}/${handler.path}`) || '/';
+    paramHelper.validateParamsInPath(fullPath);
+
     const resourceId = this.scope.resourceFactory.getResource(fullPath);
     const validatorId = this.scope.validatorFactory.getValidator(
       requestHelper.getValidatorProperties()

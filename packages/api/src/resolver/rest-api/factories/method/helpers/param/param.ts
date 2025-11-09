@@ -66,6 +66,39 @@ export class ParamHelper {
     return this._paramsBySource;
   }
 
+  public validateParamsInPath(fullPath: string) {
+    const { path = [] } = this.paramsBySource;
+
+    const paramRegex = /\{([a-zA-Z0-9_-]+)([+*])?\}/g;
+    const foundParams = new Set<string>();
+    let match: RegExpExecArray | null;
+
+    while (true) {
+      match = paramRegex.exec(fullPath);
+      if (match === null) {
+        break;
+      }
+      foundParams.add(match[1]);
+    }
+
+    const pathParams = new Set(path.map((param) => param.name));
+
+    const missing = [...pathParams].filter((param) => !foundParams.has(param));
+    const extra = [...foundParams].filter((param) => !pathParams.has(param));
+
+    if (missing.length) {
+      throw new Error(
+        `there are parameters "${missing.join(', ')}" that do not exist in the path ${fullPath} , modify your URL or remove the payload parameters in the ${this.classResource.name} class`
+      );
+    }
+
+    if (extra.length) {
+      throw new Error(
+        `There are extra parameters "${extra.join(', ')}" in the "${fullPath}" url. Add path parameters to payload lass or remove them from the URL`
+      );
+    }
+  }
+
   private flattenedField(field: ApiParamMetadata, paths: string[] = []) {
     let eventPaths: Record<string, ApiParamMetadata> = {};
 
