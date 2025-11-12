@@ -8,14 +8,20 @@ import type {
 } from '@alicanto/common';
 import type {
   DynamoIndex,
-  DynamoModelProps,
   FieldsMetadata,
   ModelPartition,
+  ModelPayPerRequest,
+  ModelProvisioned,
   PrimaryPartition,
 } from '../../main/model';
 
-export interface ModelMetadata<T extends Function>
-  extends Required<DynamoModelProps<T>> {}
+interface RequiredName {
+  name: string;
+}
+
+export type ModelMetadata<T extends Function> =
+  | (ModelProvisioned<T> & RequiredName)
+  | (ModelPayPerRequest<T> & RequiredName);
 
 export type OperationExpression<E> = OnlyOne<{
   lessThan: E;

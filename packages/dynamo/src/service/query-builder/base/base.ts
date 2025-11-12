@@ -46,7 +46,7 @@ export class QueryBuilderBase<E extends ClassResource> {
 
     const { indexes } = this.options.modelProps;
 
-    const selectedIndex = indexes.find((index) => {
+    const selectedIndex = (indexes || []).find((index) => {
       if (index.type === 'local') {
         return (
           selectedPartitionKey === this.options.partitionKey &&

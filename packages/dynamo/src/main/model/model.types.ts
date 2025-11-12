@@ -30,6 +30,11 @@ export interface GlobalIndex<T extends Function> extends IndexBase<T> {
   sortKey?: keyof OnlyNumberString<T['prototype']>;
 }
 
+export interface ReadWriteCapacity {
+  readCapacity: number;
+  writeCapacity: number;
+}
+
 export type DynamoIndex<T extends Function> = LocalIndex<T> | GlobalIndex<T>;
 
 export type StreamTypes = 'NEW_IMAGE' | 'OLD_IMAGE' | 'NEW_AND_OLD_IMAGES' | 'KEYS_ONLY';
@@ -124,7 +129,7 @@ export interface DynamoStream<T> {
   filters?: FilterCriteria<T>;
 }
 
-export interface DynamoModelProps<T extends Function> {
+export interface ModelBase<T extends Function> {
   /**
    * Table name.
    *
@@ -132,14 +137,6 @@ export interface DynamoModelProps<T extends Function> {
    * If not specified, the name of the decorated class will be used.
    */
   name?: DynamoTableNames;
-  /**
-   * Table indexes.
-   *
-   * Defines the secondary indexes to apply on the DynamoDB table.
-   * These indexes can be used to optimize query patterns or support
-   * additional access patterns.
-   */
-  indexes?: DynamoIndex<T>[];
   /**
    * Enable X-Ray tracing.
    *
@@ -175,6 +172,36 @@ export interface DynamoModelProps<T extends Function> {
    */
   ttl?: keyof OnlyNumber<T['prototype']>;
 }
+
+export interface ModelProvisioned<T extends Function>
+  extends ModelBase<T>,
+    ReadWriteCapacity {
+  billingMode: 'provisioned';
+  /**
+   * Table indexes.
+   *
+   * Defines the secondary indexes to apply on the DynamoDB table.
+   * These indexes can be used to optimize query patterns or support
+   * additional access patterns.
+   */
+  indexes?: (LocalIndex<T> | (GlobalIndex<T> & ReadWriteCapacity))[];
+}
+
+export interface ModelPayPerRequest<T extends Function> extends ModelBase<T> {
+  billingMode?: 'pay_per_request';
+  /**
+   * Table indexes.
+   *
+   * Defines the secondary indexes to apply on the DynamoDB table.
+   * These indexes can be used to optimize query patterns or support
+   * additional access patterns.
+   */
+  indexes?: DynamoIndex<T>[];
+}
+
+export type DynamoModelProps<T extends Function> =
+  | ModelProvisioned<T>
+  | ModelPayPerRequest<T>;
 
 export interface FieldProps {
   type?:

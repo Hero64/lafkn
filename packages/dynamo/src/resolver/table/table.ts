@@ -10,8 +10,13 @@ import {
 } from '@cdktf/provider-aws/lib/dynamodb-table';
 import { PipesPipe } from '@cdktf/provider-aws/lib/pipes-pipe';
 import type { Construct } from 'constructs';
-import type { DynamoIndex, DynamoStream, FieldsMetadata } from '../../main';
-import { getModelInformation } from '../../service';
+import type {
+  DynamoIndex,
+  DynamoStream,
+  FieldsMetadata,
+  ReadWriteCapacity,
+} from '../../main';
+import { getModelInformation, type ModelMetadata } from '../../service';
 import type { TableProps } from './table.types';
 
 const mapFieldType: Partial<Record<FieldTypes, string>> = {
@@ -48,6 +53,7 @@ export class Table extends alicantoResource.make(DynamodbTable) {
             enabled: true,
           }
         : undefined,
+      ...Table.getBillingModeProps(modelProps),
     });
 
     this.isGlobal('dynamo', modelProps.name);
@@ -128,7 +134,25 @@ export class Table extends alicantoResource.make(DynamodbTable) {
     return attributes;
   }
 
-  private static getIndexes(indexes: DynamoIndex<any>[] = []) {
+  private static getBillingModeProps(model: ModelMetadata<any>) {
+    if (model.billingMode === 'provisioned') {
+      return {
+        billingModel: 'PROVISIONED',
+        readCapacity: model.readCapacity,
+        writeCapacity: model.writeCapacity,
+      };
+    }
+
+    if (model.billingMode === undefined || model.billingMode === 'pay_per_request') {
+      return {
+        billingMode: 'PAY_PER_REQUEST',
+      };
+    }
+  }
+
+  private static getIndexes(
+    indexes: (DynamoIndex<any> & Partial<ReadWriteCapacity>)[] = []
+  ) {
     if (indexes.length === 0) {
       return {};
     }
@@ -158,6 +182,8 @@ export class Table extends alicantoResource.make(DynamodbTable) {
         rangeKey: index.sortKey ? index.sortKey.toString() : undefined,
         projectionType,
         nonKeyAttributes,
+        readCapacity: index.readCapacity,
+        writeCapacity: index.writeCapacity,
       });
     }
 
