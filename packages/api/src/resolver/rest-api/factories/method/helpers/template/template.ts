@@ -83,8 +83,7 @@ export class TemplateHelper {
     }
 
     if (field.type === 'String') {
-      const quoteTypeValue = field.source === 'body' ? '' : quoteType;
-      const template = `${quoteTypeValue}${value}${quoteTypeValue}`;
+      const template = `${quoteType}${value}${quoteType}`;
       return valueParser(field.directTemplateValue || template, field.type);
     }
 

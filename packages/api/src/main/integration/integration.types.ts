@@ -26,8 +26,7 @@ export interface StateMachineStartIntegrationResponse<T = any> {
 }
 
 export interface StateMachineStatusIntegrationResponse {
-  stateMachineArn: string;
-  executionId: string;
+  executionArn: string;
 }
 
 export interface StateMachineStopIntegrationResponse

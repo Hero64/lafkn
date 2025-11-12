@@ -187,7 +187,7 @@ describe('Api Method', () => {
       passthrough_behavior: 'WHEN_NO_TEMPLATES',
       request_templates: {
         'application/json':
-          '{"TableName": "test","KeyConditionExpression": "name = :partitionKey","ExpressionAttributeValues": { #set($comma = "") $comma":partitionKey": { "S": "test" } #set($comma = ",") }}',
+          '{"TableName": "test","KeyConditionExpression": "#name = :partitionKey","ExpressionAttributeValues": { #set($comma = "") $comma":partitionKey": { "S": "test" } #set($comma = ",") },"ExpressionAttributeNames": { #set($comma = "") $comma"#name": "name" #set($comma = ",") }}',
       },
       type: 'AWS',
       uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:dynamodb:action/Query',

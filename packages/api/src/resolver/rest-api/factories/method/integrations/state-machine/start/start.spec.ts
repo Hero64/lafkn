@@ -74,7 +74,7 @@ describe('State machine start integration', () => {
         input: {
           name: 'test',
         },
-        stateMachineArn: getResourceValue('test', 'arn'),
+        stateMachineArn: getResourceValue('testing::test', 'arn'),
       };
     }
 
@@ -121,8 +121,7 @@ describe('State machine start integration', () => {
 
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegrationResponse, {
       response_templates: {
-        'application/json':
-          '#set($startDate = $input.path(\'$.startDate\')) #set($executionArn = $input.path(\'$.executionArn\')) #set($executionId = $executionArn.split(\':\')[6]) #set($id = $executionId.split(\'/\')[1]) { "startDate": "$startDate", "executionId": "$id" }',
+        'application/json': "$input.json('$')",
       },
       status_code: '201',
     });
@@ -162,7 +161,7 @@ describe('State machine start integration', () => {
       definition: '',
       roleArn: '',
     });
-    stateMachine.isGlobal('state-machine', 'test');
+    stateMachine.isGlobal('testing', 'test');
 
     await initializeMethod(
       restApi,
@@ -171,6 +170,7 @@ describe('State machine start integration', () => {
       'startWithResource'
     );
 
+    await alicantoResource.callDependentCallbacks();
     const synthesized = Testing.synth(stack);
 
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegration, {
@@ -195,7 +195,7 @@ describe('State machine start integration', () => {
       type: 'AWS',
       request_templates: {
         'application/json':
-          '{"input": "{ \\"foo\\": $util.escapeJavaScript($input.json(\'$.foo\')),\\"ids\\": [#foreach($item0 in $input.json(\'$.ids\')) $item0 #if($foreach.hasNext),#end #end] }","stateMachineArn": "$input.params().path.get(\'name\')"}',
+          '{"input": "{ \\"foo\\": \\"$util.escapeJavaScript($input.path(\'$.foo\'))\\",\\"ids\\": [#foreach($item0 in $input.path(\'$.ids\')) $item0 #if($foreach.hasNext),#end #end] }","stateMachineArn": "$input.params().path.get(\'name\')"}',
       },
     });
   });

@@ -1,4 +1,3 @@
-import { cleanTemplateString } from '@alicanto/common';
 import type { StateMachineStartIntegrationResponse } from '../../../../../../../main';
 import type { Integration, IntegrationProps } from '../../integration.types';
 import { StateMachineBaseIntegration } from '../base/base';
@@ -42,19 +41,12 @@ export class StartIntegration
           },
           validation: {},
         },
-        template: cleanTemplateString(`#set($startDate = $input.path('$.startDate'))
-          #set($executionArn = $input.path('$.executionArn'))
-          #set($executionId = $executionArn.split(':')[6])
-          #set($id = $executionId.split('/')[1])
-          {
-            "startDate": "$startDate",
-            "executionId": "$id"
-          }`),
+        template: "$input.json('$')",
       },
       createTemplate: (integrationResponse) => {
         const { templateHelper, proxyHelper, paramHelper } = props;
         const input = templateHelper.generateTemplateByObject({
-          value: integrationResponse.input,
+          value: integrationResponse.input || {},
           quoteType: '\\"',
           resolveValue: (value) =>
             proxyHelper.resolveProxyValue(value, paramHelper.pathParams),
@@ -69,7 +61,7 @@ export class StartIntegration
             valueParser: (value, fieldType) => {
               const template =
                 fieldType === 'String' ? value.replaceAll('\\"', '') : value;
-              return props.templateHelper.scapeJavascriptValue(template, fieldType);
+              return `\\"${props.templateHelper.scapeJavascriptValue(template, fieldType)}\\"`;
             },
           },
         });

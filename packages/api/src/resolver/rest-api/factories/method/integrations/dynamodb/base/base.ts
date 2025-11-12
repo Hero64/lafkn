@@ -107,7 +107,7 @@ export class DynamoBaseIntegration<T> implements Integration {
     return [
       {
         statusCode: statusCode.toString(),
-        template: `$input.json('$')`,
+        template: "$input.json('$')",
       },
       responseHelper.getPatternResponse('400'),
       responseHelper.getPatternResponse('500'),

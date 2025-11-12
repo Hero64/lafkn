@@ -100,7 +100,7 @@ describe('Dynamo query integration', () => {
       type: 'AWS',
       request_templates: {
         'application/json':
-          '{"TableName": "test","KeyConditionExpression": "name = :partitionKey && age = :sortKey","ExpressionAttributeValues": { #set($comma = "") $comma":partitionKey": { "S": "foo" } #set($comma = ",")$comma":sortKey": { "N": "10" } #set($comma = ",") }}',
+          '{"TableName": "test","KeyConditionExpression": "#name = :partitionKey and #age = :sortKey","ExpressionAttributeValues": { #set($comma = "") $comma":partitionKey": { "S": "foo" } #set($comma = ",")$comma":sortKey": { "N": "10" } #set($comma = ",") },"ExpressionAttributeNames": { #set($comma = "") $comma"#name": "name" #set($comma = ",")$comma"#age": "age" #set($comma = ",") }}',
       },
       uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:dynamodb:action/Query',
     });
@@ -157,7 +157,7 @@ describe('Dynamo query integration', () => {
       type: 'AWS',
       request_templates: {
         'application/json':
-          '{"TableName": "${aws_dynamodb_table.test.id}","KeyConditionExpression": "name = :partitionKey","ExpressionAttributeValues": { #set($comma = "") $comma":partitionKey": { "S": "foo" } #set($comma = ",") }}',
+          '{"TableName": "${aws_dynamodb_table.test.id}","KeyConditionExpression": "#name = :partitionKey","ExpressionAttributeValues": { #set($comma = "") $comma":partitionKey": { "S": "foo" } #set($comma = ",") },"ExpressionAttributeNames": { #set($comma = "") $comma"#name": "name" #set($comma = ",") }}',
       },
     });
   });
@@ -174,7 +174,7 @@ describe('Dynamo query integration', () => {
       type: 'AWS',
       request_templates: {
         'application/json':
-          '{"TableName": "test","KeyConditionExpression": "name = :partitionKey && age = :sortKey","ExpressionAttributeValues": { #set($comma = "") $comma":partitionKey": { "S": $input.json(\'$.id\') } #set($comma = ",")$comma":sortKey": { "N": "$input.json(\'$.age\')" } #set($comma = ",") }}',
+          '{"TableName": "test","KeyConditionExpression": "#name = :partitionKey and #age = :sortKey","ExpressionAttributeValues": { #set($comma = "") $comma":partitionKey": { "S": "$input.params().path.get(\'id\')" } #set($comma = ",")$comma":sortKey": { "N": "$input.params(\'age\')" } #set($comma = ",") },"ExpressionAttributeNames": { #set($comma = "") $comma"#name": "name" #set($comma = ",")$comma"#age": "age" #set($comma = ",") }}',
       },
     });
   });

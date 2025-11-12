@@ -33,13 +33,18 @@ export class IntegrationHelper {
     return serviceRole;
   }
 
-  public generateIntegrationOptions(module: string): IntegrationOption {
+  public generateIntegrationOptions(module?: string): IntegrationOption {
     const resolveResource = new ResolveResources();
 
     return {
       options: {
         getResourceValue(value, type) {
-          return resolveResource.getResourceValue(module, value, type);
+          if (module) {
+            return resolveResource.getResourceValue(module, value, type);
+          }
+
+          const [internModule, resourceValue] = value.split('::');
+          return resolveResource.getResourceValue(internModule, resourceValue, type);
         },
         getCurrentDate() {
           return '$context.requestTimeEpoch';

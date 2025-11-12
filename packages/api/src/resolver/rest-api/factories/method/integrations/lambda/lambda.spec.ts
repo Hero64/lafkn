@@ -128,7 +128,7 @@ describe('lambda integration', () => {
       type: 'AWS',
       request_templates: {
         'application/json':
-          '{ #set($comma = "") $comma"name": $input.json(\'$.name\') #set($comma = ",")$comma"age": $input.json(\'$.age\') #set($comma = ",") }',
+          '{ #set($comma = "") $comma"name": "$input.path(\'$.name\')" #set($comma = ",")$comma"age": $input.path(\'$.age\') #set($comma = ",") }',
       },
       uri: 'invokeArn',
     });

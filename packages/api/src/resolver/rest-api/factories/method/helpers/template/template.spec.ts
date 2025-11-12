@@ -23,7 +23,7 @@ describe('TemplateHelper', () => {
           currentValue: 'username',
         } as any);
 
-        expect(result).toBe("$input.json('$.username')");
+        expect(result).toBe('"$input.path(\'$.username\')"');
       });
 
       it('should generate template for string field from path source with quotes', () => {
@@ -126,7 +126,7 @@ describe('TemplateHelper', () => {
           currentValue: 'age',
         } as any);
 
-        expect(result).toBe("$input.json('$.age')");
+        expect(result).toBe("$input.path('$.age')");
       });
 
       it('should generate template for boolean field', () => {
@@ -143,7 +143,7 @@ describe('TemplateHelper', () => {
           currentValue: 'active',
         } as any);
 
-        expect(result).toBe("$input.json('$.active')");
+        expect(result).toBe("$input.path('$.active')");
       });
     });
 
@@ -172,7 +172,7 @@ describe('TemplateHelper', () => {
         } as any);
 
         expect(result).toContain('{ #set($comma = "")');
-        expect(result).toContain('"name": $input.json(\'$.user.name\')');
+        expect(result).toContain('"name": "$input.path(\'$.user.name\')"');
         expect(result).toContain('#set($comma = ",")');
         expect(result).toContain('}');
       });
@@ -216,7 +216,7 @@ describe('TemplateHelper', () => {
         } as any);
 
         expect(result).toBe(
-          "[#foreach($item0 in $input.json('$.tags')) $item0 #if($foreach.hasNext),#end #end]"
+          "[#foreach($item0 in $input.path('$.tags')) $item0 #if($foreach.hasNext),#end #end]"
         );
       });
 
@@ -250,9 +250,9 @@ describe('TemplateHelper', () => {
           currentValue: 'users',
         } as any);
 
-        expect(result).toContain("[#foreach($item0 in $input.json('$.users'))");
+        expect(result).toContain("[#foreach($item0 in $input.path('$.users'))");
         expect(result).toContain('{ #set($comma = "")');
-        expect(result).toContain('"name": $item0.name');
+        expect(result).toContain('"name": "$item0.name"');
         expect(result).toContain('#if($foreach.hasNext),#end #end]');
       });
     });
@@ -275,8 +275,8 @@ describe('TemplateHelper', () => {
           valueParser,
         } as any);
 
-        expect(valueParser).toHaveBeenCalledWith("$input.json('$.test')", 'String');
-        expect(result).toBe("PARSED($input.json('$.test'))");
+        expect(valueParser).toHaveBeenCalledWith('"$input.path(\'$.test\')"', 'String');
+        expect(result).toBe('PARSED("$input.path(\'$.test\')")');
       });
     });
   });
@@ -317,7 +317,7 @@ describe('TemplateHelper', () => {
         true
       );
 
-      expect(result).toBe("#if($input.json('$.test')) TEMPLATE_CONTENT #end");
+      expect(result).toBe("#if($input.path('$.test')) TEMPLATE_CONTENT #end");
     });
 
     it('should handle multiple arguments with AND conditions', () => {
@@ -337,7 +337,7 @@ describe('TemplateHelper', () => {
       );
 
       expect(result).toBe(
-        "#if($input.json('$.arg1') && $input.json('$.arg2') && $input.json('$.arg3')) TEMPLATE_CONTENT #end"
+        "#if($input.path('$.arg1') && $input.path('$.arg2') && $input.path('$.arg3')) TEMPLATE_CONTENT #end"
       );
     });
 
@@ -358,7 +358,7 @@ describe('TemplateHelper', () => {
       );
 
       expect(result).toBe(
-        "#if($input.json('$.items') && $input.json('$.items').size() > 0) TEMPLATE_CONTENT #end"
+        "#if($input.path('$.items') && $input.path('$.items').size() > 0) TEMPLATE_CONTENT #end"
       );
     });
 
@@ -415,7 +415,7 @@ describe('TemplateHelper', () => {
         true
       );
 
-      expect(result).toBe("#if($input.json('$.test')) TEMPLATE_CONTENT #end");
+      expect(result).toBe("#if($input.path('$.test')) TEMPLATE_CONTENT #end");
     });
   });
 });

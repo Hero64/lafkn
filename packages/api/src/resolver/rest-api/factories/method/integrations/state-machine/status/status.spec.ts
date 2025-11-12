@@ -43,8 +43,7 @@ describe('State machine status integration', () => {
     })
     status(): StateMachineStatusIntegrationResponse {
       return {
-        executionId: '1',
-        stateMachineArn: 'arn',
+        executionArn: 'arn',
       };
     }
 
@@ -57,8 +56,7 @@ describe('State machine status integration', () => {
       @IntegrationOptions() { getResourceValue }: StateMachineIntegrationOption
     ): StateMachineStatusIntegrationResponse {
       return {
-        executionId: '1',
-        stateMachineArn: getResourceValue('test', 'arn'),
+        executionArn: getResourceValue('state-machine::test', 'arn'),
       };
     }
 
@@ -69,8 +67,7 @@ describe('State machine status integration', () => {
     })
     statusEvent(@Event(Status) e: Status): StateMachineStatusIntegrationResponse {
       return {
-        executionId: e.id,
-        stateMachineArn: 'arn',
+        executionArn: e.id,
       };
     }
   }
@@ -86,7 +83,7 @@ describe('State machine status integration', () => {
       passthrough_behavior: 'WHEN_NO_TEMPLATES',
       type: 'AWS',
       request_templates: {
-        'application/json': '{ "executionArn": "arn:1" }',
+        'application/json': '{ "executionArn": "arn" }',
       },
       uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:states:action/DescribeExecution',
     });
@@ -97,7 +94,7 @@ describe('State machine status integration', () => {
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegrationResponse, {
       response_templates: {
         'application/json':
-          '#set($status = $input.json(\'status\')) { "status": "$status" }',
+          '#set($status = $input.json(\'status\')) { "status": $status }',
       },
       status_code: '200',
     });
@@ -146,13 +143,14 @@ describe('State machine status integration', () => {
       'statusWithResource'
     );
 
+    await alicantoResource.callDependentCallbacks();
     const synthesized = Testing.synth(stack);
 
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegration, {
       integration_http_method: 'POST',
       type: 'AWS',
       request_templates: {
-        'application/json': '{ "executionArn": "${aws_sfn_state_machine.test.arn}:1" }',
+        'application/json': '{ "executionArn": "${aws_sfn_state_machine.test.arn}" }',
       },
     });
   });
@@ -168,7 +166,7 @@ describe('State machine status integration', () => {
       integration_http_method: 'POST',
       type: 'AWS',
       request_templates: {
-        'application/json': '{ "executionArn": "arn:$input.params().path.get(\'id\')" }',
+        'application/json': '{ "executionArn": "$input.params().path.get(\'id\')" }',
       },
     });
   });

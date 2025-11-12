@@ -52,8 +52,10 @@ export class StateMachineBaseIntegration<T> implements Integration {
           throw new Error(`unresolved dependencies in ${handler.name} integration`);
         }
 
+        console.log(createTemplate(integrationResponse));
+
         integration.addOverride(
-          'requestTemplates.application/json',
+          'request_templates.application/json',
           createTemplate(integrationResponse)
         );
       });
@@ -73,8 +75,7 @@ export class StateMachineBaseIntegration<T> implements Integration {
     const { classResource, handler, proxyHelper, integrationHelper } = this.props;
 
     const resource: InitializedClass<R> = new classResource();
-    const { options, resolveResource } =
-      integrationHelper.generateIntegrationOptions('state-machine');
+    const { options, resolveResource } = integrationHelper.generateIntegrationOptions();
     const integrationResponse = await resource[handler.name](
       proxyHelper.createEvent(),
       options

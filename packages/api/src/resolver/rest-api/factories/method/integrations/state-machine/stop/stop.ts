@@ -14,12 +14,8 @@ export class StopIntegration
         .arn,
       successResponse: {},
       createTemplate: (integrationResponse) => {
-        const stateMachine = this.getResponseValue(
-          integrationResponse.stateMachineArn,
-          ''
-        );
-        const executionId = this.getResponseValue(integrationResponse.executionId, '');
-        return `{ "executionArn": "${stateMachine}:${executionId}" }`;
+        const executionArn = this.getResponseValue(integrationResponse.executionArn, '');
+        return `{ "executionArn": "${executionArn}" }`;
       },
     });
   }

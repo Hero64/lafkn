@@ -33,15 +33,11 @@ export class StatusIntegration
           },
           validation: {},
         },
-        template: `#set($status = $input.json('status')) { "status": "$status" }`,
+        template: `#set($status = $input.json('status')) { "status": $status }`,
       },
       createTemplate: (integrationResponse) => {
-        const stateMachine = this.getResponseValue(
-          integrationResponse.stateMachineArn,
-          ''
-        );
-        const executionId = this.getResponseValue(integrationResponse.executionId, '');
-        return `{ "executionArn": "${stateMachine}:${executionId}" }`;
+        const executionArn = this.getResponseValue(integrationResponse.executionArn, '');
+        return `{ "executionArn": "${executionArn}" }`;
       },
     });
   }
