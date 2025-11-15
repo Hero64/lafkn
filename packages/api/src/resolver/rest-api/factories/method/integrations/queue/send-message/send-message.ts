@@ -1,3 +1,4 @@
+import { DataAwsCallerIdentity } from '@cdktf/provider-aws/lib/data-aws-caller-identity';
 import {
   type ApiParamMetadata,
   Method,
@@ -26,8 +27,7 @@ export class SendMessageIntegration implements Integration {
       responseHelper,
     } = this.props;
 
-    const { options, resolveResource } =
-      integrationHelper.generateIntegrationOptions('queue');
+    const { options, resolveResource } = integrationHelper.generateIntegrationOptions();
     const resource: InitializedClass<QueueSendMessageIntegrationResponse> =
       new classResource();
     const integrationResponse = await resource[handler.name](
@@ -47,6 +47,10 @@ export class SendMessageIntegration implements Integration {
         uri: resolveResource.hasUnresolved() ? '' : this.getUri(integrationResponse),
         credentials: integrationHelper.createRole('sqs.write', restApi).arn,
         passthroughBehavior: 'WHEN_NO_TEMPLATES',
+        requestParameters: {
+          'integration.request.header.Content-Type':
+            "'application/x-www-form-urlencoded'",
+        },
         dependsOn: [apiGatewayMethod],
         requestTemplates: {
           'application/json': resolveResource.hasUnresolved()
@@ -68,7 +72,7 @@ export class SendMessageIntegration implements Integration {
 
         integration.addOverride('uri', this.getUri(integrationResponse));
         integration.addOverride(
-          'requestTemplates.application/json',
+          'request_templates.application/json',
           this.createTemplate(integrationResponse)
         );
       });
@@ -91,14 +95,20 @@ export class SendMessageIntegration implements Integration {
   }
 
   private getUri(integrationResponse: QueueSendMessageIntegrationResponse) {
-    const { restApi } = this.props;
+    const { restApi, scope, resourceMetadata, handler } = this.props;
 
     const queueName = this.getFieldAndParseTemplate(
       integrationResponse.queueName,
       false
     ).template;
 
-    return `arn:aws:apigateway:${restApi.region}:sqs:path/${queueName}`;
+    const identity = new DataAwsCallerIdentity(
+      scope,
+      `${resourceMetadata.name}-${handler.name}-identity`
+    );
+    const accountId = identity.accountId;
+
+    return `arn:aws:apigateway:${restApi.region}:sqs:path/${accountId}/${queueName}`;
   }
 
   private resolveBody = (value: any) => {
@@ -129,7 +139,9 @@ export class SendMessageIntegration implements Integration {
       throw new Error('Body message only support single body event parameter');
     }
 
-    return `&MessageBody=$util.urlEncode($input.json('$.${bodyResolver.path}'))`;
+    console.log(bodyResolver.path);
+
+    return `&MessageBody={"${bodyResolver.path}":$util.urlEncode($input.json('$.${bodyResolver.path}'))}`;
   };
 
   private getFieldAndParseTemplate = (fieldValue: any, encode = true) => {

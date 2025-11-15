@@ -7,7 +7,7 @@ import {
   type ResourceMetadata,
   ResourceReflectKeys,
 } from '@alicanto/common';
-
+import { Event, Field, Param, Payload } from '../event';
 import { Fifo, Queue, RESOURCE_TYPE, Standard } from './queue';
 import type { QueueLambdaMetadata } from './queue.types';
 
@@ -99,6 +99,67 @@ describe('Queue Decorator', () => {
 
     it('Should contain standard options', () => {
       expect(handlers[0].isFifo).toBeFalsy();
+    });
+  });
+
+  describe('Queue execution', () => {
+    // enableBuildEnvVariable();
+
+    @Payload()
+    class Body {
+      @Field()
+      foo: string;
+
+      @Field()
+      bar: number;
+    }
+
+    @Payload()
+    class EventPayload {
+      @Param({
+        source: 'attribute',
+      })
+      name: string;
+
+      @Param({
+        source: 'body',
+        parse: true,
+        type: Body,
+      })
+      body: Body;
+    }
+
+    @Queue()
+    class TestQueue {
+      @Fifo({
+        deliveryDelay: 1000,
+        contentBasedDeduplication: true,
+      })
+      testWithEvent(@Event(EventPayload) e: EventPayload) {
+        return e;
+      }
+    }
+    const testQueue = new TestQueue();
+
+    it('should pass event to callback', async () => {
+      const event = {
+        Records: [
+          {
+            body: JSON.stringify({ body: { foo: 'test', bar: 1 } }),
+            messageId: '1',
+            messageAttributes: {
+              name: {
+                stringValue: 'aaa',
+                dataType: 'String',
+              },
+            },
+          },
+        ],
+      } as unknown as any;
+
+      const response = await (testQueue as any).testWithEvent(event);
+
+      expect(response).toStrictEqual([{ name: 'aaa', body: { foo: 'test', bar: 1 } }]);
     });
   });
 });

@@ -53,7 +53,7 @@ describe('Queue send message integration', () => {
       @IntegrationOptions() { getResourceValue }: QueueIntegrationOption
     ): QueueSendMessageIntegrationResponse {
       return {
-        queueName: getResourceValue('test', 'id'),
+        queueName: getResourceValue('testing::test', 'id'),
       };
     }
 
@@ -86,7 +86,7 @@ describe('Queue send message integration', () => {
         'application/json': 'Action=SendMessage',
       },
       type: 'AWS',
-      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:sqs:path/queue',
+      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:sqs:path/${data.aws_caller_identity.TestingApi-sendMessage-identity.account_id}/queue',
     });
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayMethodResponse, {
       status_code: '200',
@@ -128,7 +128,7 @@ describe('Queue send message integration', () => {
     const Queue = alicantoResource.make(SqsQueue);
 
     const queue = new Queue(stack, 'test');
-    queue.isGlobal('queue', 'test');
+    queue.isGlobal('testing', 'test');
 
     await initializeMethod(restApi, stack, TestingApi, 'sendMessageWithResource');
 
@@ -141,7 +141,7 @@ describe('Queue send message integration', () => {
         'application/json': 'Action=SendMessage',
       },
       type: 'AWS',
-      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:sqs:path/${aws_sqs_queue.test.id}',
+      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:sqs:path/${data.aws_caller_identity.TestingApi-sendMessageWithResource-identity.account_id}/${aws_sqs_queue.test.id}',
     });
   });
 
@@ -155,13 +155,15 @@ describe('Queue send message integration', () => {
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegration, {
       integration_http_method: 'POST',
       passthrough_behavior: 'WHEN_NO_TEMPLATES',
+      request_parameters: {
+        'integration.request.header.Content-Type': "'application/x-www-form-urlencoded'",
+      },
       request_templates: {
         'application/json':
           "Action=SendMessage&MessageAttribute.1.Name=attr&MessageAttribute.1.Value.StringValue=$util.urlEncode($input.params('attribute1'))&MessageAttribute.1.Value.DataType=String",
       },
-
       type: 'AWS',
-      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:sqs:path/test',
+      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:sqs:path/${data.aws_caller_identity.TestingApi-sendMessageWithEvent-identity.account_id}/test',
     });
   });
 });

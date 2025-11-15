@@ -67,7 +67,8 @@ export type SQSPermissions =
   | 'GetQueueUrl'
   | 'ReceiveMessage'
   | 'ReceiveMessage'
-  | 'SendMessage';
+  | 'SendMessage'
+  | 'GetQueueAttributes';
 
 export type StateMachinePermissions =
   | 'InvokeHTTPEndpoint'

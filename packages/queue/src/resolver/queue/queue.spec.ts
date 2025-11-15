@@ -63,6 +63,7 @@ describe('Queue', () => {
     new QueueResolver(module, 'fifo', {
       handler: {
         name: 'fifo',
+        queueName: 'fifo',
         isFifo: true,
       },
       resourceMetadata: {
@@ -107,6 +108,7 @@ describe('Queue', () => {
       handler: {
         name: 'standard',
         isFifo: false,
+        queueName: 'standard',
       },
       resourceMetadata: {
         filename: 'test.js',
@@ -151,6 +153,7 @@ describe('Queue', () => {
         handler: {
           name: 'paramTypeError',
           isFifo: false,
+          queueName: 'standard',
         },
         resourceMetadata: {
           filename: 'test.js',
@@ -172,6 +175,7 @@ describe('Queue', () => {
         handler: {
           name: 'bodyError',
           isFifo: false,
+          queueName: 'standard',
         },
         resourceMetadata: {
           filename: 'test.js',

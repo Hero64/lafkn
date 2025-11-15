@@ -3,6 +3,7 @@ import { isBuildEnvironment } from '../../utils';
 import { type AllowedTypes, getEventFields } from '../field';
 import {
   type CallbackParam,
+  type CreateEventDecoratorProps,
   type CreateLambdaDecoratorProps,
   type LambdaArguments,
   type LambdaArgumentsType,
@@ -91,12 +92,12 @@ const reflectEventMetadata = (
 };
 
 export const createEventDecorator =
-  () =>
+  ({ enableInLambdaInvocation = false }: CreateEventDecoratorProps = {}) =>
   (eventField: AllowedTypes) =>
   (target: any, methodName: string, _number: number) => {
     reflectArgumentMethod(target, methodName, LambdaArgumentTypes.event);
 
-    if (!isBuildEnvironment() || !eventField) {
+    if (!eventField || (!enableInLambdaInvocation && !isBuildEnvironment())) {
       return;
     }
 

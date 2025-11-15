@@ -4,7 +4,7 @@ import type {
   GetResourceValue,
   OnlyNumberString,
   OnlyOne,
-  QueueNames,
+  QueueScopedNames,
   StateMachineScopedNames,
 } from '@alicanto/common';
 
@@ -17,9 +17,14 @@ export interface BucketIntegrationResponse {
   bucket: string;
   object: string;
 }
-
+/**
+ * Bucket
+ */
 export type BucketIntegrationOption = IntegrationOptionBase<BucketNames>;
 
+/**
+ * State Machine
+ */
 export interface StateMachineStartIntegrationResponse<T = any> {
   stateMachineArn: string;
   input: T;
@@ -35,6 +40,9 @@ export interface StateMachineStopIntegrationResponse
 export type StateMachineIntegrationOption =
   IntegrationOptionBase<StateMachineScopedNames>;
 
+/**
+ * Dynamo DB
+ */
 export type DynamoIntegrationOption = IntegrationOptionBase<DynamoTableScopedNames>;
 
 interface DynamoIntegrationBase {
@@ -57,12 +65,17 @@ export interface DynamoPutIntegrationResponse<T = any> extends DynamoIntegration
     | [keyof OnlyNumberString<Required<T>>, keyof OnlyNumberString<Required<T>>]
     | [keyof OnlyNumberString<Required<T>>];
 }
-
-export type QueueIntegrationOption = IntegrationOptionBase<QueueNames>;
-
 export interface DynamoDeleteIntegrationResponse<T = any>
   extends DynamoIntegrationPartitionBase<T> {}
 
+/**
+ * SQS queue
+ */
+
+export type QueueIntegrationOption = IntegrationOptionBase<
+  QueueScopedNames,
+  'id' | 'arn' | 'name'
+>;
 export interface QueueSendMessageIntegrationResponse {
   queueName: string;
   attributes?: Partial<Record<string, string | number>>;

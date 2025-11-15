@@ -134,3 +134,7 @@ export interface CreateLambdaDecoratorProps<T, M> {
   descriptorValue?: (descriptor: PropertyDescriptor) => any;
   argumentParser?: Partial<LambdaArgumentsType | (string & {})>;
 }
+
+export interface CreateEventDecoratorProps {
+  enableInLambdaInvocation?: boolean;
+}

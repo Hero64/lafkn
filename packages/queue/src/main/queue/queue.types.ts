@@ -59,7 +59,7 @@ export interface StandardProps {
    *
    * If not specified, a default name based on the resource or class is used.
    */
-  name?: QueueNames;
+  queueName?: QueueNames;
 }
 
 export interface FifoProps extends StandardProps {
@@ -74,6 +74,9 @@ export interface FifoProps extends StandardProps {
   contentBasedDeduplication?: boolean;
 }
 
-export interface QueueLambdaMetadata extends LambdaMetadata, Omit<FifoProps, 'name'> {
+export interface QueueLambdaMetadata
+  extends LambdaMetadata,
+    Omit<FifoProps, 'queueName'> {
+  queueName: string;
   isFifo: boolean;
 }

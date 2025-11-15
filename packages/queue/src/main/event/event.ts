@@ -23,7 +23,11 @@ export const Param = createFieldDecorator<ParamProps, QueueParamMetadata>({
 });
 
 export const Field = createFieldDecorator({
+  enableInLambdaInvocation: true,
   getMetadata: () => ({}),
 });
 
-export const Event = (eventField: Function) => createEventDecorator()(eventField);
+export const Event = (eventField: Function) =>
+  createEventDecorator({
+    enableInLambdaInvocation: true,
+  })(eventField);

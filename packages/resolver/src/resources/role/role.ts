@@ -67,6 +67,7 @@ const defaultPermissions: Record<ServicesName, string[]> = {
     'SendMessage',
     'ReceiveMessage',
     'SendMessage',
+    'GetQueueAttributes',
   ],
   state_machine: [
     'InvokeHTTPEndpoint',

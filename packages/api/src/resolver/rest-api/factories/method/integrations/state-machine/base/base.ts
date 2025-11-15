@@ -52,8 +52,6 @@ export class StateMachineBaseIntegration<T> implements Integration {
           throw new Error(`unresolved dependencies in ${handler.name} integration`);
         }
 
-        console.log(createTemplate(integrationResponse));
-
         integration.addOverride(
           'request_templates.application/json',
           createTemplate(integrationResponse)

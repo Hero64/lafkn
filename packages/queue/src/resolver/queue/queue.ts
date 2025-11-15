@@ -22,7 +22,7 @@ export class Queue extends alicantoResource.make(SqsQueue) {
     const { handler } = props;
 
     super(scope, `${id}-queue`, {
-      name: handler.name,
+      name: handler.queueName,
       fifoQueue: handler.isFifo,
       contentBasedDeduplication: handler.contentBasedDeduplication,
       visibilityTimeoutSeconds: handler.visibilityTimeout,
@@ -30,7 +30,8 @@ export class Queue extends alicantoResource.make(SqsQueue) {
       maxMessageSize: handler.maxMessageSizeBytes,
       delaySeconds: handler.deliveryDelay,
     });
-    this.isGlobal(scope.id, id);
+
+    this.isGlobal(scope.id, handler.queueName);
     this.validateEventParams();
     this.addEventSource();
   }
@@ -38,9 +39,6 @@ export class Queue extends alicantoResource.make(SqsQueue) {
   private addEventSource() {
     const { handler, resourceMetadata } = this.props;
 
-    /**
-     * TODO: verificar si necesita un rol
-     */
     const lambdaHandler = new LambdaHandler(this, 'handler', {
       ...handler,
       filename: resourceMetadata.filename,

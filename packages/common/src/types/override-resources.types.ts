@@ -14,7 +14,6 @@ export interface ApiRestAvailable {}
 export interface ApiAuthorizerAvailable {}
 export interface EventBusAvailable {}
 export interface DynamoTableAvailable {}
-export interface QueueAvailable {}
 
 type ResourceNames<T> = keyof T | (string & {});
 type StackResourceName<T, S extends ModuleGlobalReferenceNames> =
@@ -41,7 +40,7 @@ export type StateMachineScopedNames =
   | ScopedResourceNames<ModulesAvailable, 'StateMachine'>
   | (string & {});
 
-export type QueueNames = ResourceIdentifiers<QueueAvailable, 'Queue'> | (string & {});
+export type QueueNames = ResourceIdentifiers<ModulesAvailable, 'Queue'> | (string & {});
 export type QueueScopedNames =
   | ScopedResourceNames<ModulesAvailable, 'Queue'>
   | (string & {});

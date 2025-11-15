@@ -164,11 +164,14 @@ describe('Api Method', () => {
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegration, {
       integration_http_method: 'POST',
       passthrough_behavior: 'WHEN_NO_TEMPLATES',
+      request_parameters: {
+        'integration.request.header.Content-Type': "'application/x-www-form-urlencoded'",
+      },
       request_templates: {
         'application/json': 'Action=SendMessage',
       },
       type: 'AWS',
-      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:sqs:path/queue',
+      uri: 'arn:aws:apigateway:${aws_api_gateway_rest_api.testing-api-api.region}:sqs:path/${data.aws_caller_identity.TestingApi-queueIntegration-identity.account_id}/queue',
     });
   });
 

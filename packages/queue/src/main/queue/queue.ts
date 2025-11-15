@@ -24,10 +24,10 @@ const getValueFromAttribute = (param: QueueParamMetadata, record: SQSRecord) => 
   }
 
   if (param.type === 'Number') {
-    return Number(value);
+    return Number(value.stringValue);
   }
 
-  return value;
+  return value.stringValue;
 };
 
 const getValueFormBody = (param: QueueParamMetadata, record: SQSRecord) => {
@@ -49,7 +49,7 @@ const argumentParser: Partial<LambdaArgumentsType> = {
 
     const paramsByHandler = params[methodName];
 
-    if (!event || !queueEvent.Records) {
+    if (!event || !queueEvent.Records || !paramsByHandler) {
       return event;
     }
 
@@ -74,6 +74,7 @@ const argumentParser: Partial<LambdaArgumentsType> = {
 export const Standard = createLambdaDecorator<StandardProps, QueueLambdaMetadata>({
   getLambdaMetadata: (props, methodName) => ({
     ...props,
+    queueName: props.queueName || methodName,
     name: methodName,
     isFifo: false,
   }),
@@ -83,6 +84,7 @@ export const Standard = createLambdaDecorator<StandardProps, QueueLambdaMetadata
 export const Fifo = createLambdaDecorator<FifoProps, QueueLambdaMetadata>({
   getLambdaMetadata: (props, methodName) => ({
     ...props,
+    queueName: props.queueName || methodName,
     name: methodName,
     isFifo: true,
   }),
