@@ -139,8 +139,6 @@ export class SendMessageIntegration implements Integration {
       throw new Error('Body message only support single body event parameter');
     }
 
-    console.log(bodyResolver.path);
-
     return `&MessageBody={"${bodyResolver.path}":$util.urlEncode($input.json('$.${bodyResolver.path}'))}`;
   };
 

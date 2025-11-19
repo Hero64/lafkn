@@ -78,13 +78,15 @@ export class RestApi extends alicantoResource.make(ApiGatewayRestApi) {
       },
     });
 
-    new ApiGatewayStage(this, `${this.props.name}-stage`, {
+    const stage = new ApiGatewayStage(this, `${this.props.name}-stage`, {
       ...(this.props.stage || {}),
       deploymentId: deployment.id,
       restApiId: this.id,
       stageName: this.getStageName(),
       dependsOn: [deployment],
     });
+
+    this.authorizerFactory.assignStage(stage);
   }
 
   private getStageName() {

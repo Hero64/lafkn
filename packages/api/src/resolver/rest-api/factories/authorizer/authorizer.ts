@@ -7,8 +7,10 @@ import {
   type LambdaMetadata,
 } from '@alicanto/common';
 import { alicantoResource, LambdaHandler, lambdaAssets } from '@alicanto/resolver';
+import { ApiGatewayApiKey } from '@cdktf/provider-aws/lib/api-gateway-api-key';
 import { ApiGatewayAuthorizer } from '@cdktf/provider-aws/lib/api-gateway-authorizer';
 import type { ApiGatewayMethodConfig } from '@cdktf/provider-aws/lib/api-gateway-method';
+import type { ApiGatewayStage } from '@cdktf/provider-aws/lib/api-gateway-stage';
 import { ApiGatewayUsagePlan } from '@cdktf/provider-aws/lib/api-gateway-usage-plan';
 import { ApiGatewayUsagePlanKey } from '@cdktf/provider-aws/lib/api-gateway-usage-plan-key';
 import type { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
@@ -34,6 +36,7 @@ export class AuthorizerFactory {
   private authorizerMetadata: Record<string, AuthorizerData> = {};
   private authResources: TerraformResource[] = [];
   private defaultAuthorizer?: MethodAuthorizer;
+  private usagePlans: ApiGatewayUsagePlan[] = [];
 
   constructor(
     private scope: RestApi,
@@ -86,10 +89,11 @@ export class AuthorizerFactory {
         }
         const customAuthorizerMetadata = authorizerMetadata as AuthorizerDataCustom;
 
+        const authorizerPath = fullPath?.[0] === '/' ? fullPath : `/${fullPath}`;
         if (authorizer?.scopes?.length) {
           customAuthorizerMetadata.pathScopes ??= {};
-          customAuthorizerMetadata.pathScopes[fullPath] ??= {};
-          customAuthorizerMetadata.pathScopes[fullPath][method] = authorizer.scopes;
+          customAuthorizerMetadata.pathScopes[authorizerPath] ??= {};
+          customAuthorizerMetadata.pathScopes[authorizerPath][method] = authorizer.scopes;
         }
 
         return this.getMethodAuthorizerProps(ApiAuthorizerType.custom, authorizerMethod);
@@ -115,6 +119,17 @@ export class AuthorizerFactory {
       default: {
         throw new Error('authorizer type  not defined');
       }
+    }
+  }
+
+  public assignStage(stage: ApiGatewayStage) {
+    for (const usagePlan of this.usagePlans) {
+      usagePlan.addOverride('api_stages', [
+        {
+          api_id: this.scope.id,
+          stage: stage.stageName,
+        },
+      ]);
     }
   }
 
@@ -202,7 +217,8 @@ export class AuthorizerFactory {
     const authorizer = new ApiGatewayAuthorizer(this.scope, `${metadata.name}-auth`, {
       name: metadata.name,
       restApiId: this.scope.id,
-      authorizerUri: lambdaHandler.arn,
+      authorizerUri: lambdaHandler.invokeArn,
+      type: 'REQUEST',
       identitySource: metadata.header
         ? `method.request.header.${metadata.header}`
         : undefined,
@@ -239,12 +255,7 @@ export class AuthorizerFactory {
   private createApiKeyAuthorizer({ metadata }: AuthorizerDataApiKey) {
     const usagePlan = new ApiGatewayUsagePlan(this.scope, `${metadata.name}-usage-plan`, {
       name: metadata.name,
-      apiStages: [
-        {
-          apiId: this.scope.id,
-          stage: this.scope.stageName,
-        },
-      ],
+      apiStages: [],
       quotaSettings: metadata.quota
         ? {
             limit: metadata.quota.limit,
@@ -254,16 +265,19 @@ export class AuthorizerFactory {
         : undefined,
       throttleSettings: metadata.throttle,
     });
-    this.authResources.push(usagePlan);
+    this.usagePlans.push(usagePlan);
 
     if (metadata.defaultKeys) {
       for (const key of metadata.defaultKeys) {
-        const apiKey = new ApiGatewayUsagePlanKey(this.scope, key, {
-          keyId: key,
+        const authKey = new ApiGatewayApiKey(this.scope, `${key}-key`, {
+          name: key,
+        });
+
+        new ApiGatewayUsagePlanKey(this.scope, `${key}-usage-plan-key`, {
+          keyId: authKey.id,
           keyType: 'API_KEY',
           usagePlanId: usagePlan.id,
         });
-        this.authResources.push(apiKey);
       }
     }
 

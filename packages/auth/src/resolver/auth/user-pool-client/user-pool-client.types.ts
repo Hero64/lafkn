@@ -1,9 +1,6 @@
 import type { CustomAttributesMetadata, StandardAttributeMetadata } from '../../../main';
 
 export type AuthFlow =
-  | 'admin_no_srp_auth'
-  | 'custom_auth_flow_only'
-  | 'user_password_auth'
   | 'allow_admin_user_password_auth'
   | 'allow_custom_auth'
   | 'allow_user_password_auth'

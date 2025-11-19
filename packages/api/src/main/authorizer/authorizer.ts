@@ -48,16 +48,21 @@ export const AuthorizerHandler =
     const { value: originalValue } = descriptor;
 
     descriptor.value = async (event: APIGatewayRequestAuthorizerEvent) => {
-      const accessRules: PermissionContent = JSON.parse(
-        await readFile(join(__dirname, PERMISSION_DEFINITION_FILE), 'utf-8')
-      );
+      let accessRules: PermissionContent = {};
+      try {
+        accessRules = (JSON.parse(
+          await readFile(join(__dirname, PERMISSION_DEFINITION_FILE), 'utf-8')
+        ) || {}) as PermissionContent;
+      } catch {}
 
       const allowedGroups = accessRules[event.requestContext.resourcePath];
 
-      const response: AuthorizerResponse = await originalValue.apply(this, {
-        ...event,
-        permissions: allowedGroups?.[event.headers as unknown as Method] || [],
-      });
+      const response: AuthorizerResponse = await originalValue.apply(this, [
+        {
+          ...event,
+          permissions: allowedGroups?.[event.httpMethod as unknown as Method] || [],
+        },
+      ]);
 
       return {
         principalId: response.principalId,

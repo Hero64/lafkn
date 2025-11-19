@@ -18,7 +18,11 @@ export enum ApiAuthorizerType {
   apiKey = 'api-key',
 }
 
-export interface CognitoAuthorizerProps extends ResourceProps {
+export interface CognitoAuthorizerProps extends Omit<ResourceProps, 'name'> {
+  /**
+   * authorizer name
+   */
+  name?: ApiAuthorizerNames;
   /**
    * Cognito User Pool.
    *
@@ -35,6 +39,12 @@ export interface CognitoAuthorizerProps extends ResourceProps {
    * header, but it can be customized if needed.
    */
   header?: string;
+  /**
+   * Authorizer cache
+   *
+   *  TODO: completar descripcion
+   */
+  authorizerResultTtlInSeconds?: number;
 }
 
 export const PERMISSION_DEFINITION_FILE = 'permissions.json';
@@ -91,7 +101,7 @@ export interface ApiKeyAuthorizerProps {
    * This helps identify and manage multiple quotas for different
    * API keys or usage plans.
    */
-  name?: string;
+  name?: ApiAuthorizerNames;
   /**
    * API Key quota configuration.
    *
@@ -122,7 +132,7 @@ export interface ApiKeyAuthorizerMetadata
   extends ResourceMetadata,
     Omit<ApiKeyAuthorizerProps, 'name'> {}
 
-export interface CustomAuthorizerProps {
+export interface CustomAuthorizerProps extends ResourceProps {
   /**
    * Custom authorizer name.
    *
@@ -184,7 +194,7 @@ export type PermissionContent = Record<string, Partial<Record<Method, string[]>>
 
 export interface CustomAuthorizerMetadata
   extends ResourceMetadata,
-    Omit<CustomAuthorizerProps, 'name'> {}
+    Omit<CustomAuthorizerProps, 'name' | 'minify'> {}
 
 export interface CognitoAuthorizerMetadata
   extends ResourceMetadata,

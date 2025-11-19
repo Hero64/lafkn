@@ -237,6 +237,10 @@ export interface UserPool<T extends ClassResource> {
    */
   accountRecovery?: AccountRecovery[];
   /**
+   * TODO: completar
+   */
+  usernameAttributes?: AutoVerifyAttributes[];
+  /**
    * Defines which attributes Cognito should automatically verify during sign-up.
    * Only attributes such as `email` or `phone` can be auto-verified.
    */

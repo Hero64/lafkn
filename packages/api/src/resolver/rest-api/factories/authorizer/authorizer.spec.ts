@@ -1,6 +1,7 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { enableBuildEnvVariable } from '@alicanto/common';
 import { alicantoResource } from '@alicanto/resolver';
+import { ApiGatewayApiKey } from '@cdktf/provider-aws/lib/api-gateway-api-key';
 import { ApiGatewayAuthorizer } from '@cdktf/provider-aws/lib/api-gateway-authorizer';
 import { ApiGatewayUsagePlan } from '@cdktf/provider-aws/lib/api-gateway-usage-plan';
 import { ApiGatewayUsagePlanKey } from '@cdktf/provider-aws/lib/api-gateway-usage-plan-key';
@@ -71,8 +72,10 @@ describe('authorizer factory', () => {
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayUsagePlan, {
       name: 'api-key-auth',
     });
+    expect(synthesized).toHaveResourceWithProperties(ApiGatewayApiKey, {
+      name: 'test_key',
+    });
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayUsagePlanKey, {
-      key_id: 'test-key',
       key_type: 'API_KEY',
     });
   });

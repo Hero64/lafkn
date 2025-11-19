@@ -17,6 +17,7 @@ import {
   type CognitoUserPoolVerificationMessageTemplate,
 } from '@cdktf/provider-aws/lib/cognito-user-pool';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
+import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
 import { Token } from 'cdktf';
 import type { Construct } from 'constructs';
 import type {
@@ -76,6 +77,10 @@ export class UserPool extends alicantoResource.make(CognitoUserPool) {
         props.userVerification
       ),
       lambdaConfig: UserPool.getLambdaConfig(scope, props.extensions),
+      usernameAttributes: UserPool.getAliasAttributes(props.usernameAttributes),
+      lifecycle: {
+        ignoreChanges: ['schema'],
+      },
     });
 
     if (attributes?.attributeByName) {
@@ -129,7 +134,7 @@ export class UserPool extends alicantoResource.make(CognitoUserPool) {
       };
     }
 
-    return lambdaConfig;
+    return Object.keys(lambdaConfig).length === 0 ? undefined : lambdaConfig;
   }
 
   private static getSmsConfig(
@@ -162,21 +167,21 @@ export class UserPool extends alicantoResource.make(CognitoUserPool) {
           },
         ],
       }),
-      inlinePolicy: [
-        {
-          name: 'AllowSnsPublish',
-          policy: JSON.stringify({
-            Version: '2012-10-17',
-            Statement: [
-              {
-                Effect: 'Allow',
-                Action: ['sns:Publish'],
-                Resource: '*',
-              },
-            ],
-          }),
-        },
-      ],
+    });
+
+    new IamRolePolicy(scope, `${roleId}-policy`, {
+      name: 'AllowSnsPublish',
+      role: snsRole.name,
+      policy: JSON.stringify({
+        Version: '2012-10-17',
+        Statement: [
+          {
+            Effect: 'Allow',
+            Action: ['sns:Publish'],
+            Resource: '*',
+          },
+        ],
+      }),
     });
 
     return {
@@ -243,6 +248,18 @@ export class UserPool extends alicantoResource.make(CognitoUserPool) {
           name: attributeName,
           mutable: attribute.mutable,
           required: attribute.required,
+          ...(attribute.type === 'String' && {
+            stringAttributeConstraints: {
+              minLength: Token.asString(1),
+              maxLength: Token.asString(2048),
+            },
+          }),
+          ...(attribute.type === 'Number' && {
+            numberAttributeConstraints: {
+              minValue: Token.asString(0),
+              maxValue: Token.asString(999999),
+            },
+          }),
         });
       } else {
         let constrains:
@@ -250,15 +267,15 @@ export class UserPool extends alicantoResource.make(CognitoUserPool) {
           | CognitoUserPoolSchemaStringAttributeConstraints
           | undefined;
 
-        if (attribute.type === 'Number' && (attribute.max || attribute.min)) {
+        if (attribute.type === 'Number') {
           constrains = {
-            maxValue: attribute.max ? Token.asString(attribute.max) : undefined,
-            minValue: attribute.min ? Token.asString(attribute.min) : undefined,
+            minValue: Token.asString(attribute.min ?? 0),
+            maxValue: Token.asString(attribute.max ?? 999999),
           };
-        } else if (attribute.type === 'String' && attribute.maxLen && attribute.minLen) {
+        } else if (attribute.type === 'String') {
           constrains = {
-            maxLength: attribute.max ? Token.asString(attribute.maxLen) : undefined,
-            minLength: attribute.min ? Token.asString(attribute.minLen) : undefined,
+            minLength: Token.asString(attribute.minLen ?? 0),
+            maxLength: Token.asString(attribute.maxLen ?? 2048),
           };
         }
 
@@ -358,7 +375,7 @@ export class UserPool extends alicantoResource.make(CognitoUserPool) {
 
     const verifyAttributes: Record<AutoVerifyAttributes, string> = {
       email: 'email',
-      phone: 'phoneNumber',
+      phone: 'phone_number',
     };
 
     return attributes.map((attr) => verifyAttributes[attr]);

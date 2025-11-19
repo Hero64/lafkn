@@ -28,11 +28,10 @@ export class UserPoolClient extends Construct {
       ...this.getOauthConfig(props.oauth),
       name: id,
       userPoolId: props.userPoolId,
-      enableTokenRevocation: props.enableTokenRevocation,
-      generateSecret: props.generateSecret,
-      preventUserExistenceErrors: props.preventUserExistenceErrors
-        ? 'ENABLED'
-        : undefined,
+      enableTokenRevocation: props.enableTokenRevocation ?? true,
+      generateSecret: props.generateSecret ?? false,
+      preventUserExistenceErrors:
+        props.preventUserExistenceErrors !== false ? 'ENABLED' : 'LEGACY',
       explicitAuthFlows: this.getExplicitAuthFlows(props.authFlows),
       refreshTokenRotation: this.getRefreshTokenRotation(
         props.refreshTokenRotationGracePeriod
@@ -50,7 +49,7 @@ export class UserPoolClient extends Construct {
     }
     return [
       {
-        feature: period === undefined ? 'DISABLED' : 'ENABLED',
+        feature: 'ENABLED',
         retryGracePeriodSeconds: period,
       },
     ];
@@ -85,7 +84,7 @@ export class UserPoolClient extends Construct {
     const refreshToken = this.resolveValidityUnit(props.validity?.refreshToken);
 
     return {
-      authSessionValidity: props.validity?.authSession,
+      authSessionValidity: props.validity?.authSession ?? 3,
       accessTokenValidity: accessToken.value,
       idTokenValidity: idToken.value,
       refreshTokenValidity: refreshToken.value,
@@ -110,7 +109,7 @@ export class UserPoolClient extends Construct {
     if (typeof value === 'number') {
       return {
         value,
-        unit: 'hour',
+        unit: 'hours',
       };
     }
 

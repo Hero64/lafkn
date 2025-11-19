@@ -35,7 +35,7 @@ export class MethodFactory {
     const proxyHelper = new ProxyHelper();
     const integrationHelper = new IntegrationHelper();
 
-    const fullPath = this.cleanPath(`${resourceMetadata.path}/${handler.path}`) || '/';
+    const fullPath = this.cleanPath(`/${resourceMetadata.path}/${handler.path}`) || '/';
     paramHelper.validateParamsInPath(fullPath);
 
     const resourceId = this.scope.resourceFactory.getResource(fullPath);
