@@ -26,7 +26,6 @@
   "dependencies": {
     "@alicanto/common": "workspace:*",
     "@alicanto/resolver": "workspace:*",
-    "@aws-sdk/client-sqs": "3.922.0",
     "@cdktf/provider-aws": "21.16.0",
     "cdktf": "0.21.0",
     "constructs": "10.4.2",

@@ -17,7 +17,6 @@
     "@cdktf/provider-aws": "21.16.0",
     "cdktf": "0.21.0",
     "constructs": "10.4.2",
-    "dotenv": "17.2.3",
     "esbuild": "0.25.11",
     "reflect-metadata": "0.2.2"
   },
