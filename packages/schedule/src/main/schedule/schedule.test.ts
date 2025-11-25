@@ -3,7 +3,7 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
 } from '@alicanto/common';
-import { Cron, Schedule } from './cron-rule';
+import { Cron, Schedule } from './schedule';
 
 describe('Cron rule', () => {
   enableBuildEnvVariable();
