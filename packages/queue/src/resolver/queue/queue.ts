@@ -22,7 +22,7 @@ export class Queue extends alicantoResource.make(SqsQueue) {
     const { handler } = props;
 
     super(scope, `${id}-queue`, {
-      name: handler.queueName,
+      name: `${handler.queueName}${handler.isFifo ? '.fifo' : ''}`,
       fifoQueue: handler.isFifo,
       contentBasedDeduplication: handler.contentBasedDeduplication,
       visibilityTimeoutSeconds: handler.visibilityTimeout,
@@ -33,17 +33,18 @@ export class Queue extends alicantoResource.make(SqsQueue) {
 
     this.isGlobal(scope.id, handler.queueName);
     this.validateEventParams();
-    this.addEventSource();
+    this.addEventSource(id);
   }
 
-  private addEventSource() {
+  private addEventSource(id: string) {
     const { handler, resourceMetadata } = this.props;
 
-    const lambdaHandler = new LambdaHandler(this, 'handler', {
+    const lambdaHandler = new LambdaHandler(this, `${id}-handler`, {
       ...handler,
       filename: resourceMetadata.filename,
       foldername: resourceMetadata.foldername,
       suffix: 'queue',
+      principal: 'sqs.amazonaws.com',
     });
 
     new LambdaEventSourceMapping(this, 'event-mapping', {
@@ -51,11 +52,13 @@ export class Queue extends alicantoResource.make(SqsQueue) {
       eventSourceArn: this.arn,
       functionName: lambdaHandler.arn,
       maximumBatchingWindowInSeconds: handler.maxBatchingWindow,
+      functionResponseTypes: handler.isFifo ? ['ReportBatchItemFailures'] : undefined,
       scalingConfig: handler.maxConcurrency
         ? {
             maximumConcurrency: handler.maxConcurrency,
           }
         : undefined,
+      dependsOn: [lambdaHandler, this],
     });
   }
 

@@ -63,7 +63,6 @@ const defaultPermissions: Record<ServicesName, string[]> = {
   sqs: [
     'DeleteMessage',
     'GetQueueUrl',
-    'ReceiveMessage',
     'SendMessage',
     'ReceiveMessage',
     'SendMessage',
