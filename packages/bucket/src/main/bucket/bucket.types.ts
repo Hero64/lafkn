@@ -41,11 +41,42 @@ export interface KeyLifeCycleRule {
    *
    * This property specifies when the objects that match the lifecycle rule
    * should be automatically deleted by Amazon S3.
+   * @example
+   * ```
+   * // one of
+   * {
+   *   expiration: {
+   *     days: 10
+   *   }
+   * }
+   * // or
+   * {
+   *   expiration: {
+   *     date: new Date()
+   *   }
+   * }
+   * // or
+   * {
+   *   expiration: {
+   *     expiredObjectDeleteMarker: true
+   *   }
+   * }
+   * ```
    */
   expiration?: OnlyOne<Expiration>;
   /**
    * Optional conditions to apply the lifecycle rule only to objects
    * that match certain size thresholds.
+   *
+   * @example
+   * ```
+   * {
+   *   condition: {
+   *     objectSizeGreaterThan: 10000,
+   *     objectSizeLessThan: 100
+   *   }
+   * }
+   * ```
    */
   condition?: {
     /**
@@ -65,6 +96,18 @@ export interface KeyLifeCycleRule {
   /**
    * Transition rules that define how and when objects are moved
    * to different S3 storage classes (e.g., GLACIER, INTELLIGENT_TIERING).
+   *
+   * @example
+   * ```
+   * {
+   *   transitions: [
+   *     {
+   *       storage: 'standard_ia'
+   *       days: 10,
+   *     }
+   *   ]
+   * }
+   * ```
    */
   transitions?: Transition[];
 }
@@ -133,21 +176,28 @@ export interface BucketProps {
    * Defines rules to automatically manage the lifecycle of objects in the bucket,
    * such as transitioning them to different storage classes, expiring them after
    * a given time, or cleaning up incomplete multipart uploads.
+   *
+   * @example
+   * ```
+   * {
+   *   lifeCycleRules: {
+   *      'key-path': { // represents an object in the bucket
+   *        expiration: {
+   *          days: 20,
+   *        },
+   *        condition: {
+   *          objectSizeGreaterThan: 2024 // value in bytes
+   *        }
+   *      }
+   *   }
+   * }
+   * ```
    */
   lifeCycleRules?: Record<string, KeyLifeCycleRule>;
   /**
    * Indicates all objects from bucket should be deleted when bucket is destroyed
    */
   forceDestroy?: boolean;
-  /**
-   * Defines a prefix for the S3 bucket name.
-   *
-   * This property allows you to prepend a custom prefix to the bucket name,
-   * ensuring uniqueness across environments or projects.
-   * It is especially useful when multiple stacks or applications may create
-   * buckets with similar names.
-   */
-  prefix?: string;
   /**
    * tags.
    *

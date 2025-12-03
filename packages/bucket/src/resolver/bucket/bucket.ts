@@ -14,7 +14,6 @@ export class Bucket extends alicantoResource.make(S3Bucket) {
   constructor(scope: Construct, props: BucketProps) {
     const {
       name,
-      prefix,
       eventBridgeEnabled,
       acl,
       forceDestroy,
@@ -26,7 +25,6 @@ export class Bucket extends alicantoResource.make(S3Bucket) {
 
     super(scope, `${name}-bucket`, {
       bucket: name,
-      bucketPrefix: prefix,
       forceDestroy: forceDestroy ?? props.forceDestroy,
       tags: tags ?? {
         ...(tags || {}),

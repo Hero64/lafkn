@@ -32,7 +32,6 @@ describe('Bucket', () => {
   it('should create a bucket with custom options', () => {
     @BucketDecorator({
       name: 'testing-bucket',
-      prefix: 'test',
       eventBridgeEnabled: true,
       forceDestroy: true,
       acl: 'public-read',
