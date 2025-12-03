@@ -20,7 +20,12 @@ class LambdaAssets {
     const prebuildPath = this.getPrebuildPath(foldername, filename);
     if (!this.lambdaAssets[prebuildPath]) {
       this.lambdaAssets[prebuildPath] = {
-        metadata: props,
+        metadata: {
+          filename,
+          foldername,
+          minify: props.minify,
+          afterBuild: props.afterBuild,
+        },
         resources: {},
         lambdas: [],
       };

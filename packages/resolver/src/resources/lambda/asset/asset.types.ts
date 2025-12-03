@@ -9,12 +9,13 @@ export interface AssetResource {
   className: string;
   methods: string[];
 }
+
 export interface AssetMetadata extends BaseAsset, AssetResource {
   afterBuild?: (outputPath: string) => void;
 }
 
 export interface AssetProps {
-  metadata: AssetMetadata;
+  metadata: Omit<AssetMetadata, 'className' | 'methods'>;
   resources: Record<string, AssetResource>;
   scope?: Construct;
   lambdas: LambdaFunction[];
@@ -22,7 +23,7 @@ export interface AssetProps {
 
 export interface BuildAssetProps {
   scope: Construct;
-  metadata: AssetMetadata;
+  metadata: Omit<AssetMetadata, 'className' | 'methods'>;
 }
 
 export interface AddLambdaProps extends Omit<BaseAsset, 'minify'> {
