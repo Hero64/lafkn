@@ -25,11 +25,11 @@ export interface LambdaProps {
    * long-term stability and AWS compatibility.
    *
    * Supported values:
+   * - `24` → Node.js 24
    * - `22` → Node.js 22
    * - `20` → Node.js 20
-   * - `18` → Node.js 18
    */
-  runtime?: 22 | 20 | 18;
+  runtime?: 24 | 22 | 20;
   /**
    * Lambda services.
    *

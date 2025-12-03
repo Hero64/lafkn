@@ -263,6 +263,15 @@ export class Schema {
               MaxItemsPerBatch: currentState.maxItemsPerBatch,
             };
           }
+
+          if (currentState.toleratedFailureCount) {
+            mapTask.ToleratedFailureCount = currentState.toleratedFailureCount;
+          }
+
+          if (currentState.toleratedFailurePercentage) {
+            mapTask.ToleratedFailurePercentage =
+              currentState.toleratedFailurePercentage.toString();
+          }
         }
 
         this.states[stateName] = mapTask;

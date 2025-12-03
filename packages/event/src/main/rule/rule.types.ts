@@ -60,6 +60,16 @@ export interface EventDefaultRuleProps extends EventRuleBaseProps {
    * Defines the filtering criteria that determine which events
    * trigger the rule. Events are matched against the specified
    * pattern fields.
+   * @example
+   * {
+   *   pattern: {
+   *     source: "<event_source>",
+   *     detailType: ['foo'],
+   *     detail: {
+   *       foo: 'bar'
+   *     }
+   *   }
+   * }
    */
   pattern: {
     /**
@@ -102,6 +112,18 @@ export interface EventS3RuleProps extends EventRuleBaseProps {
    * Defines the filtering criteria that determine which events
    * trigger the rule. Events are matched against the specified
    * pattern fields.
+   *
+   * @example
+   * {
+   *   pattern: {
+   *     detailType: ['Object Created'],
+   *     detail: {
+   *       bucket: {
+   *         name: 'bucket_name'
+   *       }
+   *     }
+   *   }
+   * }
    */
   pattern: {
     /**
@@ -168,6 +190,19 @@ export interface DynamoRuleProps extends EventRuleBaseProps {
    * Defines the filtering criteria that determine which events
    * trigger the rule. Events are matched against the specified
    * pattern fields.
+   *
+   * @example
+   * {
+   *   pattern: {
+   *     source: 'dynamo_table_name',
+   *     detail: {
+   *       eventname: ['INSERT'],
+   *       keys: {
+   *         PK: ['a', 'b']
+   *       }
+   *     }
+   *   }
+   * }
    */
   pattern: {
     /**

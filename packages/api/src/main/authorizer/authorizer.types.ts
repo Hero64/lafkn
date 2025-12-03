@@ -40,9 +40,9 @@ export interface CognitoAuthorizerProps extends Omit<ResourceProps, 'name'> {
    */
   header?: string;
   /**
-   * Authorizer cache
-   *
-   *  TODO: completar descripcion
+   * Specifies the number of seconds that API Gateway caches the results returned
+   * by the authorizer. While cached, subsequent requests reuse the same
+   * authorization decision, reducing authorizer invocations and improving latency.
    */
   authorizerResultTtlInSeconds?: number;
 }
@@ -108,6 +108,12 @@ export interface ApiKeyAuthorizerProps {
    * Defines the quota settings for the API key, controlling how many
    * requests can be made within a specified time period. This allows
    * limiting usage and protecting your API from overuse.
+   * @example
+   * {
+   *   limit: 100,
+   *   offset: 1000,
+   *   period: 'week'
+   * }
    */
   quota?: AuthorizerQuota;
   /**
@@ -116,6 +122,14 @@ export interface ApiKeyAuthorizerProps {
    * Defines the throttling settings for the API key, controlling
    * the rate at which requests can be made. This helps protect
    * the API from sudden traffic spikes and ensures fair usage.
+   *
+   * @example
+   * {
+   *   throttle: {
+   *     burstLimit: 200,
+   *     rateLimit: 1000
+   *   }
+   * }
    */
   throttle?: AuthorizerThrottle;
   /**
@@ -149,6 +163,12 @@ export interface CustomAuthorizerProps extends ResourceProps {
    * header, but it can be customized if needed.
    */
   header?: string;
+  /**
+   * Specifies the number of seconds that API Gateway caches the results returned
+   * by the authorizer. While cached, subsequent requests reuse the same
+   * authorization decision, reducing authorizer invocations and improving latency.
+   */
+  authorizerResultTtlInSeconds?: number;
 }
 
 export interface AuthorizationHandlerEvent extends APIGatewayRequestAuthorizerEvent {

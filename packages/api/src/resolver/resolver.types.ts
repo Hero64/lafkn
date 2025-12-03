@@ -144,8 +144,13 @@ export interface RestApiProps {
    */
   apiKeySource?: ApiKeySource;
   /**
-   *  Defines the list of media (MIME) types supported by the API Gateway.
+   * Defines the list of media (MIME) types supported by the API Gateway.
    * These values specify the `Content-Type` that the API accepts or returns.
+   *
+   * @example
+   * {
+   *   supportedMediaTypes: ['image/png']
+   * }
    */
   supportedMediaTypes?: MediaTypes[];
   /**
@@ -157,13 +162,15 @@ export interface RestApiProps {
    * method responses for all endpoints in the API.
    *
    * @example
-   * ```typescript
-   * cors: {
-   *   allowOrigins: ['https://example.com', 'https://app.example.com'],
-   *   allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-   *   allowHeaders: ['Content-Type', 'Authorization'],
-   *   allowCredentials: true,
-   *   maxAge: 3600
+   * ```
+   * {
+   *   cors: {
+   *     allowOrigins: ['https://example.com', 'https://app.example.com'],
+   *     allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+   *     allowHeaders: ['Content-Type', 'Authorization'],
+   *     allowCredentials: true,
+   *     maxAge: 3600
+   *   }
    * }
    * ```
    */
@@ -201,6 +208,12 @@ export interface RestApiProps {
    * Individual methods can override the default authorizer if needed.
    * This allows setting a global authorization strategy while providing flexibility
    * for specific endpoints.
+   *
+   * @example
+   * {
+   *   auth: [AuthorizerClass],
+   *   defaultAuthorizerName: ["<name of authorizer class>"]
+   * }
    */
   auth?: {
     authorizers: ClassResource[];

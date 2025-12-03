@@ -31,10 +31,29 @@ export interface StateMachineBaseProps<T> {
    *
    * Specifies which task or state the state machine should start executing first.
    * This defines the entry point of the workflow.
+   *
+   * @example
+   * {
+   *   startAt: 'lambda_name',
+   * }
+   * @example
+   * {
+   *   startAt: {
+   *     type: 'wait',
+   *     seconds: 3,
+   *     next: {
+   *       type: 'succeed'
+   *     }
+   *   }
+   * }
    */
   startAt: InitialStateType<T>;
   /**
-   * TODO: completar esto
+   * Resource minify
+   *
+   * Specifies whether the code should be minified when the resource is processed
+   *
+   * @default true
    */
   minify?: boolean;
 }
@@ -62,6 +81,20 @@ interface WaitStateBase<T> {
    *
    * Specifies the next task or state that the state machine should
    * execute after completing the current state.
+   * @example
+   * {
+   *   next: 'lambda_name',
+   * }
+   * @example
+   * {
+   *   next: {
+   *     type: 'wait',
+   *     seconds: 3,
+   *     next: {
+   *       type: 'succeed'
+   *     }
+   *   }
+   * }
    */
   next: StateTypes<T>;
   /**
@@ -82,6 +115,14 @@ interface WaitStateSeconds<T> extends WaitStateBase<T> {
    * when executing a `Wait` state. The value can be provided as:
    * - A number representing seconds.
    * - A JSONata expression to compute the duration dynamically based on the context.
+   * @example
+   * {
+   *   seconds: 10,
+   * }
+   * @example
+   * {
+   *   seconds: '{% $states.input.seconds %}'
+   * }
    */
   seconds: number | JsonAtaString;
   timestamp?: never;
@@ -95,18 +136,52 @@ interface WaitStateTimestamp<T> extends WaitStateBase<T> {
    * resume execution in a `Wait` state. The value can be provided as:
    * - A string representing a timestamp (ISO 8601 format).
    * - A JSONata expression to compute the timestamp dynamically based on the context.
+   * @example
+   * {
+   *   timestamp: '2025-01-01T00:00',
+   * }
+   * @example
+   * {
+   *   timestamp: '{% $states.input.timestamp %}'
+   * }
    */
   timestamp: string;
   seconds?: never;
 }
 
 interface ChoiceCondition<T> {
-  condition: JsonAtaString;
   /**
    * Conditional expression for state transitions.
    *
    * Specifies a JSONata expression that determines which state
    * should be executed next based on the current context or input.
+   *
+   * @example
+   * {
+   *   condition: '{'$state.input.value = 1'}'
+   * }
+   *
+   */
+  condition: JsonAtaString;
+  /**
+   * Next state to execute.
+   *
+   * Specifies the next task or state that the state machine should
+   * execute after completing the current state.
+   * @example
+   * {
+   *   next: 'lambda_name',
+   * }
+   * @example
+   * {
+   *   next: {
+   *     type: 'wait',
+   *     seconds: 3,
+   *     next: {
+   *       type: 'succeed'
+   *     }
+   *   }
+   * }
    */
   next: StateTypes<T>;
 }
@@ -127,6 +202,17 @@ export interface ChoiceState<T> {
    *
    * Each condition is evaluated in order, and the first one that
    * matches will define the next state.
+   *
+   * @example
+   * {
+   *   choices: [
+   *     {
+   *       condition: '{% $states.input.value = 1 %}',
+   *       next: 'lambda_state'
+   *     },
+   *     // ...
+   *   ]
+   * }
    */
   choices: ChoiceCondition<T>[];
   /**
@@ -134,6 +220,14 @@ export interface ChoiceState<T> {
    *
    * Specifies the state to transition to if none of the `choices`
    * conditions match during the evaluation.
+   *
+   * @example
+   * {
+   *   default: {
+   *     type: 'pass',
+   *     next: 'lambda_state'
+   *   }
+   * }
    */
   default?: StateTypes<T>;
 }
@@ -152,6 +246,12 @@ interface ParallelState<T> extends CatchAndRetry<T> {
    * Specifies the different branches that will be executed in parallel
    * within a `Parallel` state. Each branch must be a class decorated
    * with `@NestedStateMachine`.
+   *
+   * @example
+   * {
+   *  // is a collection of @NestedStateMachine decorated class
+   *  branches: [Branch1, Branch2]
+   * }
    */
   branches: ClassResource[];
   /**
@@ -178,6 +278,19 @@ interface ParallelState<T> extends CatchAndRetry<T> {
    * to the next state. The output can be provided as:
    * - An object to directly shape the output.
    * - A JSONata string expression to compute the output dynamically based on the context.
+   *
+   * @example
+   * {
+   *   output: '{% $states.result %}'
+   * }
+   *
+   * @example
+   * {
+   *   output: {
+   *     foo: 1,
+   *     bar: '{% $states.result %}'
+   *   }
+   * }
    */
   output?: ObjectOrJsonAta;
   /**
@@ -192,6 +305,20 @@ interface ParallelState<T> extends CatchAndRetry<T> {
    *
    * Specifies the next task or state that the state machine should
    * execute after completing the current state.
+   * @example
+   * {
+   *   next: 'lambda_name',
+   * }
+   * @example
+   * {
+   *   next: {
+   *     type: 'wait',
+   *     seconds: 3,
+   *     next: {
+   *       type: 'succeed'
+   *     }
+   *   }
+   * }
    */
   next?: StateTypes<T>;
 }
@@ -200,10 +327,29 @@ interface FailState {
   type: 'fail';
   /**
    * Description about error cause, you can use an jsonata expression
+   * @example
+   * {
+   *   cause: 'An cause'
+   * }
+   *
+   * @example
+   * {
+   *   cause: '{% $state.result.cause %}'
+   * }
    */
   cause?: string;
   /**
    * Error name, you can use an jsonata expression
+   *
+   * @example
+   * {
+   *   error: 'An error'
+   * }
+   *
+   * @example
+   * {
+   *   error: '{% $state.result.error %}'
+   * }
    */
   error?: string;
 }
@@ -217,6 +363,18 @@ interface SucceedState {
    * to the next state. The output can be provided as:
    * - An object to directly shape the output.
    * - A JSONata string expression to compute the output dynamically based on the context.
+   * @example
+   * {
+   *   output: '{% $states.result %}'
+   * }
+   *
+   * @example
+   * {
+   *   output: {
+   *     foo: 1,
+   *     bar: '{% $states.result %}'
+   *   }
+   * }
    */
   output?: ObjectOrJsonAta;
 }
@@ -228,6 +386,20 @@ interface PassState<T> {
    *
    * Specifies the next task or state that the state machine should
    * execute after completing the current state.
+   * @example
+   * {
+   *   next: 'lambda_name',
+   * }
+   * @example
+   * {
+   *   next: {
+   *     type: 'wait',
+   *     seconds: 3,
+   *     next: {
+   *       type: 'succeed'
+   *     }
+   *   }
+   * }
    */
   next?: StateTypes<T>;
   /**
@@ -244,6 +416,18 @@ interface PassState<T> {
    * to the next state. The output can be provided as:
    * - An object to directly shape the output.
    * - A JSONata string expression to compute the output dynamically based on the context.
+   * @example
+   * {
+   *   output: '{% $states.result %}'
+   * }
+   *
+   * @example
+   * {
+   *   output: {
+   *     foo: 1,
+   *     bar: '{% $states.result %}'
+   *   }
+   * }
    */
   output?: ObjectOrJsonAta;
   /**
@@ -271,6 +455,12 @@ export interface MapStateBase<T> extends CatchAndRetry<T> {
    * Specifies the set of states that will be executed for each item
    * in the collection within a `Map` state. This should be provided
    * as a class decorated with `@NestedStateMachine`.
+   *
+   * @example
+   * {
+   * // is a @NestedStateMachine decorated class
+   *  states: MapClass
+   * }
    */
   states: ClassResource;
   /**
@@ -280,6 +470,15 @@ export interface MapStateBase<T> extends CatchAndRetry<T> {
    * will iterate over. This can be provided as:
    * - A static array of items.
    * - A JSONata expression that dynamically computes the items based on the context.
+   * @example
+   * {
+   *   items: [1, 2, 3, 4]
+   * }
+   *
+   * @example
+   * {
+   *   items: '{ $states.input.list }'
+   * }
    */
   items?: any[] | JsonAtaString;
   /**
@@ -287,6 +486,20 @@ export interface MapStateBase<T> extends CatchAndRetry<T> {
    *
    * Specifies the next task or state that the state machine should
    * execute after completing the current state.
+   * @example
+   * {
+   *   next: 'lambda_name',
+   * }
+   * @example
+   * {
+   *   next: {
+   *     type: 'wait',
+   *     seconds: 3,
+   *     next: {
+   *       type: 'succeed'
+   *     }
+   *   }
+   * }
    */
   next?: StateTypes<T>;
   /**
@@ -303,6 +516,16 @@ export interface MapStateBase<T> extends CatchAndRetry<T> {
    * before it is processed by the `Map` state. The selector can be provided as:
    * - A static object defining the fields to pick or transform.
    * - A JSONata expression to compute or reshape the item dynamically.
+   * @example
+   * {
+   *   itemSelector: {
+   *     item: '{% $state.input.item %}'
+   *   }
+   * }
+   * @example
+   * {
+   *   itemSelector: '{% { $state.input.list.[product] } %}'
+   * }
    */
   itemSelector?: ObjectOrJsonAta;
   /**
@@ -320,8 +543,31 @@ export interface MapStateBase<T> extends CatchAndRetry<T> {
    * to the next state. The output can be provided as:
    * - An object to directly shape the output.
    * - A JSONata string expression to compute the output dynamically based on the context.
+   * @example
+   * {
+   *   output: '{% $states.result %}'
+   * }
+   *
+   * @example
+   * {
+   *   output: {
+   *     foo: 1,
+   *     bar: '{% $states.result %}'
+   *   }
+   * }
    */
   output?: ObjectOrJsonAta;
+  /**
+   * Specifies the maximum percentage of items in the distributed map
+   * that are allowed to fail before the entire operation is considered unsuccessful.
+   *
+   */
+  toleratedFailurePercentage?: number;
+  /**
+   * Specifies the maximum number of items that can fail during the
+   * distributed map execution before the entire operation is considered unsuccessful.
+   */
+  toleratedFailureCount?: number;
   /**
    * End state indicator.
    *
@@ -363,7 +609,6 @@ interface MapReaderCSVItem extends MapReaderItemBase {
 
 interface MapWriteResult {
   bucket: BucketNames;
-  // key: string;
   prefix?: string;
   config?: {
     outputType: 'JSON' | 'JSONL';
@@ -396,6 +641,15 @@ export interface MapDistributed<T> extends MapStateBase<T> {
    *
    * Specifies the source or format of the items to be processed by
    * the `Map` state.
+   *
+   * @example
+   * {
+   *   itemReader: {
+   *     source: 'json',
+   *     bucket: 'bucket_name',
+   *     key: 'object.json'
+   *   }
+   * }
    */
   itemReader?: MapReaderJSONItem | MapReaderCSVItem;
   /**
@@ -404,6 +658,17 @@ export interface MapDistributed<T> extends MapStateBase<T> {
    * Specifies how the results of each iteration in the `Map` state
    * will be written or aggregated. The `resultWriter` can be used
    * to control the structure and destination of the output for all items.
+   *
+   * @example
+   * {
+   *   resultWriter: {
+   *     bucket: 'bucketName',
+   *     prefix: 'result,
+   *     config: {
+   *       outputType: 'JSON'
+   *     }
+   *   }
+   * }
    */
   resultWriter?: MapWriteResult;
   /**
@@ -456,6 +721,20 @@ interface StateCatch<T> {
    *
    * Specifies the next task or state that the state machine should
    * execute after completing the current state.
+   * @example
+   * {
+   *   next: 'lambda_name',
+   * }
+   * @example
+   * {
+   *   next: {
+   *     type: 'wait',
+   *     seconds: 3,
+   *     next: {
+   *       type: 'succeed'
+   *     }
+   *   }
+   * }
    */
   next: T | PassState<T> | SucceedState | FailState;
 }
@@ -503,6 +782,20 @@ export interface StateProps<T> extends CatchAndRetry<T> {
    *
    * Specifies the next task or state that the state machine should
    * execute after completing the current state.
+   * @example
+   * {
+   *   next: 'lambda_name',
+   * }
+   * @example
+   * {
+   *   next: {
+   *     type: 'wait',
+   *     seconds: 3,
+   *     next: {
+   *       type: 'succeed'
+   *     }
+   *   }
+   * }
    */
   next?: StateTypes<T>;
   /**
@@ -512,6 +805,18 @@ export interface StateProps<T> extends CatchAndRetry<T> {
    * to the next state. The output can be provided as:
    * - An object to directly shape the output.
    * - A JSONata string expression to compute the output dynamically based on the context.
+   * @example
+   * {
+   *   output: '{% $states.result %}'
+   * }
+   *
+   * @example
+   * {
+   *   output: {
+   *     foo: 1,
+   *     bar: '{% $states.result %}'
+   *   }
+   * }
    */
   output?: ObjectOrJsonAta;
   /**

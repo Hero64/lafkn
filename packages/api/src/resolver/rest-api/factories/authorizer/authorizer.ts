@@ -223,6 +223,7 @@ export class AuthorizerFactory {
       identitySource: metadata.header
         ? `method.request.header.${metadata.header}`
         : undefined,
+      authorizerResultTtlInSeconds: metadata.authorizerResultTtlInSeconds,
     });
     this.authResources.push(authorizer);
     this.authorizerIds[metadata.name] = authorizer.id;
@@ -246,6 +247,7 @@ export class AuthorizerFactory {
       identitySource: metadata.header
         ? `method.request.header.${metadata.header}`
         : undefined,
+      authorizerResultTtlInSeconds: metadata.authorizerResultTtlInSeconds,
     });
 
     this.authResources.push(authorizer);

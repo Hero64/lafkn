@@ -132,6 +132,19 @@ export interface DynamoStream<T> {
    * Specifies filter criteria to selectively process only certain records
    * from the DynamoDB Stream. This allows you to ignore events that do
    * not match the defined conditions, reducing unnecessary processing.
+   *
+   * @example
+   * {
+   *   filters: {
+   *     eventName: ['INSERT'],
+   *     keys: {
+   *       PK: ['foo']
+   *     },
+   *     newImage: {
+   *       bar: [1, 2, 3]
+   *     }
+   *   }
+   * }
    */
   filters?: FilterCriteria<T>;
 }
@@ -162,6 +175,24 @@ export interface ModelBase<T extends Function> {
    * - `detailType` is always set to `'db:stream'`.
    * - `source` is set to `dynamodb.<model_name>`, where `<model_name>` is
    *   the name of the decorated class.
+   *
+   * @example {
+   *   stream: {
+   *     enabled: true,
+   *     type: ['NEW_AND_OLD_IMAGES'],
+   *     batchSize: 10,
+   *     maximumBatchingWindowInSeconds: 10,
+   *     filters: {
+   *       eventName: ['INSERT'],
+   *       keys: {
+   *         PK: ['foo']
+   *       },
+   *       newImage: {
+   *         bar: [1, 2, 3]
+   *       }
+   *     }
+   *   }
+   * }
    */
   stream?: DynamoStream<T['prototype']>;
   /**
@@ -172,10 +203,10 @@ export interface ModelBase<T extends Function> {
    * the expiration time.
    *
    * @example
-   * ```ts
-   * ttl: 'expiresAt'
+   * {
    * // Items with an 'expiresAt' attribute set to a future Unix timestamp will be removed after that time.
-   * ```
+   * ttl: 'expiresAt'
+   * }
    */
   ttl?: keyof OnlyNumber<T['prototype']>;
 }

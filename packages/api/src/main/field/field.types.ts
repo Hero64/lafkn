@@ -90,6 +90,8 @@ export interface BodyParamProps extends ApiFieldBaseProps {
    *
    * Specifies where the value of this field should be retrieved from
    * in the API request.
+   *
+   * @default 'path'
    */
   source: 'body';
 }
@@ -100,6 +102,7 @@ export interface PathParamProps extends Omit<ApiFieldBaseProps, 'type' | 'valida
    *
    * Specifies where the value of this field should be retrieved from
    * in the API request.
+   * @default 'path'
    */
   source?: 'path';
   /**
@@ -123,6 +126,7 @@ export interface QueryHeaderParamProps
    *
    * Specifies where the value of this field should be retrieved from
    * in the API request.
+   * @default 'path'
    */
   source?: 'query' | 'header';
   /**
@@ -147,6 +151,8 @@ export interface ContextParamProps
    *
    * Specifies where the value of this field should be retrieved from
    * in the API request.
+   *
+   * @default 'path'
    */
   source?: 'context';
   /**
@@ -168,7 +174,8 @@ export interface ContextParamProps
     | 'path'
     | 'protocol'
     | 'requestId'
-    | 'resourcePath';
+    | 'resourcePath'
+    | (string & {});
   validation?: never;
 }
 

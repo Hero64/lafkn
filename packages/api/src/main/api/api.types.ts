@@ -35,7 +35,7 @@ export interface MethodAuthorizer {
    * @example
    * // Define permissions for a custom authorizer
    * {
-   *   permissions: ["read:user", "write:user"]
+   *   scopes: ["read:user", "write:user"]
    * }
    */
   scopes?: string[];
@@ -76,12 +76,26 @@ export interface ApiLambdaBaseProps {
    * The value can be:
    * - A primitive type (`String`, `Number`, `Boolean`, etc.)
    * - A class decorated with `@Response` to define a structured payload.
+   * @example
+   * {
+   *   response: Number,
+   *   // response: Boolean
+   *   // response: CustomResponseClass
+   * }
    */
   response?: AllowedTypes;
   /**
    * Method authentication configuration.
    *
    * Specifies the authorizer to be applied to this API method.
+   *
+   * @example
+   * {
+   *   auth: {
+   *     authorizerName: "<example-auth>",
+   *     scopes: ["foo", "bar"]
+   *   }
+   * }
    */
   auth?: MethodAuthorizer | false;
 }
@@ -102,6 +116,15 @@ export interface ApiLambdaIntegrationProps extends ApiLambdaBaseProps {
    * associated with this API method. This allows you to customize
    * aspects such as timeout, memory, runtime, environment variables,
    * services, and tracing on a per-method basis.
+   *
+   * @example
+   * {
+   *   timeout: 300,
+   *   memory: 1024,
+   *   runtime: 22,
+   *   services: ['sqs'],
+   *   enableTrace: booleam
+   * }
    */
   lambda?: LambdaProps;
 }
@@ -273,6 +296,14 @@ export interface ApiProps extends ResourceProps {
    *
    * Specifies the authorizers that will be applied to all methods.
    * Use `false` to disable authorization for all class methods.
+   *
+   * @example
+   * {
+   *   auth: {
+   *     authorizerName: "<example-auth>",
+   *     scopes: ["foo", "bar"]
+   *   }
+   * }
    */
   auth?: MethodAuthorizer | false;
   /**

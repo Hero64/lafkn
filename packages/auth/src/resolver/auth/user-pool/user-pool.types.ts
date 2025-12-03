@@ -237,7 +237,8 @@ export interface UserPool<T extends ClassResource> {
    */
   accountRecovery?: AccountRecovery[];
   /**
-   * TODO: completar
+   * Specifies which user attributes can be used as the username during sign-up
+   * and authentication. Common options include `email` and `phone`.
    */
   usernameAttributes?: AutoVerifyAttributes[];
   /**

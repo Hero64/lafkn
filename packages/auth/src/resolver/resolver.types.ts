@@ -23,6 +23,13 @@ export interface AuthOptions<T extends ClassResource> {
    * - Lambda triggers
    * - MFA settings
    * - Sign-in aliases
+   * @example
+   * {
+   *   userPool: {
+   *      attributes: AttributeClass,
+   *      ...
+   *   }
+   * }
    */
   userPool?: UserPool<T>;
   /**
@@ -32,6 +39,13 @@ export interface AuthOptions<T extends ClassResource> {
    * - Callback URLs
    * - Allowed scopes
    * - Token expiration times
+   * @example
+   * {
+   *   userClient: {
+   *      authFlow: ['allow_user_auth'],
+   *      ...
+   *   }
+   * }
    */
   userClient?: UserClient<T>;
   /**
@@ -43,6 +57,12 @@ export interface AuthOptions<T extends ClassResource> {
    * Each extension should be a class decorated with `@AuthExtension`, and its methods
    * must be decorated with `@Trigger`. The `type` of each trigger must be unique
    * to prevent conflicts.
+   *
+   * @example
+   * // first create an extension class with @AuthExtension decorator
+   * {
+   *   extensions: [PreSignUpClass, PostTokenClass]
+   * }
    */
   extensions?: ClassResource[];
   /**
