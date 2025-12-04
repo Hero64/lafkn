@@ -1,11 +1,11 @@
 import { enableBuildEnvVariable, getMetadataByKey } from '../../utils';
-import { FieldProperties } from '../field';
+import { createFieldName, FieldProperties } from '../field';
 import { createPayloadDecorator } from './payload';
 import type { PayloadMetadata } from './payload.types';
 
 describe('Payload decorator', () => {
   enableBuildEnvVariable();
-  const Payload = createPayloadDecorator({});
+  const Payload = createPayloadDecorator({ prefix: 'test' });
 
   it('should exist payload metadata', () => {
     @Payload({
@@ -15,7 +15,7 @@ describe('Payload decorator', () => {
 
     const metadata = getMetadataByKey<PayloadMetadata>(
       TestPayload,
-      FieldProperties.payload
+      createFieldName('test', FieldProperties.payload)
     );
 
     expect(metadata).toBeDefined();

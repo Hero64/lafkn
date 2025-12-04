@@ -1,6 +1,5 @@
 import {
   type ClassResource,
-  FieldProperties,
   getMetadataPrototypeByKey,
   getResourceHandlerMetadata,
   getResourceMetadata,
@@ -8,17 +7,18 @@ import {
 } from '@alicanto/common';
 import { lambdaAssets } from '@alicanto/resolver';
 import type { Construct } from 'constructs';
-import type {
-  LambdaStateMetadata,
-  RetryCatchTypes,
-  StateMachineObjectParam,
-  StateMachineParamMetadata,
-  StateMachineResourceMetadata,
-  StateMachineSource,
-  StateMachineStringParam,
-  StateSource,
-  StateTypes,
-  TaskSource,
+import {
+  type LambdaStateMetadata,
+  type RetryCatchTypes,
+  type StateMachineObjectParam,
+  type StateMachineParamMetadata,
+  type StateMachineResourceMetadata,
+  type StateMachineSource,
+  type StateMachineStringParam,
+  type StateSource,
+  type StateTypes,
+  stateMachineFieldKey,
+  type TaskSource,
 } from '../../../main';
 import type {
   Catch,
@@ -408,7 +408,7 @@ export class Schema {
 
     const params = getMetadataPrototypeByKey<StateMachineParamMetadata[]>(
       args,
-      FieldProperties.field
+      stateMachineFieldKey
     );
 
     const parallelArguments: Record<string, any> = {};

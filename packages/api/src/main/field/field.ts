@@ -1,9 +1,12 @@
 import 'reflect-metadata';
-import { createFieldDecorator } from '@alicanto/common';
-
+import { createFieldDecorator, createFieldName, FieldProperties } from '@alicanto/common';
+import { RESOURCE_TYPE } from '../api';
 import type { ApiFieldMetadata, ApiFieldProps, ApiParamMetadata } from './field.types';
 
+export const apiFieldKey = createFieldName(RESOURCE_TYPE, FieldProperties.field);
+
 export const Field = createFieldDecorator<ApiFieldProps, ApiFieldMetadata>({
+  prefix: RESOURCE_TYPE,
   getMetadata: (props) => {
     return {
       validation: {
@@ -15,6 +18,7 @@ export const Field = createFieldDecorator<ApiFieldProps, ApiFieldMetadata>({
 });
 
 export const Param = createFieldDecorator<ApiFieldProps, ApiParamMetadata>({
+  prefix: RESOURCE_TYPE,
   getMetadata: (props) => {
     return {
       source: props?.source || 'query',

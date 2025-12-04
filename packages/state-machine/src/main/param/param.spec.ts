@@ -1,12 +1,11 @@
 import 'reflect-metadata';
 import {
   enableBuildEnvVariable,
-  FieldProperties,
   getMetadataByKey,
   getMetadataPrototypeByKey,
   type PayloadMetadata,
 } from '@alicanto/common';
-import { Param, Payload } from './param';
+import { Param, Payload, stateMachineFieldKey, stateMachinePayloadKey } from './param';
 import type { StateMachineParamMetadata } from './param.types';
 
 describe('Decorators', () => {
@@ -20,7 +19,7 @@ describe('Decorators', () => {
 
     const metadata = getMetadataByKey<PayloadMetadata>(
       TestPayload,
-      FieldProperties.payload
+      stateMachinePayloadKey
     );
 
     expect(metadata).toBeDefined();
@@ -45,7 +44,7 @@ describe('Decorators', () => {
 
     const metadata = getMetadataPrototypeByKey<StateMachineParamMetadata[]>(
       TestPayload,
-      FieldProperties.field
+      stateMachineFieldKey
     );
 
     expect(metadata).toBeDefined();
@@ -89,7 +88,7 @@ describe('Decorators', () => {
 
     const metadata = getMetadataPrototypeByKey<StateMachineParamMetadata[]>(
       TestPayload,
-      FieldProperties.field
+      stateMachineFieldKey
     );
 
     expect(metadata).toBeDefined();

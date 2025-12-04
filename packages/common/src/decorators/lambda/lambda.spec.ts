@@ -93,8 +93,8 @@ describe('Lambda Decorators', () => {
     const Lambda = createLambdaDecorator({
       getLambdaMetadata: (props) => props,
     });
-    const Event = createEventDecorator();
-    const FieldData = createFieldDecorator({ getMetadata: () => ({}) });
+    const Event = createEventDecorator({ prefix: 'test' });
+    const FieldData = createFieldDecorator({ prefix: 'test', getMetadata: () => ({}) });
 
     class Field {
       @FieldData()

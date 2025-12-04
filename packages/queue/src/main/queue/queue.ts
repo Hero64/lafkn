@@ -10,7 +10,7 @@ import type { SQSEvent, SQSRecord } from 'aws-lambda';
 import type { QueueParamMetadata } from '../event/event.types';
 import type { FifoProps, QueueLambdaMetadata, StandardProps } from './queue.types';
 
-export const RESOURCE_TYPE = 'QUEUE';
+export const RESOURCE_TYPE = 'QUEUE' as const;
 
 export const Queue = createResourceDecorator({
   type: RESOURCE_TYPE,

@@ -92,7 +92,7 @@ const reflectEventMetadata = (
 };
 
 export const createEventDecorator =
-  ({ enableInLambdaInvocation = false }: CreateEventDecoratorProps = {}) =>
+  ({ enableInLambdaInvocation = false, prefix }: CreateEventDecoratorProps) =>
   (eventField: AllowedTypes) =>
   (target: any, methodName: string, _number: number) => {
     reflectArgumentMethod(target, methodName, LambdaArgumentTypes.event);
@@ -101,7 +101,7 @@ export const createEventDecorator =
       return;
     }
 
-    const field = getEventFields(eventField);
+    const field = getEventFields(prefix, eventField);
     reflectEventMetadata(target, methodName, LambdaReflectKeys.event_param, field);
   };
 

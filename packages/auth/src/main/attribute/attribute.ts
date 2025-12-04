@@ -1,5 +1,11 @@
 import 'reflect-metadata';
-import { createFieldDecorator, createPayloadDecorator } from '@alicanto/common';
+import {
+  createFieldDecorator,
+  createFieldName,
+  createPayloadDecorator,
+  FieldProperties,
+} from '@alicanto/common';
+import { RESOURCE_TYPE } from '../extension/extension';
 import type {
   AuthAttributes,
   CommonStandardAttribute,
@@ -8,7 +14,11 @@ import type {
   StandardAttributeMetadata,
 } from './attribute.types';
 
+export const authFieldKey = createFieldName(RESOURCE_TYPE, FieldProperties.field);
+export const authPayloadKey = createFieldName(RESOURCE_TYPE, FieldProperties.payload);
+
 export const Attributes = createPayloadDecorator({
+  prefix: RESOURCE_TYPE,
   createUniqueId: false,
 });
 
@@ -23,6 +33,7 @@ export const Custom =
   ) =>
   (target: T, propertyName: A) =>
     createFieldDecorator<CustomAttributeProps<T[A]>, CustomAttributesMetadata>({
+      prefix: RESOURCE_TYPE,
       getMetadata: (props) => ({
         ...props,
         attributeType: 'custom',
@@ -59,6 +70,7 @@ export const Standard =
   (props: CommonStandardAttribute = {}) =>
   (target: any, propertyKey: keyof AuthAttributes) =>
     createFieldDecorator<CommonStandardAttribute, StandardAttributeMetadata>({
+      prefix: RESOURCE_TYPE,
       getMetadata: (props) => ({
         attributeType: 'standard',
         mutable: props?.mutable ?? true,

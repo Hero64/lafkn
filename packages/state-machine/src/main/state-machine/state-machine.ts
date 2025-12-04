@@ -11,7 +11,7 @@ import {
   type StateMachineResourceProps,
 } from './state-machine.types';
 
-export const RESOURCE_TYPE = 'STATE_MACHINE';
+export const RESOURCE_TYPE = 'STATE_MACHINE' as const;
 
 export const NestedStateMachine =
   <T extends Function>(props: StateMachineBaseProps<keyof T['prototype']>) =>

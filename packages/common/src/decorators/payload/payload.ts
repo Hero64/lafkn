@@ -10,6 +10,7 @@ const payloadIds: Record<string, number> = {};
 
 export const createPayloadDecorator =
   <T extends PayloadProps, M>({
+    prefix,
     getMetadata,
     createUniqueId = false,
     enableInLambdaInvocation = false,
@@ -42,5 +43,9 @@ export const createPayloadDecorator =
       };
     }
 
-    Reflect.defineMetadata(FieldProperties.payload, payloadMetadata, target);
+    Reflect.defineMetadata(
+      `${prefix}:${FieldProperties.payload}`,
+      payloadMetadata,
+      target
+    );
   };

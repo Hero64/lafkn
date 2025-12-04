@@ -1,15 +1,20 @@
 import {
   createEventDecorator,
+  createFieldName,
   createPayloadDecorator,
+  FieldProperties,
   getEventFields,
 } from '@alicanto/common';
-
+import { RESOURCE_TYPE } from '../api';
 import type { ApiFieldMetadata } from '../field';
 import type { HTTP_STATUS_CODE_NUMBER } from '../status';
 import type { ResponseMetadata, ResponseProps } from './event.types';
 
+export const apiPayloadKey = createFieldName(RESOURCE_TYPE, FieldProperties.payload);
+
 export const Response = createPayloadDecorator<ResponseProps, ResponseMetadata>({
   createUniqueId: true,
+  prefix: RESOURCE_TYPE,
   getMetadata: (props) => {
     if (!props?.responses) {
       return {
@@ -25,6 +30,7 @@ export const Response = createPayloadDecorator<ResponseProps, ResponseMetadata>(
 
       if (props.responses[code] !== true) {
         responses[code] = getEventFields(
+          RESOURCE_TYPE,
           props.responses[code],
           'response'
         ) as ApiFieldMetadata;
@@ -39,7 +45,9 @@ export const Response = createPayloadDecorator<ResponseProps, ResponseMetadata>(
 });
 
 export const Payload = createPayloadDecorator({
+  prefix: RESOURCE_TYPE,
   createUniqueId: true,
 });
 
-export const Event = (target: Function) => createEventDecorator()(target);
+export const Event = (target: Function) =>
+  createEventDecorator({ prefix: RESOURCE_TYPE })(target);

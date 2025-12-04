@@ -1,11 +1,10 @@
 import {
   enableBuildEnvVariable,
-  FieldProperties,
   getMetadataByKey,
   getMetadataPrototypeByKey,
   type PayloadMetadata,
 } from '@alicanto/common';
-import { Attributes, Custom, Standard } from './attribute';
+import { Attributes, authFieldKey, authPayloadKey, Custom, Standard } from './attribute';
 import type {
   CustomAttributesMetadata,
   StandardAttributeMetadata,
@@ -17,7 +16,7 @@ describe('Attribute', () => {
     @Attributes()
     class Test {}
 
-    const metadata = getMetadataByKey<PayloadMetadata>(Test, FieldProperties.payload);
+    const metadata = getMetadataByKey<PayloadMetadata>(Test, authPayloadKey);
 
     expect(metadata).toBeDefined();
     expect(metadata.name).toBe('Test');
@@ -38,7 +37,7 @@ describe('Attribute', () => {
 
     const metadata = getMetadataPrototypeByKey<StandardAttributeMetadata[]>(
       Test,
-      FieldProperties.field
+      authFieldKey
     );
 
     expect(metadata).toBeDefined();
@@ -82,7 +81,7 @@ describe('Attribute', () => {
 
     const metadata = getMetadataPrototypeByKey<CustomAttributesMetadata[]>(
       Test,
-      FieldProperties.field
+      authFieldKey
     );
 
     expect(metadata).toBeDefined();
@@ -126,7 +125,7 @@ describe('Attribute', () => {
 
     const metadata = getMetadataPrototypeByKey<CustomAttributesMetadata[]>(
       Test,
-      FieldProperties.field
+      authFieldKey
     );
 
     expect(metadata).toBeDefined();

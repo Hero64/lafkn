@@ -2,11 +2,10 @@ import 'reflect-metadata';
 import {
   type ClassResource,
   enableBuildEnvVariable,
-  FieldProperties,
   type PayloadMetadata,
 } from '@alicanto/common';
 import { Fifo, Queue } from '../queue';
-import { Event, Field, Param, Payload } from './event';
+import { Event, Field, Param, Payload, queueFieldKey, queuePayloadKey } from './event';
 import type { QueueParamMetadata } from './event.types';
 
 describe('Event Decorator', () => {
@@ -20,7 +19,7 @@ describe('Event Decorator', () => {
       @Payload()
       class TestEvent {}
 
-      payloadMetadata = Reflect.getMetadata(FieldProperties.payload, TestEvent) || {};
+      payloadMetadata = Reflect.getMetadata(queuePayloadKey, TestEvent) || {};
     });
 
     it('Should exist payload', () => {
@@ -71,8 +70,7 @@ describe('Event Decorator', () => {
 
       testQueue = TestQueue;
 
-      paramMetadata =
-        Reflect.getMetadata(FieldProperties.field, TestEvent.prototype) || [];
+      paramMetadata = Reflect.getMetadata(queueFieldKey, TestEvent.prototype) || [];
     });
 
     it('Should exist params', () => {

@@ -1,6 +1,5 @@
 import {
   type ClassResource,
-  FieldProperties,
   getMetadataPrototypeByKey,
   getResourceHandlerMetadata,
   getResourceMetadata,
@@ -20,10 +19,11 @@ import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
 import { Token } from 'cdktf';
 import type { Construct } from 'constructs';
-import type {
-  AuthAttributes,
-  CustomAttributesMetadata,
-  StandardAttributeMetadata,
+import {
+  type AuthAttributes,
+  authFieldKey,
+  type CustomAttributesMetadata,
+  type StandardAttributeMetadata,
 } from '../../../main';
 import { RESOURCE_TYPE } from '../../../main/extension/extension';
 import type { TriggerMetadata } from '../../../main/extension/extension.types';
@@ -233,7 +233,7 @@ export class UserPool extends alicantoResource.make(CognitoUserPool) {
 
     const attributeMetadata = getMetadataPrototypeByKey<
       (CustomAttributesMetadata | StandardAttributeMetadata)[]
-    >(attributeClass, FieldProperties.field);
+    >(attributeClass, authFieldKey);
 
     for (const attribute of attributeMetadata) {
       attributeByName[attribute.name] = attribute;

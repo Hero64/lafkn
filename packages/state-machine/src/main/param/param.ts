@@ -2,10 +2,18 @@ import {
   type ClassResource,
   createEventDecorator,
   createFieldDecorator,
+  createFieldName,
   createPayloadDecorator,
+  FieldProperties,
 } from '@alicanto/common';
-
+import { RESOURCE_TYPE } from '../state-machine';
 import type { JsonAtaString, ParamProps, StateMachineParamMetadata } from './param.types';
+
+export const stateMachineFieldKey = createFieldName(RESOURCE_TYPE, FieldProperties.field);
+export const stateMachinePayloadKey = createFieldName(
+  RESOURCE_TYPE,
+  FieldProperties.payload
+);
 
 /**
  * Event decorator.
@@ -16,12 +24,14 @@ import type { JsonAtaString, ParamProps, StateMachineParamMetadata } from './par
  * - A JSONata expression as a string, allowing dynamic extraction or transformation of the event data.
  */
 export const Event = <E extends ClassResource | JsonAtaString>(FieldClass: E) =>
-  createEventDecorator()(FieldClass);
+  createEventDecorator({ prefix: RESOURCE_TYPE })(FieldClass);
 
 export const Payload = createPayloadDecorator({
+  prefix: RESOURCE_TYPE,
   createUniqueId: false,
 });
 
 export const Param = createFieldDecorator<ParamProps, StateMachineParamMetadata>({
+  prefix: RESOURCE_TYPE,
   getMetadata: (props) => props as StateMachineParamMetadata,
 });

@@ -1,11 +1,7 @@
 import 'reflect-metadata';
-import {
-  enableBuildEnvVariable,
-  FieldProperties,
-  getMetadataPrototypeByKey,
-} from '@alicanto/common';
+import { enableBuildEnvVariable, getMetadataPrototypeByKey } from '@alicanto/common';
 import { Payload } from '../event';
-import { Field, Param } from './field';
+import { apiFieldKey, Field, Param } from './field';
 import type { ApiArrayParam, ApiParamMetadata } from './field.types';
 
 describe('Field', () => {
@@ -33,10 +29,7 @@ describe('Field', () => {
       })
       data: ObjectField[];
     }
-    const fields = getMetadataPrototypeByKey<ApiParamMetadata[]>(
-      Test,
-      FieldProperties.field
-    );
+    const fields = getMetadataPrototypeByKey<ApiParamMetadata[]>(Test, apiFieldKey);
 
     it('should exist param metadata', () => {
       expect(fields).toBeDefined();
@@ -77,10 +70,7 @@ describe('Field', () => {
         @Field({})
         foo: string;
       }
-      const field = getMetadataPrototypeByKey<ApiParamMetadata[]>(
-        Test,
-        FieldProperties.field
-      );
+      const field = getMetadataPrototypeByKey<ApiParamMetadata[]>(Test, apiFieldKey);
 
       expect(field).toHaveLength(1);
     });
@@ -96,10 +86,7 @@ describe('Field', () => {
         foo: string;
       }
 
-      const field = getMetadataPrototypeByKey<ApiParamMetadata[]>(
-        Test,
-        FieldProperties.field
-      );
+      const field = getMetadataPrototypeByKey<ApiParamMetadata[]>(Test, apiFieldKey);
 
       expect(field).toHaveLength(2);
     });

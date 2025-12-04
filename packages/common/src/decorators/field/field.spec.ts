@@ -1,11 +1,12 @@
 import { enableBuildEnvVariable, getMetadataPrototypeByKey } from '../../utils';
-import { createFieldDecorator, getEventFields } from './field';
+import { createFieldDecorator, createFieldName, getEventFields } from './field';
 import { type FieldMetadata, FieldProperties, type FieldProps } from './field.types';
 
 describe('Field', () => {
   enableBuildEnvVariable();
   it('should create a param decorator', () => {
     const TestDecorator = createFieldDecorator({
+      prefix: 'test',
       getMetadata: () => ({}),
     });
 
@@ -15,6 +16,7 @@ describe('Field', () => {
 
   it('should get metadata from simple field', () => {
     const TestDecorator = createFieldDecorator<FieldProps, FieldMetadata>({
+      prefix: 'test',
       getMetadata: () => ({}),
     });
 
@@ -27,7 +29,7 @@ describe('Field', () => {
 
     const metadata = getMetadataPrototypeByKey<FieldMetadata[]>(
       Test,
-      FieldProperties.field
+      createFieldName('test', FieldProperties.field)
     );
 
     expect(metadata).toHaveLength(1);
@@ -47,6 +49,7 @@ describe('Field', () => {
     type CustomMetadata = FieldMetadata & CustomProps;
 
     const TestDecorator = createFieldDecorator<CustomProps, CustomMetadata>({
+      prefix: 'test',
       getMetadata: (props) => ({
         foo: props?.foo || 1,
         source: props?.source || '',
@@ -64,7 +67,7 @@ describe('Field', () => {
 
     const metadata = getMetadataPrototypeByKey<CustomMetadata[]>(
       Test,
-      FieldProperties.field
+      createFieldName('test', FieldProperties.field)
     );
 
     expect(metadata).toHaveLength(1);
@@ -79,6 +82,7 @@ describe('Field', () => {
 
   it('should create a field with object value', () => {
     const TestDecorator = createFieldDecorator({
+      prefix: 'test',
       getMetadata: () => ({}),
     });
 
@@ -96,7 +100,7 @@ describe('Field', () => {
 
     const metadata = getMetadataPrototypeByKey<FieldMetadata[]>(
       Test,
-      FieldProperties.field
+      createFieldName('test', FieldProperties.field)
     );
 
     expect(metadata).toHaveLength(1);
@@ -117,6 +121,7 @@ describe('Field', () => {
 
   it('should create a field with array value', () => {
     const TestDecorator = createFieldDecorator({
+      prefix: 'test',
       getMetadata: () => ({}),
     });
 
@@ -134,7 +139,7 @@ describe('Field', () => {
 
     const metadata = getMetadataPrototypeByKey<FieldMetadata[]>(
       Test,
-      FieldProperties.field
+      createFieldName('test', FieldProperties.field)
     );
 
     expect(metadata).toHaveLength(1);
@@ -159,6 +164,7 @@ describe('Field', () => {
   });
   it('should get field by object event', () => {
     const TestDecorator = createFieldDecorator({
+      prefix: 'test',
       getMetadata: () => ({}),
     });
 
@@ -167,7 +173,7 @@ describe('Field', () => {
       name: string;
     }
 
-    const event = getEventFields(Test);
+    const event = getEventFields('test', Test);
 
     expect(event).toEqual({
       destinationName: 'event',
@@ -185,7 +191,7 @@ describe('Field', () => {
   });
 
   it('should get field by primitive event', () => {
-    const event = getEventFields('test value');
+    const event = getEventFields('test', 'test value');
 
     expect(event).toEqual({
       destinationName: 'event',

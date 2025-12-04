@@ -16,7 +16,7 @@ import {
   type ResponseFieldMetadata,
 } from './api.types';
 
-export const RESOURCE_TYPE = 'REST_API';
+export const RESOURCE_TYPE = 'REST_API' as const;
 
 const createMethodDecorator = (method: Method) =>
   createLambdaDecorator<ApiLambdaProps, ApiLambdaMetadata>({
@@ -31,6 +31,7 @@ const createMethodDecorator = (method: Method) =>
       const responseHandler = params as ApiLambdaBaseProps;
 
       const responseParams = getEventFields(
+        RESOURCE_TYPE,
         responseHandler.response
       ) as ResponseFieldMetadata;
 

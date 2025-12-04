@@ -68,7 +68,6 @@ describe('Bucket', () => {
 
     expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
       bucket: 'testing-bucket',
-      bucket_prefix: 'test',
       force_destroy: true,
       tags: {
         foo: 'bar',

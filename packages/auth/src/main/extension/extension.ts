@@ -2,7 +2,7 @@ import { createLambdaDecorator, createResourceDecorator } from '@alicanto/common
 
 import type { ExtensionsProps, TriggerMetadata, TriggerProps } from './extension.types';
 
-export const RESOURCE_TYPE = 'AUTHENTICATION';
+export const RESOURCE_TYPE = 'AUTHENTICATION' as const;
 
 export const AuthExtension = (props?: ExtensionsProps) =>
   createResourceDecorator({

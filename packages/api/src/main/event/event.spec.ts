@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import {
   enableBuildEnvVariable,
-  FieldProperties,
   getMetadataByKey,
   getMetadataPrototypeByKey,
   LambdaReflectKeys,
@@ -9,7 +8,7 @@ import {
 } from '@alicanto/common';
 
 import { type ApiObjectParam, type ApiParamMetadata, Field, Param } from '../field';
-import { Event, Payload, Response } from './event';
+import { apiPayloadKey, Event, Payload, Response } from './event';
 import type { ResponseMetadata } from './event.types';
 
 describe('Event', () => {
@@ -20,10 +19,7 @@ describe('Event', () => {
       @Payload()
       class TestPayload {}
 
-      const resource: PayloadMetadata = getMetadataByKey(
-        TestPayload,
-        FieldProperties.payload
-      );
+      const resource: PayloadMetadata = getMetadataByKey(TestPayload, apiPayloadKey);
 
       expect(resource).toBeDefined();
       expect(resource).toStrictEqual({
@@ -40,10 +36,7 @@ describe('Event', () => {
       })
       class TestResponse {}
 
-      const resource: ResponseMetadata = getMetadataByKey(
-        TestResponse,
-        FieldProperties.payload
-      );
+      const resource: ResponseMetadata = getMetadataByKey(TestResponse, apiPayloadKey);
 
       expect(resource).toBeDefined();
       expect(resource.name).toBe('TestResponse');
@@ -74,10 +67,7 @@ describe('Event', () => {
       })
       class TestResponse {}
 
-      const resource: ResponseMetadata = Reflect.getMetadata(
-        FieldProperties.payload,
-        TestResponse
-      );
+      const resource: ResponseMetadata = Reflect.getMetadata(apiPayloadKey, TestResponse);
 
       expect(resource).toBeDefined();
       expect(resource.name).toBe('TestResponse');

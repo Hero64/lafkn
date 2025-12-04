@@ -35,6 +35,7 @@ export const getPrimitiveType = (type: AllowedTypes): PrimitiveTypes | undefined
 };
 
 export const getEventFields = (
+  prefix: string,
   target?: AllowedTypes,
   name: string = 'event'
 ): BaseFieldMetadata | undefined => {
@@ -48,16 +49,18 @@ export const getEventFields = (
     fieldProps: {
       type: target,
     },
+    prefix,
   });
 };
 
 const getObjectMetadata = (
   metadata: Pick<BaseFieldMetadata, 'destinationName' | 'name'>,
-  payloadClass: ClassResource
+  payloadClass: ClassResource,
+  prefix: string
 ): FieldMetadata => {
   const payloadMetadata = getMetadataByKey<PayloadMetadata>(
     payloadClass,
-    FieldProperties.payload
+    createFieldName(prefix, FieldProperties.payload)
   ) || {
     name: payloadClass.name,
     id: payloadClass.name,
@@ -65,7 +68,7 @@ const getObjectMetadata = (
 
   const properties = getMetadataPrototypeByKey<FieldMetadata[]>(
     payloadClass,
-    FieldProperties.field
+    createFieldName(prefix, FieldProperties.field)
   );
 
   if (!properties?.length) {
@@ -81,7 +84,7 @@ const getObjectMetadata = (
 };
 
 const getFieldMetadata = (props: GetFieldMetadataProps): FieldMetadata => {
-  const { fieldProps, destinationName, type } = props;
+  const { fieldProps, destinationName, type, prefix } = props;
 
   const metadata: Pick<BaseFieldMetadata, 'destinationName' | 'name'> = {
     destinationName,
@@ -94,7 +97,7 @@ const getFieldMetadata = (props: GetFieldMetadataProps): FieldMetadata => {
 
   if (fieldProps?.type !== undefined) {
     if (typeof fieldProps.type === 'function') {
-      return getObjectMetadata(metadata, fieldProps.type as ClassResource);
+      return getObjectMetadata(metadata, fieldProps.type as ClassResource, prefix);
     }
 
     if (Array.isArray(fieldProps.type)) {
@@ -114,7 +117,8 @@ const getFieldMetadata = (props: GetFieldMetadataProps): FieldMetadata => {
               name: 'Object',
               destinationName: 'Object',
             },
-            fieldProps.type[0] as ClassResource
+            fieldProps.type[0] as ClassResource,
+            prefix
           );
         }
       }
@@ -144,8 +148,9 @@ const getFieldMetadata = (props: GetFieldMetadataProps): FieldMetadata => {
 
 export const createFieldDecorator =
   <T extends FieldProps, M>({
-    getMetadata,
+    prefix,
     enableInLambdaInvocation,
+    getMetadata,
   }: CreateFieldDecoratorProps<T, M>) =>
   (props?: T) =>
   (target: any, destinationName: string) => {
@@ -153,8 +158,9 @@ export const createFieldDecorator =
       return;
     }
 
-    const fields =
-      getMetadataByKey<M & BaseFieldMetadata[]>(target, FieldProperties.field) || [];
+    const filedKey = createFieldName(prefix, FieldProperties.field);
+
+    const fields = getMetadataByKey<M & BaseFieldMetadata[]>(target, filedKey) || [];
 
     const propertyType = Reflect.getMetadata('design:type', target, destinationName).name;
     const parentMetadata = getMetadata(props);
@@ -167,8 +173,13 @@ export const createFieldDecorator =
           destinationName,
           type: propertyType,
           fieldProps: props,
+          prefix,
         }),
       },
     ];
-    Reflect.defineMetadata(FieldProperties.field, metadata, target);
+    Reflect.defineMetadata(filedKey, metadata, target);
   };
+
+export const createFieldName = (prefix: string, type: FieldProperties) => {
+  return `${prefix}:${type}`;
+};

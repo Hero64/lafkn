@@ -136,5 +136,6 @@ export interface CreateLambdaDecoratorProps<T, M> {
 }
 
 export interface CreateEventDecoratorProps {
+  prefix: string;
   enableInLambdaInvocation?: boolean;
 }

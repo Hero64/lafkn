@@ -1,14 +1,11 @@
 import 'cdktf/lib/testing/adapters/jest';
-import {
-  enableBuildEnvVariable,
-  FieldProperties,
-  getMetadataPrototypeByKey,
-} from '@alicanto/common';
+import { enableBuildEnvVariable, getMetadataPrototypeByKey } from '@alicanto/common';
 import { setupTestingStack } from '@alicanto/resolver';
 import { CognitoUserPoolClient } from '@cdktf/provider-aws/lib/cognito-user-pool-client';
 import { Testing } from 'cdktf';
 import {
   Attributes,
+  authFieldKey,
   Custom,
   type CustomAttributesMetadata,
   Standard,
@@ -55,7 +52,7 @@ describe('Auth user pool client', () => {
 
     const attributes = getMetadataPrototypeByKey<
       (CustomAttributesMetadata | StandardAttributeMetadata)[]
-    >(AuthAttributes, FieldProperties.field);
+    >(AuthAttributes, authFieldKey);
 
     const attributesByName = attributes.reduce(
       (acc, current) => {
