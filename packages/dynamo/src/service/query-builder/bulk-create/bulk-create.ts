@@ -1,5 +1,5 @@
-import type { ClassResource } from '@alicanto/common';
 import { marshall } from '@aws-sdk/util-dynamodb';
+import type { ClassResource } from '@lafken/common';
 import { BatchWriteBuilder } from '../batch-write/batch-write';
 import type { BulkCreateBuilderProps } from './bulk-create.types';
 

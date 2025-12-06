@@ -1,4 +1,4 @@
-import { CognitoAuthorizer } from '@alicanto/api/main';
+import { CognitoAuthorizer } from '@lafken/api/main';
 
 @CognitoAuthorizer({
   userPool: 'example-user-pool',

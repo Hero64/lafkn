@@ -1,5 +1,5 @@
-import { getResourceMetadata } from '@alicanto/common';
-import { ContextName, Role } from '@alicanto/resolver';
+import { getResourceMetadata } from '@lafken/common';
+import { ContextName, Role } from '@lafken/resolver';
 import { Aspects } from 'cdktf';
 import { Construct } from 'constructs';
 import { AppAspect } from '../aspect/aspect';
@@ -63,7 +63,7 @@ export class StackModule extends Construct {
       new AppAspect({
         tags: {
           ...(this.props.globalConfig?.tags || {}),
-          'alicanto:module': this.props.name,
+          'lafken:module': this.props.name,
         },
       })
     );

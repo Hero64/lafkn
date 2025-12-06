@@ -5,7 +5,7 @@ import type {
   NumberField,
   ObjectField,
   StringField,
-} from '@alicanto/common';
+} from '@lafken/common';
 
 export interface ParamAttributeProps extends Omit<FieldProps, 'type'> {
   /**

@@ -1,4 +1,4 @@
-import type { ClassResource } from '@alicanto/common';
+import type { ClassResource } from '@lafken/common';
 import { type FieldsMetadata, ModelMetadataKeys } from '../../main/model';
 import type { ModelMetadata } from '../query-builder/query-builder.types';
 

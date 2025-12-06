@@ -1,13 +1,13 @@
 import 'cdktf/lib/testing/adapters/jest';
-import {
-  enableBuildEnvVariable,
-  getResourceHandlerMetadata,
-  getResourceMetadata,
-} from '@alicanto/common';
 import { ApiGatewayMethod } from '@cdktf/provider-aws/lib/api-gateway-method';
 import { ApiGatewayResource } from '@cdktf/provider-aws/lib/api-gateway-resource';
 import { ApiGatewayRestApi } from '@cdktf/provider-aws/lib/api-gateway-rest-api';
 import { ApiGatewayStage } from '@cdktf/provider-aws/lib/api-gateway-stage';
+import {
+  enableBuildEnvVariable,
+  getResourceHandlerMetadata,
+  getResourceMetadata,
+} from '@lafken/common';
 import { Testing } from 'cdktf';
 import {
   Api,

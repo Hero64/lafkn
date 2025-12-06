@@ -1,5 +1,5 @@
-import type { LambdaGlobalConfig, ResolverType } from '@alicanto/resolver';
 import type { AwsProviderConfig } from '@cdktf/provider-aws/lib/provider';
+import type { LambdaGlobalConfig, ResolverType } from '@lafken/resolver';
 import type { StackModule } from '../module';
 import type { ModuleResolverType } from '../module/module.types';
 import type { AppStack } from './app';

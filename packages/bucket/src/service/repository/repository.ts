@@ -1,4 +1,3 @@
-import type { ClassResource } from '@alicanto/common';
 import {
   CopyObjectCommand,
   type CopyObjectCommandInput,
@@ -12,6 +11,7 @@ import {
   PutObjectCommand,
   type PutObjectCommandInput,
 } from '@aws-sdk/client-s3';
+import type { ClassResource } from '@lafken/common';
 import { client, getClientWithXRay } from '../client/client';
 import type { InputWithoutBucket } from './repository.types';
 import { getBucketInformation } from './repository.utils';

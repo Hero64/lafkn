@@ -1,6 +1,6 @@
-import type { ClassResource } from '@alicanto/common';
 import { DeleteItemCommand, type DeleteItemCommandInput } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
+import type { ClassResource } from '@lafken/common';
 import { QueryBuilderBase } from '../base/base';
 import type { DeleteBuilderProps } from './delete.types';
 

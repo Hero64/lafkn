@@ -1,5 +1,5 @@
-import type { ClassResource } from '@alicanto/common';
-import type { Role } from '@alicanto/resolver';
+import type { ClassResource } from '@lafken/common';
+import type { Role } from '@lafken/resolver';
 import type { StateMachineResourceMetadata } from '../../main';
 
 export interface StateMachineProps {

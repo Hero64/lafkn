@@ -1,8 +1,8 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable, getMetadataPrototypeByKey } from '@alicanto/common';
-import { setupTestingStack } from '@alicanto/resolver';
 import { CognitoIdentityProvider } from '@cdktf/provider-aws/lib/cognito-identity-provider';
 import { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
+import { enableBuildEnvVariable, getMetadataPrototypeByKey } from '@lafken/common';
+import { setupTestingStack } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Attributes,

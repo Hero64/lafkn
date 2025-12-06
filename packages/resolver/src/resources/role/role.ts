@@ -1,9 +1,9 @@
-import type { ServicesName, ServicesValues } from '@alicanto/common';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
+import type { ServicesName, ServicesValues } from '@lafken/common';
 import { Fn } from 'cdktf';
 import type { Construct } from 'constructs';
-import { alicantoResource } from '../resource';
+import { lafkenResource } from '../resource';
 import type { RoleProps } from './role.types';
 
 const defaultPermissions: Record<ServicesName, string[]> = {
@@ -109,7 +109,7 @@ export const mapServicesName: Partial<Record<ServicesName, string>> = {
   event: 'events',
 };
 
-export class Role extends alicantoResource.make(IamRole) {
+export class Role extends lafkenResource.make(IamRole) {
   constructor(
     scope: Construct,
     id: string,

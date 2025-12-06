@@ -1,11 +1,11 @@
+import { LambdaEventSourceMapping } from '@cdktf/provider-aws/lib/lambda-event-source-mapping';
+import { SqsQueue } from '@cdktf/provider-aws/lib/sqs-queue';
 import {
   type FieldTypes,
   getMetadataPrototypeByKey,
   LambdaReflectKeys,
-} from '@alicanto/common';
-import { type AppModule, alicantoResource, LambdaHandler } from '@alicanto/resolver';
-import { LambdaEventSourceMapping } from '@cdktf/provider-aws/lib/lambda-event-source-mapping';
-import { SqsQueue } from '@cdktf/provider-aws/lib/sqs-queue';
+} from '@lafken/common';
+import { type AppModule, LambdaHandler, lafkenResource } from '@lafken/resolver';
 import type { QueueObjectParam, QueueParamMetadata } from '../../main';
 import type { QueueProps } from './queue.types';
 
@@ -13,7 +13,7 @@ const attributeAllowedTypes = new Set<FieldTypes>(['String', 'Number']);
 const bodyParsedTypes = new Set<FieldTypes>(['String', 'Object', 'Array']);
 const bodyUnparsedTypes = new Set<FieldTypes>(['String']);
 
-export class Queue extends alicantoResource.make(SqsQueue) {
+export class Queue extends lafkenResource.make(SqsQueue) {
   constructor(
     scope: AppModule,
     id: string,

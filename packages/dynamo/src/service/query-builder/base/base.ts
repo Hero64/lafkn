@@ -1,5 +1,5 @@
-import type { ClassResource, OnlyNumberString } from '@alicanto/common';
 import { marshall } from '@aws-sdk/util-dynamodb';
+import type { ClassResource, OnlyNumberString } from '@lafken/common';
 import type { DynamoIndex } from '../../../main/model';
 import type {
   AndFilter,

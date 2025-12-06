@@ -3,7 +3,7 @@ import { cwd } from 'node:process';
 import { AssetType, TerraformAsset } from 'cdktf';
 import { build } from 'esbuild';
 import { createSha1 } from '../../../utils';
-import { AlicantoBuildPlugin } from '../build-plugin/build-plugin';
+import { LafkenBuildPlugin } from '../build-plugin/build-plugin';
 import type {
   AddLambdaProps,
   AssetMetadata,
@@ -84,7 +84,7 @@ class LambdaAssets {
       platform: 'node',
       external: ['@aws-sdk', 'aws-lambda'],
       plugins: [
-        AlicantoBuildPlugin({
+        LafkenBuildPlugin({
           filename: metadata.filename,
           removeAttributes: ['lambda'],
           exports: Object.values(lambdaAsset.resources),

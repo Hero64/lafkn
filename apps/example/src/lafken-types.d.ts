@@ -1,10 +1,10 @@
 /**
- * Type declarations for Alicanto framework resources
- * This file extends the interfaces from @alicanto/common to define
+ * Type declarations for Lafken framework resources
+ * This file extends the interfaces from @lafken/common to define
  * the available resources for this specific application
  */
 
-declare module '@alicanto/common' {
+declare module '@lafken/common' {
   interface ModulesAvailable {
     greeting: {
       StateMachine: {
@@ -17,7 +17,7 @@ declare module '@alicanto/common' {
   }
 
   interface BucketAvailable {
-    'alicanto-example-documents': true;
+    'lafken-example-documents': true;
   }
 
   interface ApiRestAvailable {

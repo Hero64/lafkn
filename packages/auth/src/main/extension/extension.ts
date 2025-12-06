@@ -1,4 +1,4 @@
-import { createLambdaDecorator, createResourceDecorator } from '@alicanto/common';
+import { createLambdaDecorator, createResourceDecorator } from '@lafken/common';
 
 import type { ExtensionsProps, TriggerMetadata, TriggerProps } from './extension.types';
 

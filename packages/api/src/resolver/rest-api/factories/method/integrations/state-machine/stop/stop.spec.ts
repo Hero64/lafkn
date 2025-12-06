@@ -1,12 +1,12 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { alicantoResource } from '@alicanto/resolver';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import { ApiGatewayIntegrationResponse } from '@cdktf/provider-aws/lib/api-gateway-integration-response';
 import { ApiGatewayMethodResponse } from '@cdktf/provider-aws/lib/api-gateway-method-response';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
 import { SfnStateMachine } from '@cdktf/provider-aws/lib/sfn-state-machine';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -124,7 +124,7 @@ describe('State machine status integration', () => {
   it('should create state machine integration with global resource', async () => {
     const { restApi, stack } = setupTestingRestApi();
 
-    const StateMachine = alicantoResource.make(SfnStateMachine);
+    const StateMachine = lafkenResource.make(SfnStateMachine);
 
     const stateMachine = new StateMachine(stack, 'test', {
       definition: '',
@@ -140,7 +140,7 @@ describe('State machine status integration', () => {
     );
 
     const synthesized = Testing.synth(stack);
-    alicantoResource.callDependentCallbacks();
+    lafkenResource.callDependentCallbacks();
 
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegration, {
       integration_http_method: 'POST',

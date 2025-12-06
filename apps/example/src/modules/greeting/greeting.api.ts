@@ -1,4 +1,4 @@
-import { Api, Delete, Event, Get, Post, response } from '@alicanto/api/main';
+import { Api, Delete, Event, Get, Post, response } from '@lafken/api/main';
 import dayjs from 'dayjs';
 
 import {

@@ -1,11 +1,11 @@
 import 'cdktf/lib/testing/adapters/jest';
+import { SfnStateMachine } from '@cdktf/provider-aws/lib/sfn-state-machine';
 import {
   type ClassResource,
   enableBuildEnvVariable,
   getResourceMetadata,
-} from '@alicanto/common';
-import { type Role, setupTestingStackWithModule } from '@alicanto/resolver';
-import { SfnStateMachine } from '@cdktf/provider-aws/lib/sfn-state-machine';
+} from '@lafken/common';
+import { type Role, setupTestingStackWithModule } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Event,
@@ -17,8 +17,8 @@ import {
 } from '../../main';
 import { StateMachine as StateMachineResource } from './state-machine';
 
-jest.mock('@alicanto/resolver', () => {
-  const actual = jest.requireActual('@alicanto/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,

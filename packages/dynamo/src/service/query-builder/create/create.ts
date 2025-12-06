@@ -1,4 +1,4 @@
-import type { ClassResource } from '@alicanto/common';
+import type { ClassResource } from '@lafken/common';
 import type { Filter, NullExpression } from '../query-builder.types';
 import { UpsertBuilder } from '../upsert/upsert';
 import type { CreateBuilderProps } from './create.types';

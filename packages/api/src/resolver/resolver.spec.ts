@@ -1,6 +1,6 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { type AppStack, setupTestingStackWithModule } from '@alicanto/resolver';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { type AppStack, setupTestingStackWithModule } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { ApiResolver } from './resolver';
 import { RestApi } from './rest-api/rest-api';

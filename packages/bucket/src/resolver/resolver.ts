@@ -1,5 +1,5 @@
-import type { ClassResource } from '@alicanto/common';
-import type { AppModule, ResolverType } from '@alicanto/resolver';
+import type { ClassResource } from '@lafken/common';
+import type { AppModule, ResolverType } from '@lafken/resolver';
 import { Bucket } from './bucket/bucket';
 import type { BucketGlobalConfig } from './bucket/bucket.types';
 

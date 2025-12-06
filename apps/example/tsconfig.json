@@ -5,14 +5,14 @@
     "rootDir": "src",
     "types": ["node"],
     "paths": {
-      "@alicanto/dynamo/*": ["../../packages/dynamo/lib/*"],
-      "@alicanto/api/*": ["../../packages/api/lib/*"],
-      "@alicanto/schedule/*": ["../../packages/schedule/lib/*"],
-      "@alicanto/event/*": ["../../packages/event/lib/*"],
-      "@alicanto/state-machine/*": ["../../packages/state-machine/lib/*"],
-      "@alicanto/bucket/*": ["../../packages/bucket/lib/*"],
-      "@alicanto/queue/*": ["../../packages/queue/lib/*"],
-      "@alicanto/auth/*": ["../../packages/auth/lib/*"]
+      "@lafken/dynamo/*": ["../../packages/dynamo/lib/*"],
+      "@lafken/api/*": ["../../packages/api/lib/*"],
+      "@lafken/schedule/*": ["../../packages/schedule/lib/*"],
+      "@lafken/event/*": ["../../packages/event/lib/*"],
+      "@lafken/state-machine/*": ["../../packages/state-machine/lib/*"],
+      "@lafken/bucket/*": ["../../packages/bucket/lib/*"],
+      "@lafken/queue/*": ["../../packages/queue/lib/*"],
+      "@lafken/auth/*": ["../../packages/auth/lib/*"]
     }
   },
   "include": ["src/**/*"],

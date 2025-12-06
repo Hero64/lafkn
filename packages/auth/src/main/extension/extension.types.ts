@@ -1,4 +1,4 @@
-import type { LambdaMetadata, LambdaProps, ResourceMetadata } from '@alicanto/common';
+import type { LambdaMetadata, LambdaProps, ResourceMetadata } from '@lafken/common';
 
 export type TriggerType =
   | 'preAuthentication'

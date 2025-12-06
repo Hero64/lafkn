@@ -1,4 +1,4 @@
-import type { ClassResource } from '@alicanto/common';
+import type { ClassResource } from '@lafken/common';
 
 import type { ApiLambdaMetadata, ApiResourceMetadata } from '../../../../main';
 import type { CorsOptions } from '../../../resolver.types';

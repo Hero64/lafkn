@@ -3,7 +3,7 @@ import {
   enableBuildEnvVariable,
   LambdaReflectKeys,
   ResourceReflectKeys,
-} from '@alicanto/common';
+} from '@lafken/common';
 
 import { Event } from '../event/event';
 import { Param } from '../field/field';

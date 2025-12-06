@@ -1,8 +1,8 @@
-import type { ClassResource } from '@alicanto/common';
 import {
   BatchWriteItemCommand,
   type BatchWriteItemCommandInput,
 } from '@aws-sdk/client-dynamodb';
+import type { ClassResource } from '@lafken/common';
 
 import { QueryBuilderBase } from '../base/base';
 import type { BatchWriteBuilderProps } from './batch-write.types';

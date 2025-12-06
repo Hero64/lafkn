@@ -5,7 +5,7 @@ import type {
   KeyOfClass,
   OnlyNumberString,
   OnlyOne,
-} from '@alicanto/common';
+} from '@lafken/common';
 import type {
   DynamoIndex,
   FieldsMetadata,

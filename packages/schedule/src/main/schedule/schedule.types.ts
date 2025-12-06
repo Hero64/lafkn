@@ -1,4 +1,4 @@
-import type { LambdaMetadata } from '@alicanto/common';
+import type { LambdaMetadata } from '@lafken/common';
 
 type ScheduleExpressions = number | '*' | '?' | (string & {});
 

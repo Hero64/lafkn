@@ -1,12 +1,12 @@
 import { promises } from 'node:fs';
 import type { Plugin } from 'esbuild';
-import type { AlicantoBuildPluginProps } from './build-plugin.types';
+import type { LafkenBuildPluginProps } from './build-plugin.types';
 
-export const AlicantoBuildPlugin = (props: AlicantoBuildPluginProps): Plugin => {
+export const LafkenBuildPlugin = (props: LafkenBuildPluginProps): Plugin => {
   const fileRegex = new RegExp(`${props.filename.replace('.', '\\.')}\\.js$`);
 
   return {
-    name: 'alicanto-build-plugin',
+    name: 'lafken-build-plugin',
     setup(build) {
       build.onLoad({ filter: fileRegex }, async (args) => {
         let source = await promises.readFile(args.path, 'utf8');

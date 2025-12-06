@@ -1,19 +1,19 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { rm } from 'node:fs/promises';
 import { join } from 'node:path';
+import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import {
   createLambdaDecorator,
   createResourceDecorator,
   enableBuildEnvVariable,
-} from '@alicanto/common';
+} from '@lafken/common';
 import {
   type AppModule,
-  alicantoResource,
   ContextName,
+  lafkenResource,
   type ResolverType,
   Role,
-} from '@alicanto/resolver';
-import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
+} from '@lafken/resolver';
 import { App, Testing } from 'cdktf';
 import { createModule } from '../module';
 import { AppStack, createApp } from './app';
@@ -83,7 +83,7 @@ describe('App', () => {
         },
       },
     });
-    const role = alicantoResource.getResource<Role>('app', 'testing-global-role');
+    const role = lafkenResource.getResource<Role>('app', 'testing-global-role');
 
     expect(role).toBeDefined();
     expect(role).toBeInstanceOf(Role);
@@ -146,7 +146,7 @@ describe('App', () => {
     class TestResolver implements ResolverType {
       type: string = 'test-resolver';
       async create(scope: AppModule) {
-        const Bucket = alicantoResource.make(S3Bucket);
+        const Bucket = lafkenResource.make(S3Bucket);
         const bucket = new Bucket(scope, 'bucket');
         bucket.isDependent(dependentCallback);
       }
@@ -193,8 +193,8 @@ describe('App', () => {
 
     expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
       tags: {
-        'alicanto:app': 'testing',
-        'alicanto:module': 'testing',
+        'lafken:app': 'testing',
+        'lafken:module': 'testing',
         foo: 'bar',
       },
     });

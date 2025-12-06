@@ -1,20 +1,20 @@
 import 'cdktf/lib/testing/adapters/jest';
+import { CloudwatchEventRule } from '@cdktf/provider-aws/lib/cloudwatch-event-rule';
+import { CloudwatchEventTarget } from '@cdktf/provider-aws/lib/cloudwatch-event-target';
+import { DataAwsCloudwatchEventBus } from '@cdktf/provider-aws/lib/data-aws-cloudwatch-event-bus';
 import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
   getResourceMetadata,
   type ResourceMetadata,
-} from '@alicanto/common';
-import { LambdaHandler, setupTestingStackWithModule } from '@alicanto/resolver';
-import { CloudwatchEventRule } from '@cdktf/provider-aws/lib/cloudwatch-event-rule';
-import { CloudwatchEventTarget } from '@cdktf/provider-aws/lib/cloudwatch-event-target';
-import { DataAwsCloudwatchEventBus } from '@cdktf/provider-aws/lib/data-aws-cloudwatch-event-bus';
+} from '@lafken/common';
+import { LambdaHandler, setupTestingStackWithModule } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { EventRule, type EventRuleMetadata, Rule } from '../../main';
 import { Rule as RuleResolver } from './rule';
 
-jest.mock('@alicanto/resolver', () => {
-  const actual = jest.requireActual('@alicanto/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,

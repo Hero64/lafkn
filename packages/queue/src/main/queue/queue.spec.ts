@@ -6,7 +6,7 @@ import {
   LambdaReflectKeys,
   type ResourceMetadata,
   ResourceReflectKeys,
-} from '@alicanto/common';
+} from '@lafken/common';
 import { Event, Field, Param, Payload } from '../event';
 import { Fifo, Queue, RESOURCE_TYPE, Standard } from './queue';
 import type { QueueLambdaMetadata } from './queue.types';

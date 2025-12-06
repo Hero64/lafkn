@@ -2,7 +2,7 @@ import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@alicanto/common';
+} from '@lafken/common';
 import { AuthExtension, Trigger } from './extension';
 import type { TriggerMetadata } from './extension.types';
 

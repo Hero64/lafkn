@@ -1,4 +1,4 @@
-import type { ServicesValues } from '@alicanto/common';
+import type { ServicesValues } from '@lafken/common';
 
 export interface RoleProps {
   /**

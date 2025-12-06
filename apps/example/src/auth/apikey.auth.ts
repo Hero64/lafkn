@@ -1,4 +1,4 @@
-import { ApiKeyAuthorizer } from '@alicanto/api/main';
+import { ApiKeyAuthorizer } from '@lafken/api/main';
 
 @ApiKeyAuthorizer({
   name: 'api-key-auth',

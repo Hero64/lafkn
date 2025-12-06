@@ -1,12 +1,4 @@
 import {
-  type ClassResource,
-  getMetadataPrototypeByKey,
-  getResourceHandlerMetadata,
-  getResourceMetadata,
-  type StripReadonly,
-} from '@alicanto/common';
-import { alicantoResource } from '@alicanto/resolver';
-import {
   CognitoUserPool,
   type CognitoUserPoolConfig,
   type CognitoUserPoolLambdaConfig,
@@ -17,6 +9,14 @@ import {
 } from '@cdktf/provider-aws/lib/cognito-user-pool';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
+import {
+  type ClassResource,
+  getMetadataPrototypeByKey,
+  getResourceHandlerMetadata,
+  getResourceMetadata,
+  type StripReadonly,
+} from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Token } from 'cdktf';
 import type { Construct } from 'constructs';
 import {
@@ -44,7 +44,7 @@ import type {
   UserVerification,
 } from './user-pool.types';
 
-export class UserPool extends alicantoResource.make(CognitoUserPool) {
+export class UserPool extends lafkenResource.make(CognitoUserPool) {
   public attributeByName: Record<
     string,
     CustomAttributesMetadata | StandardAttributeMetadata

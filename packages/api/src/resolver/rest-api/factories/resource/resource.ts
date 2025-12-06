@@ -1,5 +1,5 @@
-import { cleanString } from '@alicanto/common';
 import { ApiGatewayResource } from '@cdktf/provider-aws/lib/api-gateway-resource';
+import { cleanString } from '@lafken/common';
 
 import type { RestApi } from '../../rest-api';
 

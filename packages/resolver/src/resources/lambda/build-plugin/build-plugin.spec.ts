@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import esbuild from 'esbuild';
-import { AlicantoBuildPlugin } from './build-plugin';
+import { LafkenBuildPlugin } from './build-plugin';
 
-describe('AlicantoBuildPlugin', () => {
+describe('LafkenBuildPlugin', () => {
   const tempDir: string = path.join(__dirname, 'temp');
 
   beforeEach(async () => {
@@ -24,7 +24,7 @@ describe('AlicantoBuildPlugin', () => {
       bundle: true,
       outfile: outputFile,
       plugins: [
-        AlicantoBuildPlugin({
+        LafkenBuildPlugin({
           filename: 'input',
           exports: [
             {

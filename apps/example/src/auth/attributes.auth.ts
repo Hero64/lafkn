@@ -1,4 +1,4 @@
-import { Attributes, Custom, Standard } from '@alicanto/auth/main';
+import { Attributes, Custom, Standard } from '@lafken/auth/main';
 
 @Attributes()
 export class UserPoolAttributes {

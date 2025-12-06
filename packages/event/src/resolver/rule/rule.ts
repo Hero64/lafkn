@@ -1,6 +1,6 @@
-import { type AppModule, alicantoResource, LambdaHandler } from '@alicanto/resolver';
 import { CloudwatchEventRule } from '@cdktf/provider-aws/lib/cloudwatch-event-rule';
 import { CloudwatchEventTarget } from '@cdktf/provider-aws/lib/cloudwatch-event-target';
+import { type AppModule, LambdaHandler, lafkenResource } from '@lafken/resolver';
 import { Fn } from 'cdktf';
 import type {
   DynamoAttributeFilters,
@@ -9,7 +9,7 @@ import type {
 } from '../../main';
 import type { RuleProps } from './rule.types';
 
-export class Rule extends alicantoResource.make(CloudwatchEventRule) {
+export class Rule extends lafkenResource.make(CloudwatchEventRule) {
   constructor(
     scope: AppModule,
     id: string,

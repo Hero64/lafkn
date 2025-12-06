@@ -3,8 +3,8 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
   type ResourceMetadata,
-} from '@alicanto/common';
-import { type AppModule, lambdaAssets, type ResolverType } from '@alicanto/resolver';
+} from '@lafken/common';
+import { type AppModule, lambdaAssets, type ResolverType } from '@lafken/resolver';
 import { type QueueLambdaMetadata, RESOURCE_TYPE } from '../main';
 import { Queue } from './queue/queue';
 

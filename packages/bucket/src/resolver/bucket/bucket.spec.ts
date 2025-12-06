@@ -1,12 +1,12 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { setupTestingStack } from '@alicanto/resolver';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { S3BucketAccelerateConfiguration } from '@cdktf/provider-aws/lib/s3-bucket-accelerate-configuration';
 import { S3BucketAcl } from '@cdktf/provider-aws/lib/s3-bucket-acl';
 import { S3BucketLifecycleConfiguration } from '@cdktf/provider-aws/lib/s3-bucket-lifecycle-configuration';
 import { S3BucketNotification } from '@cdktf/provider-aws/lib/s3-bucket-notification';
 import { S3BucketVersioningA } from '@cdktf/provider-aws/lib/s3-bucket-versioning';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { setupTestingStack } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { Bucket as BucketDecorator } from '../../main';
 import { Bucket } from './bucket';

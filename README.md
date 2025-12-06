@@ -1,9 +1,9 @@
-# Alicanto
+# Lafken
 
-Alicanto is a lightweight framework for building serverless applications on AWS with minimal infrastructure overhead.
-Instead of manually orchestrating resources, Alicanto uses CDK for Terraform (CDKTF) under the hood to generate, synthesize, and manage all AWS infrastructure defined in your modules.
+Lafken is a lightweight framework for building serverless applications on AWS with minimal infrastructure overhead.
+Instead of manually orchestrating resources, Lafken uses CDK for Terraform (CDKTF) under the hood to generate, synthesize, and manage all AWS infrastructure defined in your modules.
 
-You focus on writing your application logic. Alicanto takes care of the infrastructure
+You focus on writing your application logic. Lafken takes care of the infrastructure
 
 ## Features
 
@@ -16,7 +16,7 @@ You focus on writing your application logic. Alicanto takes care of the infrastr
 ## Installation
 
 ```bash
-npm install @alicanto/main
+npm install @lafken/main
 ```
 
 ## Quick Example
@@ -24,7 +24,7 @@ npm install @alicanto/main
 ### Create an application
 
 ```ts
-import { ApiResolver } from '@alicanto/api/resolver';
+import { ApiResolver } from '@lafken/api/resolver';
 
 createApp({
   name: 'awesome-app',
@@ -36,7 +36,7 @@ createApp({
 ### Create a module
 
 ```ts
-import { createModule } from '@alicanto/main';
+import { createModule } from '@lafken/main';
 import { GreetingApi } from './greeting.api';
 
 const greetingModule = createModule({
@@ -57,7 +57,7 @@ export class GreetingApi {
 
 ## Additional Documentation
 
-Alicanto includes several sub-packages with their own documentation:
+Lafken includes several sub-packages with their own documentation:
 
 * Main module → 
 * Core module → 
@@ -73,6 +73,6 @@ Alicanto includes several sub-packages with their own documentation:
 
 ## Configuration
 
-Alicanto can be configured depending on your project needs.
+Lafken can be configured depending on your project needs.
 More details will be added as configuration options are defined.
 

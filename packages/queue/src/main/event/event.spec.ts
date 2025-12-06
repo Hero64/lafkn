@@ -3,7 +3,7 @@ import {
   type ClassResource,
   enableBuildEnvVariable,
   type PayloadMetadata,
-} from '@alicanto/common';
+} from '@lafken/common';
 import { Fifo, Queue } from '../queue';
 import { Event, Field, Param, Payload, queueFieldKey, queuePayloadKey } from './event';
 import type { QueueParamMetadata } from './event.types';

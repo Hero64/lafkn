@@ -1,5 +1,5 @@
 {
-  "name": "alicanto",
+  "name": "lafken",
   "private": true,
   "scripts": {
     "build": "turbo run build",

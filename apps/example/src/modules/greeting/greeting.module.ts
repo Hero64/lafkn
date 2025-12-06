@@ -1,4 +1,4 @@
-import { createModule } from '@alicanto/main';
+import { createModule } from '@lafken/main';
 
 // import { GreetingEvent } from './greeting.event';
 

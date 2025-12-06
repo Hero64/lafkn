@@ -1,11 +1,11 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { alicantoResource } from '@alicanto/resolver';
 import { ApiGatewayApiKey } from '@cdktf/provider-aws/lib/api-gateway-api-key';
 import { ApiGatewayAuthorizer } from '@cdktf/provider-aws/lib/api-gateway-authorizer';
 import { ApiGatewayUsagePlan } from '@cdktf/provider-aws/lib/api-gateway-usage-plan';
 import { ApiGatewayUsagePlanKey } from '@cdktf/provider-aws/lib/api-gateway-usage-plan-key';
 import { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   ApiKeyAuthorizer,
@@ -16,8 +16,8 @@ import {
 } from '../../../../main';
 import { setupTestingRestApi } from '../../../utils/testing.utils';
 
-jest.mock('@alicanto/resolver', () => {
-  const actual = jest.requireActual('@alicanto/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,
@@ -131,7 +131,7 @@ describe('authorizer factory', () => {
       },
     });
 
-    const UserPool = alicantoResource.make(CognitoUserPool);
+    const UserPool = lafkenResource.make(CognitoUserPool);
 
     const userPool = new UserPool(stack, 'testing-user-pool', {
       name: 'testing-user-pool',

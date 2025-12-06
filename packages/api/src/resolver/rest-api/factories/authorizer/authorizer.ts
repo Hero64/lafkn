@@ -1,12 +1,5 @@
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import {
-  type ClassResource,
-  getMetadataPrototypeByKey,
-  getResourceMetadata,
-  type LambdaMetadata,
-} from '@alicanto/common';
-import { alicantoResource, LambdaHandler, lambdaAssets } from '@alicanto/resolver';
 import { ApiGatewayApiKey } from '@cdktf/provider-aws/lib/api-gateway-api-key';
 import { ApiGatewayAuthorizer } from '@cdktf/provider-aws/lib/api-gateway-authorizer';
 import type { ApiGatewayMethodConfig } from '@cdktf/provider-aws/lib/api-gateway-method';
@@ -14,6 +7,13 @@ import type { ApiGatewayStage } from '@cdktf/provider-aws/lib/api-gateway-stage'
 import { ApiGatewayUsagePlan } from '@cdktf/provider-aws/lib/api-gateway-usage-plan';
 import { ApiGatewayUsagePlanKey } from '@cdktf/provider-aws/lib/api-gateway-usage-plan-key';
 import type { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
+import {
+  type ClassResource,
+  getMetadataPrototypeByKey,
+  getResourceMetadata,
+  type LambdaMetadata,
+} from '@lafken/common';
+import { LambdaHandler, lafkenResource, lambdaAssets } from '@lafken/resolver';
 import type { TerraformResource } from 'cdktf';
 import {
   ApiAuthorizerType,
@@ -230,7 +230,7 @@ export class AuthorizerFactory {
   }
 
   private createCognitoAuthorizer({ metadata }: AuthorizerDataCognito) {
-    const userPool = alicantoResource.getResource<CognitoUserPool>(
+    const userPool = lafkenResource.getResource<CognitoUserPool>(
       'auth',
       metadata.userPool
     );

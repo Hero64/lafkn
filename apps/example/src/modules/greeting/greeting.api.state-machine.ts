@@ -9,7 +9,7 @@ import {
   type StateMachineStartIntegrationResponse,
   type StateMachineStatusIntegrationResponse,
   type StateMachineStopIntegrationResponse,
-} from '@alicanto/api/main';
+} from '@lafken/api/main';
 import { StateMachineExecutionId, StateMachineInput } from './greeting.field';
 
 @Api({

@@ -1,16 +1,16 @@
-import { cleanString } from '@alicanto/common';
-import { alicantoResource } from '@alicanto/resolver';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { S3BucketAccelerateConfiguration } from '@cdktf/provider-aws/lib/s3-bucket-accelerate-configuration';
 import { S3BucketAcl } from '@cdktf/provider-aws/lib/s3-bucket-acl';
 import { S3BucketLifecycleConfiguration } from '@cdktf/provider-aws/lib/s3-bucket-lifecycle-configuration';
 import { S3BucketNotification } from '@cdktf/provider-aws/lib/s3-bucket-notification';
 import { S3BucketVersioningA } from '@cdktf/provider-aws/lib/s3-bucket-versioning';
+import { cleanString } from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import type { Construct } from 'constructs';
 import { getBucketInformation } from '../../service';
 import type { BucketProps } from './bucket.types';
 
-export class Bucket extends alicantoResource.make(S3Bucket) {
+export class Bucket extends lafkenResource.make(S3Bucket) {
   constructor(scope: Construct, props: BucketProps) {
     const {
       name,

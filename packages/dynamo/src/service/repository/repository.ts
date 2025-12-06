@@ -1,4 +1,4 @@
-import type { ClassResource } from '@alicanto/common';
+import type { ClassResource } from '@lafken/common';
 import type { ModelPartition } from '../../main/model';
 import { client, getClientWithXRay } from '../client/client';
 import type { QueryBuilderProps } from '../query-builder/base/base.types';

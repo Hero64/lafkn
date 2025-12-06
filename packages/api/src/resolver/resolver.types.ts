@@ -1,6 +1,6 @@
-import type { ApiAuthorizerNames, ApiRestNames, ClassResource } from '@alicanto/common';
-import type { AppStack } from '@alicanto/resolver';
 import type { ApiGatewayStageConfig } from '@cdktf/provider-aws/lib/api-gateway-stage';
+import type { ApiAuthorizerNames, ApiRestNames, ClassResource } from '@lafken/common';
+import type { AppStack } from '@lafken/resolver';
 
 import type { RestApi } from './rest-api/rest-api';
 

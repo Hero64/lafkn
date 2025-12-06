@@ -1,10 +1,4 @@
 import 'cdktf/lib/testing/adapters/jest';
-import {
-  enableBuildEnvVariable,
-  getResourceHandlerMetadata,
-  getResourceMetadata,
-} from '@alicanto/common';
-import { alicantoResource } from '@alicanto/resolver';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import { ApiGatewayIntegrationResponse } from '@cdktf/provider-aws/lib/api-gateway-integration-response';
 import { ApiGatewayMethodResponse } from '@cdktf/provider-aws/lib/api-gateway-method-response';
@@ -12,6 +6,12 @@ import { ApiGatewayResource } from '@cdktf/provider-aws/lib/api-gateway-resource
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
+import {
+  enableBuildEnvVariable,
+  getResourceHandlerMetadata,
+  getResourceMetadata,
+} from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -160,7 +160,7 @@ describe('Bucket download integration', () => {
       (h) => h.name === 'downloadGlobalResource'
     ) as ApiLambdaMetadata;
 
-    const Bucket = alicantoResource.make(S3Bucket);
+    const Bucket = lafkenResource.make(S3Bucket);
 
     const bucket = new Bucket(stack, 'test');
     bucket.isGlobal('bucket', 'test');

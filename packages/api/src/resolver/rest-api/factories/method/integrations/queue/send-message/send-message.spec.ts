@@ -1,12 +1,12 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { alicantoResource } from '@alicanto/resolver';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import { ApiGatewayIntegrationResponse } from '@cdktf/provider-aws/lib/api-gateway-integration-response';
 import { ApiGatewayMethodResponse } from '@cdktf/provider-aws/lib/api-gateway-method-response';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
 import { SqsQueue } from '@cdktf/provider-aws/lib/sqs-queue';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -125,7 +125,7 @@ describe('Queue send message integration', () => {
   it('should create queue integration with global resource', async () => {
     const { restApi, stack } = setupTestingRestApi();
 
-    const Queue = alicantoResource.make(SqsQueue);
+    const Queue = lafkenResource.make(SqsQueue);
 
     const queue = new Queue(stack, 'test');
     queue.isGlobal('testing', 'test');

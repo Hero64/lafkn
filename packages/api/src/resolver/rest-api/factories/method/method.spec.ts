@@ -1,9 +1,9 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { LambdaHandler } from '@alicanto/resolver';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import { ApiGatewayMethod } from '@cdktf/provider-aws/lib/api-gateway-method';
 import { ApiGatewayResource } from '@cdktf/provider-aws/lib/api-gateway-resource';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { LambdaHandler } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -15,8 +15,8 @@ import {
 } from '../../../../main';
 import { initializeMethod, setupTestingRestApi } from '../../../utils/testing.utils';
 
-jest.mock('@alicanto/resolver', () => {
-  const actual = jest.requireActual('@alicanto/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,

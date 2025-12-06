@@ -1,5 +1,5 @@
-import { uuid } from '@alicanto/resolver';
 import { ApiGatewayModel } from '@cdktf/provider-aws/lib/api-gateway-model';
+import { uuid } from '@lafken/resolver';
 import { Fn, Token } from 'cdktf';
 import type { ApiFieldMetadata } from '../../../../main';
 import type { RestApi } from '../../rest-api';

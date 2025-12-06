@@ -1,4 +1,4 @@
-import { ContextName, setupTestingStack } from '@alicanto/resolver';
+import { ContextName, setupTestingStack } from '@lafken/resolver';
 import { AppContext } from './context';
 
 describe('App context', () => {

@@ -4,14 +4,14 @@ import type {
   ServicesName,
   SQSPermissions,
   StateMachinePermissions,
-} from '@alicanto/common';
-import { alicantoResource, ResolveResources, Role } from '@alicanto/resolver';
+} from '@lafken/common';
+import { lafkenResource, ResolveResources, Role } from '@lafken/resolver';
 import type { Construct } from 'constructs';
 import type { IntegrationOption, ServiceRoleName } from './integration.types';
 
 export class IntegrationHelper {
   public createRole(name: ServiceRoleName, scope: Construct) {
-    const role = alicantoResource.getResource<Role>('role', name);
+    const role = lafkenResource.getResource<Role>('role', name);
 
     if (role) {
       return role;

@@ -3,7 +3,7 @@ import {
   NestedStateMachine,
   State,
   StateMachine,
-} from '@alicanto/state-machine/main';
+} from '@lafken/state-machine/main';
 import { StateMachinePayload } from './greeting.field';
 
 @NestedStateMachine({
@@ -104,12 +104,12 @@ export class GreetingStepFunction {
             mode: 'distributed',
             states: MapState,
             itemReader: {
-              bucket: 'alicanto-example-documents',
+              bucket: 'lafken-example-documents',
               source: 'json',
               key: 'list.json',
             },
             resultWriter: {
-              bucket: 'alicanto-example-documents',
+              bucket: 'lafken-example-documents',
               prefix: 'result',
               config: {
                 outputType: 'JSON',

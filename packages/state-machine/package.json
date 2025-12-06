@@ -1,5 +1,5 @@
 {
-  "name": "@alicanto/state-machine",
+  "name": "@lafken/state-machine",
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
@@ -29,10 +29,10 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@alicanto/common": "workspace:*",
-    "@alicanto/resolver": "workspace:*",
     "@aws-sdk/client-sqs": "3.940.0",
     "@cdktf/provider-aws": "21.19.0",
+    "@lafken/common": "workspace:*",
+    "@lafken/resolver": "workspace:*",
     "aws-lambda": "1.0.7",
     "aws-xray-sdk": "3.12.0",
     "cdktf": "0.21.0",

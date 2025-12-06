@@ -4,7 +4,7 @@ import {
   getMetadataPrototypeByKey,
   getResourceMetadata,
   type LambdaMetadata,
-} from '@alicanto/common';
+} from '@lafken/common';
 
 import {
   ApiKeyAuthorizer,

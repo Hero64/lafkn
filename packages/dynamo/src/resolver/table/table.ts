@@ -1,5 +1,3 @@
-import type { FieldTypes } from '@alicanto/common';
-import { alicantoResource, Role } from '@alicanto/resolver';
 import { DataAwsCloudwatchEventBus } from '@cdktf/provider-aws/lib/data-aws-cloudwatch-event-bus';
 import {
   DynamodbTable,
@@ -8,6 +6,8 @@ import {
   type DynamodbTableLocalSecondaryIndex,
 } from '@cdktf/provider-aws/lib/dynamodb-table';
 import { PipesPipe } from '@cdktf/provider-aws/lib/pipes-pipe';
+import type { FieldTypes } from '@lafken/common';
+import { lafkenResource, Role } from '@lafken/resolver';
 import type { Construct } from 'constructs';
 import type {
   DynamoIndex,
@@ -24,7 +24,7 @@ const mapFieldType: Partial<Record<FieldTypes, string>> = {
   Boolean: 'BOOL',
 };
 
-export class Table extends alicantoResource.make(DynamodbTable) {
+export class Table extends lafkenResource.make(DynamodbTable) {
   constructor(scope: Construct, props: TableProps) {
     const {
       modelProps,

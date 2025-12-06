@@ -1,5 +1,5 @@
 {
-  "name": "@alicanto/resolver",
+  "name": "@lafken/resolver",
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
@@ -14,8 +14,8 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@alicanto/common": "workspace:*",
     "@cdktf/provider-aws": "21.19.0",
+    "@lafken/common": "workspace:*",
     "cdktf": "0.21.0",
     "constructs": "10.4.3",
     "esbuild": "0.27.0",

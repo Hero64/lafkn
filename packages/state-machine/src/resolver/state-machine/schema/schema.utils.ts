@@ -1,4 +1,4 @@
-import { LambdaHandler } from '@alicanto/resolver';
+import { LambdaHandler } from '@lafken/resolver';
 import type {
   ExecutionSource,
   StateMachineSource,

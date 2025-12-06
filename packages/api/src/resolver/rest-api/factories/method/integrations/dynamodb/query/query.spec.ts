@@ -1,12 +1,12 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { alicantoResource } from '@alicanto/resolver';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import { ApiGatewayIntegrationResponse } from '@cdktf/provider-aws/lib/api-gateway-integration-response';
 import { ApiGatewayMethodResponse } from '@cdktf/provider-aws/lib/api-gateway-method-response';
 import { DynamodbTable } from '@cdktf/provider-aws/lib/dynamodb-table';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -141,7 +141,7 @@ describe('Dynamo query integration', () => {
   it('should create dynamodb integration with global resource', async () => {
     const { restApi, stack } = setupTestingRestApi();
 
-    const Table = alicantoResource.make(DynamodbTable);
+    const Table = lafkenResource.make(DynamodbTable);
 
     const table = new Table(stack, 'test', {
       name: 'test',

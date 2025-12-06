@@ -1,9 +1,9 @@
-import { type AppModule, alicantoResource } from '@alicanto/resolver';
 import { SfnStateMachine } from '@cdktf/provider-aws/lib/sfn-state-machine';
+import { type AppModule, lafkenResource } from '@lafken/resolver';
 import { Schema } from './schema/schema';
 import type { StateMachineProps } from './state-machine.types';
 
-export class StateMachine extends alicantoResource.make(SfnStateMachine) {
+export class StateMachine extends lafkenResource.make(SfnStateMachine) {
   constructor(scope: AppModule, id: string, props: StateMachineProps) {
     const { resourceMetadata, role, classResource } = props;
 

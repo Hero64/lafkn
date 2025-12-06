@@ -5,7 +5,7 @@ import type {
 } from '../../../../../../../main';
 import type { ServiceRoleName } from '../../../helpers/integration/integration.types';
 import type { InitializedClass, Integration } from '../../integration.types';
-import { AlicantoIntegration } from '../../integration.utils';
+import { LafkenIntegration } from '../../integration.utils';
 import type { BucketIntegrationBaseProps } from './base.types';
 
 const methodParamMap: Record<Source, string> = {
@@ -46,7 +46,7 @@ export class BucketBaseIntegration implements Integration {
       options
     );
 
-    const integration = new AlicantoIntegration(
+    const integration = new LafkenIntegration(
       restApi,
       `${resourceMetadata.name}-${handler.name}-integration`,
       {

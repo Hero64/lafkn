@@ -1,4 +1,4 @@
-import { createLambdaDecorator, createResourceDecorator } from '@alicanto/common';
+import { createLambdaDecorator, createResourceDecorator } from '@lafken/common';
 import type { EventRuleMetadata, EventRuleProps } from './rule.types';
 
 export const RESOURCE_TYPE = 'EVENT' as const;

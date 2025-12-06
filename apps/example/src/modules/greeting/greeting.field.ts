@@ -1,10 +1,10 @@
-import { Field, Param, Payload, Response } from '@alicanto/api/main';
+import { Field, Param, Payload, Response } from '@lafken/api/main';
 import {
   Field as QueueField,
   Param as QueueParam,
   Payload as QueuePayload,
-} from '@alicanto/queue/main';
-import { Param as SMParam, Payload as SMPayload } from '@alicanto/state-machine/main';
+} from '@lafken/queue/main';
+import { Param as SMParam, Payload as SMPayload } from '@lafken/state-machine/main';
 @Payload()
 export class BaseEvent {
   @Param({

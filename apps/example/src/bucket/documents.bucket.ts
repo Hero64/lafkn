@@ -1,7 +1,7 @@
-import { Bucket } from '@alicanto/bucket/main';
+import { Bucket } from '@lafken/bucket/main';
 
 @Bucket({
-  name: 'alicanto-example-documents',
+  name: 'lafken-example-documents',
   forceDestroy: true,
   eventBridgeEnabled: true,
 })

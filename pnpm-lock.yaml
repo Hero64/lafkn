@@ -32,34 +32,34 @@ importers:
 
   apps/example:
     dependencies:
-      '@alicanto/api':
+      '@lafken/api':
         specifier: workspace:*
         version: link:../../packages/api
-      '@alicanto/auth':
+      '@lafken/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@alicanto/bucket':
+      '@lafken/bucket':
         specifier: workspace:*
         version: link:../../packages/bucket
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../../packages/common
-      '@alicanto/dynamo':
+      '@lafken/dynamo':
         specifier: workspace:*
         version: link:../../packages/dynamo
-      '@alicanto/event':
+      '@lafken/event':
         specifier: workspace:*
         version: link:../../packages/event
-      '@alicanto/main':
+      '@lafken/main':
         specifier: workspace:*
         version: link:../../packages/main
-      '@alicanto/queue':
+      '@lafken/queue':
         specifier: workspace:*
         version: link:../../packages/queue
-      '@alicanto/schedule':
+      '@lafken/schedule':
         specifier: workspace:*
         version: link:../../packages/schedule
-      '@alicanto/state-machine':
+      '@lafken/state-machine':
         specifier: workspace:*
         version: link:../../packages/state-machine
       cdktf:
@@ -75,10 +75,10 @@ importers:
 
   packages/api:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@cdktf/provider-aws':
@@ -109,10 +109,10 @@ importers:
 
   packages/auth:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@cdktf/provider-aws':
@@ -140,10 +140,10 @@ importers:
 
   packages/bucket:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@aws-sdk/client-s3':
@@ -193,10 +193,10 @@ importers:
 
   packages/dynamo:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@aws-sdk/client-dynamodb':
@@ -239,10 +239,10 @@ importers:
 
   packages/event:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@cdktf/provider-aws':
@@ -273,10 +273,10 @@ importers:
 
   packages/main:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@cdktf/provider-aws':
@@ -310,10 +310,10 @@ importers:
 
   packages/queue:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@aws-sdk/client-sqs':
@@ -353,7 +353,7 @@ importers:
 
   packages/resolver:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
       '@cdktf/provider-aws':
@@ -384,10 +384,10 @@ importers:
 
   packages/schedule:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@cdktf/provider-aws':
@@ -418,10 +418,10 @@ importers:
 
   packages/state-machine:
     dependencies:
-      '@alicanto/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@alicanto/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       '@aws-sdk/client-sqs':

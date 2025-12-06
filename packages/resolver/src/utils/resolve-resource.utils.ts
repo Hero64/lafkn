@@ -1,4 +1,4 @@
-import { alicantoResource } from '../resources';
+import { lafkenResource } from '../resources';
 
 export class ResolveResources {
   private unresolved: string[] = [];
@@ -6,7 +6,7 @@ export class ResolveResources {
   public getResourceValue(module: string, id: string, type: string) {
     this.unresolved = [];
 
-    const resource = alicantoResource.getResource(module, id);
+    const resource = lafkenResource.getResource(module, id);
 
     if (!resource) {
       this.unresolved.push(`${module}::${id}::${type}`);

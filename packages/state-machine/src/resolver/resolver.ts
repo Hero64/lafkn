@@ -2,14 +2,14 @@ import {
   type ClassResource,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@alicanto/common';
+} from '@lafken/common';
 import {
   type AppModule,
   type AppStack,
   lambdaAssets,
   type ResolverType,
   Role,
-} from '@alicanto/resolver';
+} from '@lafken/resolver';
 
 import {
   type LambdaStateMetadata,

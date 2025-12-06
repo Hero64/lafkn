@@ -6,7 +6,7 @@ import type {
   LambdaProps,
   ResourceMetadata,
   ResourceProps,
-} from '@alicanto/common';
+} from '@lafken/common';
 import type { ResponseMetadata } from '../event';
 import type {
   ApiArrayField,

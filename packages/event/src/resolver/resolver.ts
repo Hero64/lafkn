@@ -1,17 +1,17 @@
+import { CloudwatchEventBus } from '@cdktf/provider-aws/lib/cloudwatch-event-bus';
+import { DataAwsCloudwatchEventBus } from '@cdktf/provider-aws/lib/data-aws-cloudwatch-event-bus';
 import {
   type ClassResource,
   getResourceHandlerMetadata,
   getResourceMetadata,
   type ResourceMetadata,
-} from '@alicanto/common';
+} from '@lafken/common';
 import {
   type AppModule,
   type AppStack,
   lambdaAssets,
   type ResolverType,
-} from '@alicanto/resolver';
-import { CloudwatchEventBus } from '@cdktf/provider-aws/lib/cloudwatch-event-bus';
-import { DataAwsCloudwatchEventBus } from '@cdktf/provider-aws/lib/data-aws-cloudwatch-event-bus';
+} from '@lafken/resolver';
 import { type EventRuleMetadata, RESOURCE_TYPE } from '../main';
 import type { EventRuleResolverProps } from './resolver.types';
 import { Rule } from './rule/rule';

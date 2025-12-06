@@ -6,7 +6,7 @@ import type {
   ResourceMetadata,
   ResourceProps,
   StateMachineNames,
-} from '@alicanto/common';
+} from '@lafken/common';
 
 import type { JsonAtaString } from '../param';
 

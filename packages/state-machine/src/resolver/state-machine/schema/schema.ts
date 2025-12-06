@@ -4,8 +4,8 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
   LambdaReflectKeys,
-} from '@alicanto/common';
-import { lambdaAssets } from '@alicanto/resolver';
+} from '@lafken/common';
+import { lambdaAssets } from '@lafken/resolver';
 import type { Construct } from 'constructs';
 import {
   type LambdaStateMetadata,

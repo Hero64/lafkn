@@ -3,7 +3,7 @@ import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@alicanto/common';
+} from '@lafken/common';
 
 import { NestedStateMachine, RESOURCE_TYPE, State, StateMachine } from './state-machine';
 import {

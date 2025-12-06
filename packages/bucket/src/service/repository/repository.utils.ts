@@ -1,4 +1,4 @@
-import type { ClassResource } from '@alicanto/common';
+import type { ClassResource } from '@lafken/common';
 import { BucketMetadataKeys, type BucketMetadataProps } from '../../main/bucket';
 
 export const getBucketInformation = <E extends ClassResource>(bucket: E) => {

@@ -1,4 +1,4 @@
-import type { FieldTypes } from '@alicanto/common';
+import type { FieldTypes } from '@lafken/common';
 import type { ApiParamMetadata } from '../../../../../../main';
 
 interface ValueResolverBase {

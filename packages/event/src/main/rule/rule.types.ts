@@ -3,7 +3,7 @@ import type {
   DynamoTableNames,
   EventBusNames,
   LambdaMetadata,
-} from '@alicanto/common';
+} from '@lafken/common';
 
 export interface EventRuleBaseProps {
   /**

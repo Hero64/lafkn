@@ -1,4 +1,4 @@
-import type { ResourceMetadata } from '@alicanto/common';
+import type { ResourceMetadata } from '@lafken/common';
 import type { TriggerMetadata } from '../../../../main/extension/extension.types';
 
 export interface ExtensionProps {

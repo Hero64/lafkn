@@ -1,4 +1,4 @@
-import type { LambdaMetadata, LambdaProps, QueueNames } from '@alicanto/common';
+import type { LambdaMetadata, LambdaProps, QueueNames } from '@lafken/common';
 
 export interface StandardProps {
   /**

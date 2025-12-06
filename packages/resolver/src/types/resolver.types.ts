@@ -1,4 +1,4 @@
-import type { ClassResource, LambdaProps } from '@alicanto/common';
+import type { ClassResource, LambdaProps } from '@lafken/common';
 import type { TerraformStack } from 'cdktf';
 import type { Construct } from 'constructs';
 
@@ -11,7 +11,7 @@ export interface StackConfigProps {
   tags: Record<string, string>;
 }
 
-export type AlicantoResourceType<T extends new (...args: any[]) => Construct> =
+export type LafkenResourceType<T extends new (...args: any[]) => Construct> =
   InstanceType<T> & {
     isGlobal(): void;
     isDependent(resolveDependency: () => void): void;

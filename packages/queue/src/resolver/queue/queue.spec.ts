@@ -1,16 +1,16 @@
 import 'cdktf/lib/testing/adapters/jest';
-import { enableBuildEnvVariable } from '@alicanto/common';
-import { LambdaHandler, setupTestingStackWithModule } from '@alicanto/resolver';
 import { LambdaEventSourceMapping } from '@cdktf/provider-aws/lib/lambda-event-source-mapping';
 import { SqsQueue } from '@cdktf/provider-aws/lib/sqs-queue';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { LambdaHandler, setupTestingStackWithModule } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { Event, Fifo, Param, Payload, Queue, Standard } from '../../main';
 import { Queue as QueueResolver } from './queue';
 
 Testing.setupJest();
 
-jest.mock('@alicanto/resolver', () => {
-  const actual = jest.requireActual('@alicanto/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,

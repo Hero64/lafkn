@@ -1,5 +1,5 @@
 {
-  "name": "@alicanto/dynamo",
+  "name": "@lafken/dynamo",
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
@@ -32,11 +32,11 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@alicanto/common": "workspace:*",
-    "@alicanto/resolver": "workspace:*",
     "@aws-sdk/client-dynamodb": "3.940.0",
     "@aws-sdk/util-dynamodb": "3.940.0",
     "@cdktf/provider-aws": "21.19.0",
+    "@lafken/common": "workspace:*",
+    "@lafken/resolver": "workspace:*",
     "aws-xray-sdk": "3.12.0",
     "cdktf": "0.21.0",
     "constructs": "10.4.3",

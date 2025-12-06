@@ -5,7 +5,7 @@ import type {
   NumberField,
   ObjectField,
   StringField,
-} from '@alicanto/common';
+} from '@lafken/common';
 
 export type JsonAtaString = `{%${string}%}`;
 export type ExecutionSource =

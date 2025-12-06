@@ -3,7 +3,7 @@ import type {
   LambdaProps,
   ResourceMetadata,
   ServicesValues,
-} from '@alicanto/common';
+} from '@lafken/common';
 import type { Construct } from 'constructs';
 import type { GlobalContext } from '../../types';
 

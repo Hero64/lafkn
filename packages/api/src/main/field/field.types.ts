@@ -7,7 +7,7 @@ import type {
   NumberField,
   ObjectField,
   StringField,
-} from '@alicanto/common';
+} from '@lafken/common';
 
 interface ApiFieldValidatorBase {
   required?: boolean;

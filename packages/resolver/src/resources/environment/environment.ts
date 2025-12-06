@@ -1,5 +1,5 @@
-import { cleanString, type EnvironmentValue } from '@alicanto/common';
 import { DataAwsSsmParameter } from '@cdktf/provider-aws/lib/data-aws-ssm-parameter';
+import { cleanString, type EnvironmentValue } from '@lafken/common';
 import { Construct } from 'constructs';
 import { ResolveResources } from '../../utils/resolve-resource.utils';
 

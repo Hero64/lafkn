@@ -1,4 +1,4 @@
-import { createLambdaDecorator, createResourceDecorator } from '@alicanto/common';
+import { createLambdaDecorator, createResourceDecorator } from '@lafken/common';
 import type { EventCronMetadata, EventCronProps } from './schedule.types';
 
 export const RESOURCE_TYPE = 'CRON' as const;

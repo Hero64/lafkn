@@ -10,7 +10,7 @@ const config: Config = {
     '^.+\\.ts?$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@alicanto/(.*)$': '<rootDir>/../$1/src',
+    '^@lafken/(.*)$': '<rootDir>/../$1/src',
   },
 };
 

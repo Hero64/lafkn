@@ -3,7 +3,7 @@ import {
   AuthorizerHandler,
   type AuthorizerResponse,
   CustomAuthorizer,
-} from '@alicanto/api/main';
+} from '@lafken/api/main';
 
 @CustomAuthorizer({
   name: 'ExampleCustomAuthorizer',

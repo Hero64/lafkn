@@ -4,7 +4,7 @@ import {
   createFieldName,
   createPayloadDecorator,
   FieldProperties,
-} from '@alicanto/common';
+} from '@lafken/common';
 import { RESOURCE_TYPE } from '../extension/extension';
 import type {
   AuthAttributes,

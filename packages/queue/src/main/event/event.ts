@@ -4,7 +4,7 @@ import {
   createFieldName,
   createPayloadDecorator,
   FieldProperties,
-} from '@alicanto/common';
+} from '@lafken/common';
 import { RESOURCE_TYPE } from '../queue';
 import type { ParamProps, QueueParamMetadata } from './event.types';
 

@@ -1,4 +1,4 @@
-import type { ClassResource } from '@alicanto/common';
+import type { ClassResource } from '@lafken/common';
 
 import type { QueryBuilderProps } from '../base/base.types';
 import type { FindProps } from '../query-builder.types';

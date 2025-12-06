@@ -1,4 +1,4 @@
-import type { PayloadMetadata, PayloadProps } from '@alicanto/common';
+import type { PayloadMetadata, PayloadProps } from '@lafken/common';
 
 import type { ApiFieldMetadata } from '../field';
 import type { HTTP_STATUS_CODE_NUMBER } from '../status';

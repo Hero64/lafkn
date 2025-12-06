@@ -1,18 +1,18 @@
-// import { AuthResolver } from '@alicanto/auth/resolver';
+// import { AuthResolver } from '@lafken/auth/resolver';
 
-// import { ApiResolver } from '@alicanto/api/resolver';
-// import { DynamoResolver } from '@alicanto/dynamo/resolver';
-import { BucketResolver } from '@alicanto/bucket/resolver';
-// import { EventRuleResolver } from '@alicanto/event/resolver';
-import { createApp } from '@alicanto/main';
-import { StateMachineResolver } from '@alicanto/state-machine/resolver';
-// import { ScheduleResolver } from '@alicanto/schedule/resolver';
+// import { ApiResolver } from '@lafken/api/resolver';
+// import { DynamoResolver } from '@lafken/dynamo/resolver';
+import { BucketResolver } from '@lafken/bucket/resolver';
+// import { EventRuleResolver } from '@lafken/event/resolver';
+import { createApp } from '@lafken/main';
+import { StateMachineResolver } from '@lafken/state-machine/resolver';
+// import { ScheduleResolver } from '@lafken/schedule/resolver';
 // import { Client } from './model/client.model';
 import { DocumentBucket } from './bucket/documents.bucket';
 // import { ApiKeyAuth } from './auth/apikey.auth';
 // import { UserPoolAttributes } from './auth/attributes.auth';
 // import { CognitoAuth } from './auth/cognito.auth';
-// import { QueueResolver } from '@alicanto/queue/resolver';
+// import { QueueResolver } from '@lafken/queue/resolver';
 // import { ExampleCustomAuthorizer } from './auth/custom.auth';
 import GreetingStack from './modules/greeting/greeting.module';
 
