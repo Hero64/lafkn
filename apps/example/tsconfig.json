@@ -3,17 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["node"],
-    "paths": {
-      "@lafken/dynamo/*": ["../../packages/dynamo/lib/*"],
-      "@lafken/api/*": ["../../packages/api/lib/*"],
-      "@lafken/schedule/*": ["../../packages/schedule/lib/*"],
-      "@lafken/event/*": ["../../packages/event/lib/*"],
-      "@lafken/state-machine/*": ["../../packages/state-machine/lib/*"],
-      "@lafken/bucket/*": ["../../packages/bucket/lib/*"],
-      "@lafken/queue/*": ["../../packages/queue/lib/*"],
-      "@lafken/auth/*": ["../../packages/auth/lib/*"]
-    }
+    "types": ["node"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
