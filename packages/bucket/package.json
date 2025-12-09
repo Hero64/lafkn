@@ -25,7 +25,7 @@
       "main": [
         "./lib/main/index.d.ts"
       ],
-      "./service": [
+      "service": [
         "./lib/service/index.d.ts"
       ],
       "resolver": [
