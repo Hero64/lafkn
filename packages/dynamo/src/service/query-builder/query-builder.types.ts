@@ -104,7 +104,7 @@ export type SortDirectionType = 'asc' | 'desc';
 
 export type KeyCondition<E> = {
   partition: Partial<OnlyNumberString<E>>;
-  sort?: OnlyOne<{
+  sort?: {
     [key in keyof E as E[key] extends number | string
       ? key
       : never]?: E[key] extends PrimaryPartition<number>
@@ -116,7 +116,7 @@ export type KeyCondition<E> = {
             | (E[key] extends number
                 ? OperationExpression<E[key]>
                 : OnlyOne<OperationExpression<E[key]> | StringExpression>);
-  }>;
+  };
 };
 
 export type Item<E extends Function> = {
@@ -133,6 +133,10 @@ export interface FindProps<E extends Function> {
   sortDirection?: SortDirectionType;
   cursor?: Cursor<E['prototype']>;
   limit?: number;
+  /**
+   * // TODO: completar esto
+   */
+  indexName?: string;
 }
 
 export interface QueryProps<E extends Function> extends FindProps<E> {

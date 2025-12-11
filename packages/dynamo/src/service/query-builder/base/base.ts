@@ -1,13 +1,13 @@
 import { marshall } from '@aws-sdk/util-dynamodb';
-import type { ClassResource, OnlyNumberString } from '@lafken/common';
-import type { DynamoIndex } from '../../../main/model';
+import type { ClassResource } from '@lafken/common';
+import type { LocalIndex } from '../../../main';
+import type { GlobalIndexProperty } from '../dynamo-index/dynamo-index.types';
 import type {
   AndFilter,
   Filter,
   Item,
   KeyCondition,
   OrFilter,
-  QueryProps,
 } from '../query-builder.types';
 import type {
   FilterResolverTypes,
@@ -22,118 +22,80 @@ export class QueryBuilderBase<E extends ClassResource> {
   protected attributeNames: Record<string, string> = {};
   protected attributeValues: Record<string, any> = {};
 
-  protected getIndex(props: QueryProps<E>) {
-    const {
-      keyCondition: { partition, sort },
-    } = props;
-
-    const keysInPartition = Object.keys(partition);
-    const keysInSort = Object.keys(sort || {});
-
-    if (keysInPartition.length > 1 || keysInSort.length > 1) {
-      throw new Error('Should use only item from partition and sort key');
-    }
-
-    const selectedPartitionKey = keysInPartition[0];
-    const selectedSortKey = keysInSort[0];
-
-    if (
-      selectedPartitionKey === this.options.partitionKey &&
-      (!sort || selectedSortKey === this.options.sortKey)
-    ) {
-      return;
-    }
-
-    const { indexes } = this.options.modelProps;
-
-    const selectedIndex = (indexes || []).find((index) => {
-      if (index.type === 'local') {
-        return (
-          selectedPartitionKey === this.options.partitionKey &&
-          selectedSortKey === index.sortKey
-        );
-      }
-
-      return (
-        index.partitionKey === selectedPartitionKey &&
-        (!sort || selectedSortKey === index.sortKey)
-      );
-    });
-
-    if (!selectedIndex) {
-      throw new Error('Partition key or sort key not found');
-    }
-
-    return selectedIndex;
-  }
-
-  protected validateIndex(props: QueryProps<E>, index?: DynamoIndex<E>) {
-    const { filter } = props;
-    if (!filter) {
-      return;
-    }
-    let conditionKeys: [string, string | undefined] = [
-      this.options.partitionKey,
-      this.options.sortKey,
-    ];
-
-    if (index) {
-      conditionKeys = [
-        index.type === 'local'
-          ? this.options.partitionKey
-          : (index.partitionKey as string),
-        index.sortKey as string,
-      ];
-    }
-
-    let filterKeys = new Set<string>([]);
-    if (Array.isArray(filter.OR)) {
-      for (const condition of filter.OR) {
-        Object.keys(condition).forEach(filterKeys.add, filterKeys);
-        if (condition.AND) {
-          Object.keys(condition.AND).forEach(filterKeys.add, filterKeys);
-        }
-      }
-    } else {
-      filterKeys = new Set([...Object.keys(filter)]);
-    }
-
-    if (filterKeys.has(conditionKeys[0]) || filterKeys.has(conditionKeys[1] as string)) {
-      throw new Error('Partition and sort key should not be in the filter condition');
-    }
-  }
-
-  protected getKeyConditionExpression(expression: KeyCondition<E>) {
+  protected getKeyConditionExpression(
+    expression: KeyCondition<E>,
+    index?: LocalIndex<E> | GlobalIndexProperty
+  ) {
     const { partition, sort } = expression;
-    const partitionName = Object.keys(partition)[0];
-    const partitionValue = partition[partitionName as keyof Partial<OnlyNumberString<E>>];
 
-    const partitionFilter = this.resolveFilter({
-      expressionName: partitionName,
-      value: partitionValue,
-      filterExpressionKey: 'equal',
-    });
+    const isGlobalIndex = index?.type === 'global';
+
+    this.validateGlobalKey(Object.keys(partition), isGlobalIndex);
+    sort && this.validateGlobalKey(Object.keys(sort), isGlobalIndex);
+
+    const partitionFilters: string[] = [];
+
+    for (const key in partition) {
+      partitionFilters.push(
+        this.resolveFilter({
+          expressionName: key,
+          value: partition[key],
+          filterExpressionKey: 'equal',
+        })
+      );
+    }
 
     if (!sort) {
-      return partitionFilter;
+      return partitionFilters.join(' and ');
     }
 
-    const sortName = Object.keys(sort)[0];
-    let sortValue = (sort as any)[sortName];
-    let resolverName: FilterResolverTypes = 'equal';
+    let sortValues = sort;
+    if (isGlobalIndex) {
+      let sortCount = Object.keys(sort).length;
+      sortValues = {};
+      let lastOmittedAttribute: string | undefined;
+      for (const attribute of index.sortKey) {
+        const attributeName = attribute as keyof typeof sort;
+        if (sort[attributeName]) {
+          if (lastOmittedAttribute) {
+            throw new Error(
+              `The sortKey is read from left to right. It is not possible to skip values; you must include the attribute"${lastOmittedAttribute}". Check the index "${index.name}"`
+            );
+          }
 
-    if (typeof sortValue === 'object' && sortValue) {
-      resolverName = Object.keys(sortValue || {})[0] as FilterResolverTypes;
-      sortValue = (sortValue as any)[resolverName];
+          if (sortCount > 1 && typeof sort[attributeName] === 'object') {
+            throw new Error(
+              'Only the last attribute of sortKey can add a value different from the same.'
+            );
+          }
+          sortValues[attributeName] = sort[attributeName];
+          sortCount--;
+          continue;
+        }
+
+        lastOmittedAttribute = attribute;
+      }
     }
 
-    const sortFilter = this.resolveFilter({
-      expressionName: sortName,
-      value: sortValue,
-      filterExpressionKey: resolverName,
-    });
+    for (const key in sortValues) {
+      let filterExpressionKey: FilterResolverTypes = 'equal';
 
-    return `${partitionFilter} and ${sortFilter}`;
+      let sortValue = sort[key];
+      if (typeof sortValue === 'object') {
+        filterExpressionKey = Object.keys(sortValue || {})[0] as FilterResolverTypes;
+        sortValue = (sortValue as any)[filterExpressionKey];
+      }
+
+      partitionFilters.push(
+        this.resolveFilter({
+          expressionName: key,
+          value: sortValue,
+          filterExpressionKey,
+        })
+      );
+    }
+
+    return partitionFilters.join(' and ');
   }
 
   protected getFilterExpression<T>(
@@ -265,4 +227,12 @@ export class QueryBuilderBase<E extends ClassResource> {
 
     return expression;
   };
+
+  private validateGlobalKey(keys: string[], isGlobalIndex: boolean) {
+    if (keys.length > 1 && !isGlobalIndex) {
+      throw new Error(
+        'partition keys only support multi-attributes when they are a global multi-attribute index.'
+      );
+    }
+  }
 }

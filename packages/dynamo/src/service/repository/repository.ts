@@ -1,11 +1,12 @@
 import type { ClassResource } from '@lafken/common';
-import type { ModelPartition } from '../../main/model';
+import type { DynamoIndex, ModelPartition } from '../../main/model';
 import { client, getClientWithXRay } from '../client/client';
 import type { QueryBuilderProps } from '../query-builder/base/base.types';
 import { BulkCreateBuilder } from '../query-builder/bulk-create/bulk-create';
 import { BulkDeleteBuilder } from '../query-builder/bulk-delete/bulk-delete';
 import { CreateBuilder } from '../query-builder/create/create';
 import { DeleteBuilder } from '../query-builder/delete/delete';
+import { DynamoIndexes } from '../query-builder/dynamo-index/dynamo-index';
 import { FindAllBuilder } from '../query-builder/find-all/find-all';
 import { FindOneBuilder } from '../query-builder/find-one/find-one';
 import type {
@@ -32,10 +33,17 @@ export const createRepository = <E extends ClassResource>(model: E) => {
     sortKey,
   };
 
+  const indexes = new DynamoIndexes(
+    modelProps.indexes as DynamoIndex<any>[],
+    partitionKey,
+    sortKey
+  );
+
   return {
     findOne(inputProps: QueryOneProps<E>) {
       return new FindOneBuilder({
         ...queryBuilderProps,
+        indexes,
         inputProps: {
           ...inputProps,
           limit: 1,
@@ -45,6 +53,7 @@ export const createRepository = <E extends ClassResource>(model: E) => {
     findAll(inputProps: QueryProps<E>) {
       return new FindAllBuilder({
         ...queryBuilderProps,
+        indexes,
         inputProps,
       });
     },

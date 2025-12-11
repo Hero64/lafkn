@@ -38,9 +38,16 @@ export interface LocalIndex<T extends Function> extends IndexBase<T> {
 
 export interface GlobalIndex<T extends Function> extends IndexBase<T> {
   type?: 'global';
-  partitionKey: keyof OnlyNumberString<T['prototype']>;
-  sortKey?: keyof OnlyNumberString<T['prototype']>;
+  partitionKey:
+    | keyof OnlyNumberString<T['prototype']>
+    | (keyof OnlyNumberString<T['prototype']>)[];
+  sortKey?:
+    | keyof OnlyNumberString<T['prototype']>
+    | (keyof OnlyNumberString<T['prototype']>)[];
 }
+
+export type GlobalIndexWithReadWriteCapacity<T extends Function> = GlobalIndex<T> &
+  ReadWriteCapacity;
 
 export interface ReadWriteCapacity {
   readCapacity: number;
@@ -222,7 +229,7 @@ export interface ModelProvisioned<T extends Function>
    * These indexes can be used to optimize query patterns or support
    * additional access patterns.
    */
-  indexes?: (LocalIndex<T> | (GlobalIndex<T> & ReadWriteCapacity))[];
+  indexes?: (LocalIndex<T> | GlobalIndexWithReadWriteCapacity<T>)[];
 }
 
 export interface ModelPayPerRequest<T extends Function> extends ModelBase<T> {

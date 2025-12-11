@@ -28,12 +28,11 @@ export class FindBuilder<E extends ClassResource> extends QueryBuilderBase<E> {
       sortDirection = 'asc',
     } = this.queryOptions.inputProps;
 
-    const index = this.getIndex(this.queryOptions.inputProps);
-    const keyConditionExpression = this.getKeyConditionExpression(keyCondition);
+    const index = this.queryOptions.indexes.getIndex(this.queryOptions.inputProps);
+    const keyConditionExpression = this.getKeyConditionExpression(keyCondition, index);
 
     let filterExpression: string | undefined;
     if (filter) {
-      this.validateIndex(this.queryOptions.inputProps, index);
       const expression = this.getFilterExpression(filter || {});
       filterExpression = expression;
     }
