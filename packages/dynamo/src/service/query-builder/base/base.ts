@@ -2,13 +2,7 @@ import { marshall } from '@aws-sdk/util-dynamodb';
 import type { ClassResource } from '@lafken/common';
 import type { LocalIndex } from '../../../main';
 import type { GlobalIndexProperty } from '../dynamo-index/dynamo-index.types';
-import type {
-  AndFilter,
-  Filter,
-  Item,
-  KeyCondition,
-  OrFilter,
-} from '../query-builder.types';
+import type { AndFilter, Filter, KeyCondition, OrFilter } from '../query-builder.types';
 import type {
   FilterResolverTypes,
   QueryBuilderProps,
@@ -17,6 +11,7 @@ import type {
 import { filterKeys, filterResolver } from './base.utils';
 
 export class QueryBuilderBase<E extends ClassResource> {
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: ''
   constructor(private options: QueryBuilderProps<E>) {}
 
   protected attributeNames: Record<string, string> = {};
@@ -65,7 +60,7 @@ export class QueryBuilderBase<E extends ClassResource> {
 
           if (sortCount > 1 && typeof sort[attributeName] === 'object') {
             throw new Error(
-              'Only the last attribute of sortKey can add a value different from the same.'
+              'Only the last attribute in the index sortKey can add a value different from the equal.'
             );
           }
           sortValues[attributeName] = sort[attributeName];
@@ -180,18 +175,6 @@ export class QueryBuilderBase<E extends ClassResource> {
 
     return `(${filterExpression.join(` ${union} `)})`;
   }
-
-  protected validateKey = (key: Partial<Item<E>>) => {
-    const keys = new Set(Object.keys(key));
-
-    if (
-      keys.size > 3 ||
-      !keys.has(this.options.partitionKey) ||
-      (keys.size === 2 && this.options.sortKey && !keys.has(this.options.sortKey))
-    ) {
-      throw new Error('Key are only composed of partition and sort key');
-    }
-  };
 
   protected getAttributesAndNames() {
     return {

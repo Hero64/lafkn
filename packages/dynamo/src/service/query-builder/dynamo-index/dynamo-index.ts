@@ -21,6 +21,7 @@ export class DynamoIndexes {
 
       const globalIndex: GlobalIndexProperty = {
         ...index,
+        type: 'global',
         partitionKey: Array.isArray(index.partitionKey)
           ? new Set([...(index.partitionKey as string[])])
           : new Set([index.partitionKey as string]),
