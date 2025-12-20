@@ -59,17 +59,17 @@ export class GreetingApi {
 
 Lafken includes several sub-packages with their own documentation:
 
-* Main module → 
-* Core module → 
-* Resolver module → 
-* API Module → (link pending)
-* Bucket Module → 
-* Dynamo Module → 
-* Queue Module → 
-* Event Module → 
-* State Machine Module → 
-* Auth Module → 
-* Schedule Module → 
+* [Main module](packages/main/README.md)
+* [Common module](packages/common/README.md)
+* [Resolver module](packages/resolver/README.md)
+* [API Module](packages/api/README.md)
+* [Bucket Module](packages/bucket/README.md)
+* [Dynamo Module](packages/dynamo/README.md)
+* [Queue Module](packages/queue/README.md)
+* [Event Module](packages/event/README.md)
+* [Schedule Module](packages/schedule/README.md)
+* [State Machine Module](packages/state-machine/README.md)
+* [Auth Module](packages/auth/README.md)
 
 ## Configuration
 
