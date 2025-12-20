@@ -58,6 +58,13 @@ export type DynamoIndex<T extends Function> = LocalIndex<T> | GlobalIndex<T>;
 
 export type StreamTypes = 'NEW_IMAGE' | 'OLD_IMAGE' | 'NEW_AND_OLD_IMAGES' | 'KEYS_ONLY';
 
+export interface Replica {
+  regionName: string;
+  consistenceMode?: 'STRONG' | 'EVENTUAL';
+  deletionProtectionEnabled?: boolean;
+  propagateTags?: boolean;
+}
+
 export interface FilterCriteria<T> {
   /**
    * Event types to include in the stream.
@@ -216,6 +223,18 @@ export interface ModelBase<T extends Function> {
    * }
    */
   ttl?: keyof OnlyNumber<T['prototype']>;
+  /**
+   * Define the dyanamo table replication mode across another regions
+   *
+   * @example
+   * {
+   *   replica: [{
+   *     regionName: 'us-east-2',
+   *     consistenceMode: 'EVENTUAL'
+   *   }]
+   * }
+   */
+  replica?: Replica[];
 }
 
 export interface ModelProvisioned<T extends Function>

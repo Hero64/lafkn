@@ -53,6 +53,7 @@ export class Table extends lafkenResource.make(DynamodbTable) {
           }
         : undefined,
       ...Table.getBillingModeProps(modelProps),
+      replica: modelProps.replica,
     });
 
     this.isGlobal('dynamo', modelProps.name);
