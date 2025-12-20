@@ -37,7 +37,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@cdktf/provider-aws": "21.22.1",
+    "@cdktf/provider-aws": "21.22.0",
     "@lafken/common": "workspace:*",
     "@lafken/resolver": "workspace:*",
     "cdktf": "0.21.0",
