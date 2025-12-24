@@ -74,6 +74,13 @@ export class ApiResolver implements ResolverType {
   }
 
   public async afterCreate(scope: AppStack) {
+    if (this.options.length === 0) {
+      const defaultApi = Object.values(this.apis)[0];
+
+      defaultApi.createStageDeployment();
+      return;
+    }
+
     for (const option of this.options) {
       const api = this.apis[option.restApi.name];
       api.createStageDeployment();

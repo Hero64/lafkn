@@ -2,8 +2,8 @@ import { BucketMetadataKeys, type BucketProps } from './bucket.types';
 
 export const Bucket =
   (props: BucketProps = {}) =>
-  (constructor: Function) => {
-    const { name = constructor.name } = props;
+  (target: Function) => {
+    const { name = target.name } = props;
 
     Reflect.defineMetadata(
       BucketMetadataKeys.bucket,
@@ -11,6 +11,6 @@ export const Bucket =
         name,
         ...props,
       },
-      constructor
+      target
     );
   };

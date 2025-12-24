@@ -1,11 +1,11 @@
 import 'reflect-metadata';
+import fs from 'node:fs/promises';
 import {
   enableBuildEnvVariable,
   getMetadataPrototypeByKey,
   getResourceMetadata,
   type LambdaMetadata,
 } from '@lafken/common';
-
 import {
   ApiKeyAuthorizer,
   AuthorizerHandler,
@@ -45,7 +45,12 @@ describe('Authorizers', () => {
     @CustomAuthorizer()
     class Auth {
       @AuthorizerHandler()
-      test() {}
+      test(e: any) {
+        return {
+          principalId: 'test@test.com',
+          allow: true,
+        };
+      }
     }
     it('should exist custom authorizer metadata', () => {
       const resource = getResourceMetadata(Auth);
@@ -61,6 +66,40 @@ describe('Authorizers', () => {
       );
 
       expect(resource.name).toBe('test');
+    });
+
+    it('should get permissions in lambda execution', async () => {
+      jest.spyOn(fs, 'readFile').mockImplementation(() =>
+        Promise.resolve(`{
+        "/test": {
+          "GET": ["foo", "bar"]
+        }
+      }`)
+      );
+
+      const auth = new Auth();
+
+      const response = await (auth.test as any)({
+        httpMethod: 'GET',
+        methodArn: 'test',
+        requestContext: {
+          resourcePath: '/test',
+        },
+      });
+
+      expect(response).toStrictEqual({
+        principalId: 'test@test.com',
+        policyDocument: {
+          Version: '2012-10-17',
+          Statement: [
+            {
+              Action: 'execute-api:Invoke',
+              Effect: 'Allow',
+              Resource: 'test',
+            },
+          ],
+        },
+      });
     });
   });
 });
