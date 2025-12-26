@@ -7,7 +7,6 @@ import type {
   OnlyOne,
 } from '@lafken/common';
 import type {
-  DynamoIndex,
   FieldsMetadata,
   ModelPartition,
   ModelPayPerRequest,
@@ -128,34 +127,89 @@ export type Cursor<E extends Function> = Partial<E>;
 export type Projection<E extends Function> = KeyOfClass<E>[] | 'ALL';
 
 export interface FindProps<E extends Function> {
+  /**
+   * Specifies which attributes are included in the query result.
+   * By limiting the projected attributes, the response size can be reduced
+   * and query performance improved.
+   *
+   * @example
+   * projection: ['foo', 'bar']
+   */
   projection?: Projection<E>;
+  /**
+   * Specifies the filter expression applied to the query or scan operation.
+   * This filter is evaluated after the items are read and is used to narrow
+   * down the result set based on non-key attributes.
+   *
+   * @example
+   * filter: {
+   *   age: {
+   *     lessThan: 25,
+   *   },
+   * }
+   */
   filter?: Filter<E['prototype']> | OrFilter<E['prototype']>;
+  /**
+   * Specifies the sort order to apply to the query results.
+   * This determines whether items are returned in ascending or descending order.
+   *
+   * @example
+   *
+   * sortDirection: 'asc'
+   */
   sortDirection?: SortDirectionType;
+  /**
+   * Specifies the cursor representing the last item evaluated in a previous query.
+   * It is used to resume the query from the same position, allowing subsequent
+   * requests to paginate through the query results consistently.
+   *
+   * @example
+   *
+   * {
+   *   cursor: {
+   *     foo: 'some',
+   *     bar: 'item'
+   *   }
+   * }
+   */
   cursor?: Cursor<E['prototype']>;
+  /**
+   * Specifies the maximum number of items to be retrieved by the query.
+   * This value limits the size of the result set returned by DynamoDB.
+   */
   limit?: number;
   /**
-   * // TODO: completar esto
+   * Specifies the name of the index to use when executing the query.
+   * If not provided, the index that best matches the attributes defined
+   * in the key condition will be selected automatically.
    */
   indexName?: string;
 }
 
 export interface QueryProps<E extends Function> extends FindProps<E> {
+  /**
+   * Specifies the key condition used to execute the query.
+   * This defines the partition key and, optionally, the sort key
+   * that DynamoDB uses to locate the matching items.
+   *
+   * @example
+   * {
+   *   keyCondition: {
+   *     partition: {
+   *       foo: 'value'
+   *     },
+   *     sort: {
+   *       bar: {
+   *         lessThan: 10
+   *       }
+   *     }
+   *   }
+   * }
+   */
   keyCondition: KeyCondition<E['prototype']>;
 }
 
 export interface QueryOneProps<E extends Function> extends Omit<QueryProps<E>, 'limit'> {}
-
-export interface ExecQueryProps<E extends Function> {
-  condition?: string;
-  index?: DynamoIndex<E>;
-  filter?: string;
-  names?: Record<string, string>;
-  values?: Record<string, any>;
-  limit?: number;
-  cursor?: Cursor<E['prototype']>;
-  sort?: SortDirectionType;
-  projection?: Projection<E>;
-}
 
 export interface QueryResponse<E extends Function> {
   data: Partial<E['prototype']>[];
@@ -194,22 +248,80 @@ export type DeepReplaceValue<T> = {
 };
 
 export interface UpdateProps<E extends Function> {
+  /**
+   * Specifies the key condition used to execute the update query.
+   * This defines the partition key and, optionally, the sort key
+   * that DynamoDB uses to locate the matching items.
+   *
+   * @example
+   * {
+   *   keyCondition: {
+   *     partition: {
+   *       foo: 'value'
+   *     },
+   *     sort: {
+   *       bar: {
+   *         lessThan: 10
+   *       }
+   *     }
+   *   }
+   * }
+   */
   keyCondition: ModelPartition<Item<E>>;
   /**
-   * Applies set to internal values, without replacing the entire content.
+   * Specifies the attribute values to be replaced on the item.
+   * Unlike full updates, this allows replacing specific parts
+   * of the item without overwriting the entire object.
+   *
+   * @example
+   * {
+   *   setValues: {
+   *     foo: {
+   *       bar: 2 // only replace bar value in foo element
+   *     }
+   *   }
+   * }
    */
   setValues?: DeepReplaceValue<Item<E>>;
   /**
-   * Replace all content value
+   * Specifies the values to be updated on the item.
+   * When a value is an object, the entire object is replaced
+   * rather than being merged.
+   *
+   * @example
+   * {
+   *   replaceValues: {
+   *     foo:  {
+   *       bar: 1,
+   *       baz: [1, 2, 3]
+   *     }
+   *   }
+   * }
    */
   replaceValues?: ReplaceValue<Item<E>>;
   /**
-   * Values to remove
+   * Specifies which attributes should be removed from the item
+   * during the update operation.
+   *
+   * @example
+   * {
+   *   removeValues: {
+   *     foo: true
+   *   }
+   * }
    */
   removeValues?: ObjectToBoolean<Item<E>>;
 }
 
 export interface UpsertProps<E extends Function> {
+  /**
+   * Specifies the condition expression used during an item update operation.
+   * The update is only executed if the provided condition evaluates to true.
+   *
+   * condition: {
+   *   foo: 'bar'
+   * }
+   */
   condition?: Filter<E['prototype']>;
 }
 
