@@ -24,6 +24,12 @@ class LafkenResource {
 
     return Resource;
   }
+
+  reset() {
+    this.globals = {};
+    this.dependent = [];
+  }
+
   getResource<T = any>(
     module: ModuleGlobalReferenceNames | (string & {}),
     id: string
