@@ -1,3 +1,4 @@
+import type { GetResourceProps } from '@lafken/common';
 import { lafkenResource } from '../resources';
 
 export class ResolveResources {
@@ -25,3 +26,27 @@ export class ResolveResources {
     return this.unresolved.length > 0;
   }
 }
+
+export const resolveCallbackResource = <T>(callback: (props: GetResourceProps) => T) => {
+  const resolveResources = new ResolveResources();
+  const values = callback({
+    getResourceValue: (value, type) => {
+      const moduleWithId = value.split('::');
+
+      if (moduleWithId.length !== 2) {
+        throw new Error(`resource value ${value} is not valid`);
+      }
+
+      return resolveResources.getResourceValue(
+        moduleWithId[0],
+        moduleWithId[1],
+        type as string
+      );
+    },
+  });
+  if (resolveResources.hasUnresolved()) {
+    return false;
+  }
+
+  return values;
+};

@@ -1,7 +1,7 @@
 import { DataAwsSsmParameter } from '@cdktf/provider-aws/lib/data-aws-ssm-parameter';
 import { cleanString, type EnvironmentValue } from '@lafken/common';
 import { Construct } from 'constructs';
-import { ResolveResources } from '../../utils/resolve-resource.utils';
+import { resolveCallbackResource } from '../../utils/resolve-resource.utils';
 
 const ssmValues: Record<string, DataAwsSsmParameter> = {};
 
@@ -46,25 +46,12 @@ export class Environment extends Construct {
     let values: Record<string, string> = {};
 
     if (typeof this.envs === 'function') {
-      const resolveResources = new ResolveResources();
-      values = this.envs({
-        getResourceValue: (value, type) => {
-          const moduleWithId = value.split('::');
-
-          if (moduleWithId.length !== 2) {
-            throw new Error(`resource value ${value} is not valid`);
-          }
-
-          return resolveResources.getResourceValue(
-            moduleWithId[0],
-            moduleWithId[1],
-            type as string
-          );
-        },
-      });
-      if (resolveResources.hasUnresolved()) {
+      const resolveEnv = resolveCallbackResource(this.envs);
+      if (!resolveEnv) {
         return false;
       }
+
+      values = resolveEnv;
     } else {
       values = this.envs;
     }

@@ -37,7 +37,7 @@ export interface LambdaProps {
    * Internally, a role is created with the specified service permissions,
    * granting the Lambda the ability to interact with those resources.
    */
-  services?: ServicesValues[];
+  services?: ServicesValues;
   /**
    * Lambda environments.
    *

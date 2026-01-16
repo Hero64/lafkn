@@ -1,8 +1,10 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
+import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { Testing } from 'cdktf';
 import { setupTestingStack } from '../../utils';
+import { lafkenResource } from '../resource';
 import { Role } from './role';
 
 describe('Role', () => {
@@ -70,5 +72,51 @@ describe('Role', () => {
         '${jsonencode({"Version" = "2012-10-17", "Statement" = [{"Action" = "sts:AssumeRole", "Effect" = "Allow", "Principal" = {"Service" = "s3.amazon.com"}}]})}',
       name: 'testing',
     });
+  });
+
+  it('should create a role policy with function dependencies', () => {
+    const { stack } = setupTestingStack();
+
+    const Bucket = lafkenResource.make(S3Bucket);
+
+    const bucket = new Bucket(stack, 'test', {});
+    bucket.isGlobal('bucket', 'test');
+
+    new Role(stack, 'testing', {
+      name: 'testing',
+      principal: 's3.amazon.com',
+      services: ({ getResourceValue }) => [
+        {
+          type: 's3',
+          permissions: ['GetObject', 'GetObjectAttributes'],
+          resources: [getResourceValue('bucket::test', 'id')],
+        },
+      ],
+    });
+
+    const synthesized = Testing.synth(stack);
+
+    expect(synthesized).toHaveResourceWithProperties(IamRolePolicy, {
+      policy:
+        '${jsonencode({"Version" = "2012-10-17", "Statement" = [{"Effect" = "Allow", "Action" = ["s3:GetObject", "s3:GetObjectAttributes"], "Resource" = [aws_s3_bucket.test.id]}]})}',
+    });
+  });
+
+  it('should throw error when exist a unresolved dependency', async () => {
+    const { stack } = setupTestingStack();
+
+    new Role(stack, 'testing', {
+      name: 'testing',
+      principal: 's3.amazon.com',
+      services: ({ getResourceValue }) => [
+        {
+          type: 'sqs',
+          permissions: ['DeleteMessage', 'GetQueueUrl'],
+          resources: [getResourceValue('sqs::queue', 'id')],
+        },
+      ],
+    });
+
+    expect(lafkenResource.callDependentCallbacks()).rejects.toThrow();
   });
 });

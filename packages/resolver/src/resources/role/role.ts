@@ -1,8 +1,14 @@
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
-import type { ServicesName, ServicesValues } from '@lafken/common';
+import type {
+  ServiceFunction,
+  Services,
+  ServicesName,
+  ServicesValues,
+} from '@lafken/common';
 import { Fn } from 'cdktf';
 import type { Construct } from 'constructs';
+import { resolveCallbackResource } from '../../utils';
 import { lafkenResource } from '../resource';
 import type { RoleProps } from './role.types';
 
@@ -109,6 +115,8 @@ export const mapServicesName: Partial<Record<ServicesName, string>> = {
   event: 'events',
 };
 
+const RolePolicy = lafkenResource.make(IamRolePolicy);
+
 export class Role extends lafkenResource.make(IamRole) {
   constructor(
     scope: Construct,
@@ -135,14 +143,28 @@ export class Role extends lafkenResource.make(IamRole) {
 
   private createPolicy() {
     const policyName = `${this.props.name}-policy`;
-    new IamRolePolicy(this, policyName, {
+
+    const statement = this.createPolicyStatement(this.props.services);
+
+    const rolePolicy = new RolePolicy(this, policyName, {
       name: policyName,
       role: this.id,
-      policy: Fn.jsonencode(this.createPolicyStatement(this.props.services)),
+      policy: statement ? Fn.jsonencode(statement) : '',
     });
+
+    if (!statement) {
+      rolePolicy.isDependent(() => {
+        const statement = this.createPolicyStatement(this.props.services);
+        if (!statement) {
+          throw new Error('The role policy could not resolve one of its dependencies');
+        }
+
+        rolePolicy.addOverride('policy', Fn.jsonencode(statement));
+      });
+    }
   }
 
-  private createPolicyStatement(services: ServicesValues[]) {
+  private getPolice(services: Services[]) {
     const statements = services.map((service) => {
       if (typeof service === 'string') {
         const serviceName = mapServicesName[service] || service;
@@ -175,5 +197,22 @@ export class Role extends lafkenResource.make(IamRole) {
       Version: '2012-10-17',
       Statement: statements,
     };
+  }
+
+  private resolveServices = (getServices: ServiceFunction) => {
+    const services = resolveCallbackResource(getServices);
+    if (!services) {
+      return false;
+    }
+
+    return this.getPolice(services);
+  };
+
+  private createPolicyStatement(services: ServicesValues) {
+    if (Array.isArray(services)) {
+      return this.getPolice(services);
+    }
+
+    return this.resolveServices(services);
   }
 }

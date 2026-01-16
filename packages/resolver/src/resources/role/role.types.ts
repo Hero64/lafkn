@@ -4,7 +4,7 @@ export interface RoleProps {
   /**
    * List of services for enable permissions in role
    */
-  services: ServicesValues[];
+  services: ServicesValues;
   /**
    * Role name
    */

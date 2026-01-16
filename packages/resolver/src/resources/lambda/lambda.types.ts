@@ -20,7 +20,7 @@ export interface GetRoleArnProps {
   scope: Construct;
   appContext: GlobalContext;
   moduleContext?: GlobalContext;
-  services?: ServicesValues[];
+  services?: ServicesValues;
 }
 
 export interface CommonContextProps {
