@@ -5,6 +5,7 @@ import type {
   LambdaProps,
   ResourceMetadata,
   ResourceProps,
+  ServicesValues,
   StateMachineNames,
 } from '@lafken/common';
 
@@ -22,6 +23,7 @@ export type HeaderLocation = 'FIRST_ROW' | 'GIVEN';
 
 export type ResultOutputType = 'JSON' | 'JSONL';
 export type ResultTransformation = 'NONE' | 'COMPACT' | 'FLATTEN';
+export type IntegrationMode = 'sync' | 'async' | 'token';
 
 type ObjectOrJsonAta = Record<string, any> | JsonAtaString;
 
@@ -66,6 +68,10 @@ interface StateMachineProps<T> extends StateMachineBaseProps<T> {
    * or express state machine.
    */
   executionType?: ProcessorExecutionType;
+  /**
+   *
+   */
+  services?: ServicesValues;
 }
 
 interface WaitStateBase<T> {
@@ -829,10 +835,6 @@ export interface StateProps<T> extends CatchAndRetry<T> {
   assign?: Record<string, any>;
 }
 
-export interface LambdaStateMetadata<T = {}>
-  extends StateProps<keyof T>,
-    LambdaMetadata {}
-
 export interface LambdaStateProps<T = {}> extends StateProps<keyof T> {
   /**
    * Lambda configuration.
@@ -841,7 +843,20 @@ export interface LambdaStateProps<T = {}> extends StateProps<keyof T> {
    * by this state.
    */
   lambda?: Partial<LambdaProps>;
+  integrationService?: never;
 }
+
+export interface IntegrationStateProps<T = {}> extends StateProps<keyof T> {
+  integrationService: string;
+  action: string;
+  mode?: IntegrationMode;
+}
+
+export type HandlerStateProps<T = {}> = LambdaStateProps<T> | IntegrationStateProps<T>;
+
+export type LambdaStateMetadata<T = {}> =
+  | (LambdaStateProps<T> & LambdaMetadata)
+  | (IntegrationStateProps<T> & Omit<LambdaMetadata, 'lambda'>);
 
 export interface StateMachineResourceProps<T> extends StateMachineProps<T> {
   /**

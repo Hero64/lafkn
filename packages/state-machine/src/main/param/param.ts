@@ -1,5 +1,6 @@
 import {
   type ClassResource,
+  Context,
   createEventDecorator,
   createFieldDecorator,
   createFieldName,
@@ -30,6 +31,8 @@ export const Payload = createPayloadDecorator({
   prefix: RESOURCE_TYPE,
   createUniqueId: false,
 });
+
+export const IntegrationOptions = Context;
 
 export const Param = createFieldDecorator<ParamProps, StateMachineParamMetadata>({
   prefix: RESOURCE_TYPE,

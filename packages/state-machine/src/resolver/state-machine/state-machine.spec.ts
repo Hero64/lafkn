@@ -1,14 +1,17 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { SfnStateMachine } from '@cdktf/provider-aws/lib/sfn-state-machine';
+import { SqsQueue } from '@cdktf/provider-aws/lib/sqs-queue';
 import {
   type ClassResource,
   enableBuildEnvVariable,
+  type GetResourceProps,
   getResourceMetadata,
 } from '@lafken/common';
-import { type Role, setupTestingStackWithModule } from '@lafken/resolver';
+import { lafkenResource, type Role, setupTestingStackWithModule } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Event,
+  IntegrationOptions,
   NestedStateMachine,
   Param,
   Payload,
@@ -29,10 +32,10 @@ jest.mock('@lafken/resolver', () => {
   };
 });
 
-const createStateMachine = (classResource: ClassResource) => {
+const createStateMachine = async (classResource: ClassResource) => {
   const { stack, module } = setupTestingStackWithModule();
 
-  new StateMachineResource(module, 'testing', {
+  const stateMachine = new StateMachineResource(module, 'testing', {
     classResource: classResource,
     resourceMetadata: getResourceMetadata(classResource),
     role: {
@@ -40,14 +43,20 @@ const createStateMachine = (classResource: ClassResource) => {
     } as Role,
   });
 
+  stateMachine.attachDefinition();
+
   return {
     stack,
+    stateMachine,
   };
 };
 
 describe('State Machine', () => {
+  beforeEach(() => {
+    lafkenResource.reset();
+  });
   enableBuildEnvVariable();
-  it('should create a simple state machine', () => {
+  it('should create a simple state machine', async () => {
     @StateMachine({
       startAt: {
         type: 'wait',
@@ -85,7 +94,7 @@ describe('State Machine', () => {
     })
     class TestingSM {}
 
-    const { stack } = createStateMachine(TestingSM);
+    const { stack } = await createStateMachine(TestingSM);
 
     const synthesized = Testing.synth(stack);
     expect(synthesized).toHaveResourceWithProperties(SfnStateMachine, {
@@ -95,7 +104,7 @@ describe('State Machine', () => {
     });
   });
 
-  it('should create a state machine with lambda functions', () => {
+  it('should create a state machine with lambda functions', async () => {
     @Payload()
     class TestPayload {
       @Param({
@@ -123,18 +132,18 @@ describe('State Machine', () => {
       task2(@Event(`{% $state.input.data %}`) _e: any) {}
     }
 
-    const { stack } = createStateMachine(TestingSM);
+    const { stack } = await createStateMachine(TestingSM);
 
     const synthesized = Testing.synth(stack);
 
     expect(synthesized).toHaveResourceWithProperties(SfnStateMachine, {
       definition:
-        '{"StartAt":"task1","States":{"task2":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","End":true,"Arguments":{"Payload":"{% $state.input.data %}","FunctionName":"test-function"},"Output":"{% $states.result.Payload %}"},"task1":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","Next":"task2","Arguments":{"Payload":{"executionId":"{% $states.context.Execution.Id %}"},"FunctionName":"test-function"},"Assign":{"foo":1},"Output":"{% $states.result.Payload %}"}},"QueryLanguage":"JSONata"}',
+        '{"StartAt":"task1","States":{"task2":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","Arguments":{"Payload":"{% $state.input.data %}","FunctionName":"test-function"},"End":true,"Output":"{% $states.result.Payload %}"},"task1":{"Type":"Task","Resource":"arn:aws:states:::lambda:invoke","Arguments":{"Payload":{"executionId":"{% $states.context.Execution.Id %}"},"FunctionName":"test-function"},"Next":"task2","Assign":{"foo":1},"Output":"{% $states.result.Payload %}"}},"QueryLanguage":"JSONata"}',
       name: 'TestingSM',
     });
   });
 
-  it('should crete a state machine with parallel state', () => {
+  it('should crete a state machine with parallel state', async () => {
     @NestedStateMachine({
       startAt: {
         type: 'wait',
@@ -181,7 +190,7 @@ describe('State Machine', () => {
     })
     class TestingSM {}
 
-    const { stack } = createStateMachine(TestingSM);
+    const { stack } = await createStateMachine(TestingSM);
 
     const synthesized = Testing.synth(stack);
 
@@ -191,7 +200,7 @@ describe('State Machine', () => {
     });
   });
 
-  it('should create a state machine with distributed map', () => {
+  it('should create a state machine with distributed map', async () => {
     @NestedStateMachine({
       startAt: {
         type: 'wait',
@@ -219,7 +228,7 @@ describe('State Machine', () => {
     })
     class TestingSM {}
 
-    const { stack } = createStateMachine(TestingSM);
+    const { stack } = await createStateMachine(TestingSM);
 
     const synthesized = Testing.synth(stack);
 
@@ -227,5 +236,70 @@ describe('State Machine', () => {
       definition:
         '{"StartAt":"map","States":{"map":{"Type":"Map","ItemProcessor":{"StartAt":"wait","States":{"succeed":{"Type":"Succeed"},"wait":{"Type":"Wait","Seconds":2,"Next":"succeed"}},"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"EXPRESS"}},"End":true,"Retry":[{"ErrorEquals":["States.ALL"],"MaxDelaySeconds":2}]}},"QueryLanguage":"JSONata"}',
     });
+  });
+
+  it('should create state machine with integration', async () => {
+    @StateMachine({
+      startAt: 'integration',
+    })
+    class TestingSM {
+      @State({
+        integrationService: 'sqs',
+        action: 'sendMessage',
+        mode: 'token',
+      })
+      integration(@IntegrationOptions() { getResourceValue }: GetResourceProps) {
+        return {
+          QueueUrl: getResourceValue('queue::test', 'id'),
+          MessageBody: {
+            Message: 'test',
+            TaskToken: '{% $states.context.Task.Token %}',
+          },
+        };
+      }
+    }
+    const { stack } = await createStateMachine(TestingSM);
+
+    const Queue = lafkenResource.make(SqsQueue);
+
+    const queue = new Queue(stack, 'test');
+    queue.isGlobal('queue', 'test');
+
+    await lafkenResource.callDependentCallbacks();
+
+    const synthesized = Testing.synth(stack);
+    expect(synthesized).toHaveResourceWithProperties(SfnStateMachine, {
+      definition:
+        '{"StartAt":"integration","States":{"integration":{"Type":"Task","Resource":"arn:aws:states:::sqs:sendMessage.waitForTaskToken","Arguments":{"QueueUrl":"${aws_sqs_queue.test.id}","MessageBody":{"Message":"test","TaskToken":"{% $states.context.Task.Token %}"}},"Output":"{% $states.result.Payload %}"}},"QueryLanguage":"JSONata"}',
+      name: 'TestingSM',
+    });
+  });
+
+  it('should throw when has unresolved dependencies', async () => {
+    @StateMachine({
+      startAt: 'integration',
+    })
+    class TestingSM {
+      @State({
+        integrationService: 'sqs',
+        action: 'sendMessage',
+        mode: 'token',
+      })
+      integration(@IntegrationOptions() { getResourceValue }: GetResourceProps) {
+        return {
+          QueueUrl: getResourceValue('queue::test', 'id'),
+          MessageBody: {
+            Message: 'test',
+            TaskToken: '{% $states.context.Task.Token %}',
+          },
+        };
+      }
+    }
+
+    await createStateMachine(TestingSM);
+
+    expect(lafkenResource.callDependentCallbacks()).rejects.toThrow(
+      'The schema has a unresolved dependency'
+    );
   });
 });

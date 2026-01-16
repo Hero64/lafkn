@@ -1,6 +1,7 @@
 import { LambdaHandler } from '@lafken/resolver';
 import type {
   ExecutionSource,
+  IntegrationMode,
   StateMachineSource,
   StateSource,
   TaskSource,
@@ -28,6 +29,12 @@ export const mapSourceState: Record<StateSource, string> = {
 
 export const mapSourceTask: Record<TaskSource, string> = {
   token: 'Token',
+};
+
+export const mapIntegrationMode: Record<IntegrationMode, string> = {
+  token: 'waitForTaskToken',
+  sync: 'sync:2',
+  async: 'async',
 };
 
 export class StateNames {

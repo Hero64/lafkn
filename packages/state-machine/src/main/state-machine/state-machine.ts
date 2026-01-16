@@ -3,8 +3,8 @@ import { createLambdaDecorator, createResourceDecorator } from '@lafken/common';
 
 import {
   type DefaultMethod,
+  type HandlerStateProps,
   type LambdaStateMetadata,
-  type LambdaStateProps,
   type NestedStateMachineResourceProps,
   type StateMachineBaseProps,
   StateMachineReflectKeys,
@@ -30,9 +30,9 @@ export const StateMachine =
     })(props)(constructor);
 
 export const State =
-  <T extends Record<K, DefaultMethod>, K extends keyof T>(props?: LambdaStateProps<T>) =>
+  <T extends Record<K, DefaultMethod>, K extends keyof T>(props?: HandlerStateProps<T>) =>
   (target: T, methodName: K, descriptor: PropertyDescriptor) => {
-    return createLambdaDecorator<LambdaStateProps<T>, LambdaStateMetadata<T>>({
+    return createLambdaDecorator<HandlerStateProps<T>, LambdaStateMetadata<T>>({
       getLambdaMetadata: (props) => ({
         ...props,
         name: methodName as string,

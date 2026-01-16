@@ -1,14 +1,18 @@
 import {
   type ClassResource,
+  type GetResourceProps,
   getMetadataPrototypeByKey,
   getResourceHandlerMetadata,
   getResourceMetadata,
+  type LambdaMetadata,
   LambdaReflectKeys,
 } from '@lafken/common';
-import { lambdaAssets } from '@lafken/resolver';
+import { lambdaAssets, resolveCallbackResource } from '@lafken/resolver';
 import type { Construct } from 'constructs';
 import {
+  type IntegrationStateProps,
   type LambdaStateMetadata,
+  type LambdaStateProps,
   type RetryCatchTypes,
   type StateMachineObjectParam,
   type StateMachineParamMetadata,
@@ -23,6 +27,7 @@ import {
 import type {
   Catch,
   ChoiceCondition,
+  DefinitionSchema,
   ExecutionType,
   ItemProcessor,
   ItemReader,
@@ -33,9 +38,11 @@ import type {
   SchemaProps,
   States,
   StatesWithCatchErrors,
+  StateTask,
 } from './schema.types';
 import {
   LambdaStates,
+  mapIntegrationMode,
   mapSourceExecution,
   mapSourceState,
   mapSourceStateMachine,
@@ -49,6 +56,7 @@ export class Schema {
   private handlers: Record<string, LambdaStateMetadata> = {};
   private stateNames: StateNames;
   private lambdaStates: LambdaStates;
+  private unresolvedDependency: boolean = false;
 
   constructor(
     private scope: Construct,
@@ -61,13 +69,38 @@ export class Schema {
     this.getMetadata(props.initializeAssets ?? false);
   }
 
-  public getDefinition() {
+  public getDefinition(): DefinitionSchema {
     const startName = this.getNextState(this.resourceMetadata.startAt);
 
     return {
       StartAt: startName as string,
       States: this.states,
     };
+  }
+
+  public async resolveArguments(definition: DefinitionSchema) {
+    for (const key in definition.States) {
+      const state = definition.States[key];
+      if (state.Type === 'Task' && typeof state.Arguments === 'function') {
+        state.Arguments = await state.Arguments();
+      }
+
+      if (state.Type === 'Map') {
+        await this.resolveArguments(state.ItemProcessor);
+      }
+
+      if (state.Type === 'Parallel') {
+        for (const branch of state.Branches) {
+          await this.resolveArguments(branch);
+        }
+      }
+    }
+
+    return definition;
+  }
+
+  get hasUnresolvedDependency() {
+    return this.unresolvedDependency;
   }
 
   private getMetadata(initializeAssets: boolean) {
@@ -100,7 +133,7 @@ export class Schema {
     }
 
     if (typeof currentState === 'string') {
-      return this.addLambdaState(this.handlers[currentState]);
+      return this.addTaskState(this.handlers[currentState]);
     }
 
     const stateName = this.getStateName(currentState);
@@ -169,6 +202,7 @@ export class Schema {
             stateNames: this.stateNames,
           });
           branchStates.push(branchSchema.getDefinition());
+          this.setUnresolvedDependency(branchSchema.unresolvedDependency);
         }
 
         this.states[stateName] = {
@@ -190,6 +224,7 @@ export class Schema {
           stateNames: this.stateNames,
         });
         const mapState = mapSchema.getDefinition();
+        this.setUnresolvedDependency(mapSchema.hasUnresolvedDependency);
 
         const itemProcessor: Partial<ItemProcessor> = {
           ...mapState,
@@ -292,12 +327,46 @@ export class Schema {
     return this.stateNames.createName(currentState.type);
   }
 
-  private addLambdaState(handler: LambdaStateMetadata) {
-    const stateName = this.stateNames.createName(handler.name);
-    if (this.states[stateName]) {
-      return handler.name;
+  private getIntegrationTask(
+    handler: IntegrationStateProps<any> & LambdaMetadata
+  ): Partial<StateTask> {
+    const task: Partial<StateTask> = {
+      Resource: `arn:aws:states:::${handler.integrationService}:${handler.action}${handler.mode ? `.${mapIntegrationMode[handler.mode]}` : ''}`,
+    };
+    const resource: Record<
+      string,
+      (event: Record<string, any>, context: GetResourceProps) => any
+    > = new this.resource();
+
+    const argumentValues = resolveCallbackResource((props) =>
+      resource[handler.name]({}, props)
+    );
+
+    if (argumentValues) {
+      task.Arguments = argumentValues;
+      return task;
     }
 
+    this.unresolvedDependency = true;
+
+    task.Arguments = async () => {
+      const argumentValues = await resolveCallbackResource((props) =>
+        resource[handler.name]({}, props)
+      );
+
+      if (!argumentValues) {
+        throw new Error('The schema has a unresolved dependency');
+      }
+
+      return argumentValues;
+    };
+
+    return task;
+  }
+
+  private getLambdaTask(
+    handler: LambdaStateProps<any> & LambdaMetadata
+  ): Partial<StateTask> {
     const id = `${handler.name}-${this.resourceMetadata.name}`;
 
     const lambdaHandler = this.lambdaStates.createLambda([
@@ -311,20 +380,35 @@ export class Schema {
         suffix: 'states',
       },
     ]);
-
-    this.states[stateName] = {
-      Type: 'Task',
+    return {
       Resource: 'arn:aws:states:::lambda:invoke',
-      Next: this.getNextState(handler.next, handler.end),
-      End: handler.end,
       Arguments: {
         Payload: this.getLambdaPayload(handler.name),
         FunctionName: lambdaHandler.functionName,
       },
+    };
+  }
+
+  private addTaskState(handler: LambdaStateMetadata) {
+    const stateName = this.stateNames.createName(handler.name);
+    if (this.states[stateName]) {
+      return handler.name;
+    }
+
+    const task: StateTask = {
+      Type: 'Task',
+      Resource: '',
+      Arguments: {},
+      Next: this.getNextState(handler.next, handler.end),
+      End: handler.end,
       Assign: handler.assign,
       Output: handler.output || '{% $states.result.Payload %}',
+      ...(handler.integrationService !== undefined
+        ? this.getIntegrationTask(handler)
+        : this.getLambdaTask(handler)),
     };
 
+    this.states[stateName] = task;
     this.addRetryAndCatch(handler, stateName);
     return stateName;
   }
@@ -466,5 +550,13 @@ export class Schema {
   private addRetryAndCatch(state: RetryCatchTypes<any>, stateName: string) {
     this.addCatch(state, stateName);
     this.addRetry(state, stateName);
+  }
+
+  private setUnresolvedDependency(unresolved: boolean) {
+    if (!this.unresolvedDependency || !unresolved) {
+      return;
+    }
+
+    this.unresolvedDependency = true;
   }
 }

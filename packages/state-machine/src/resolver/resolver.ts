@@ -39,7 +39,7 @@ export class StateMachineResolver implements ResolverType {
     });
   }
 
-  public create(module: AppModule, resource: ClassResource) {
+  public async create(module: AppModule, resource: ClassResource) {
     const metadata = getResourceMetadata<StateMachineResourceMetadata>(resource);
     const handlers = getResourceHandlerMetadata<LambdaStateMetadata>(resource);
 
@@ -51,10 +51,12 @@ export class StateMachineResolver implements ResolverType {
       minify: metadata.minify,
     });
 
-    new StateMachine(module, metadata.name, {
+    const stateMachine = new StateMachine(module, metadata.name, {
       classResource: resource,
       resourceMetadata: metadata,
       role: this.role,
     });
+
+    await stateMachine.attachDefinition();
   }
 }

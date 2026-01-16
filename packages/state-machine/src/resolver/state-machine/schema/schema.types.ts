@@ -22,10 +22,7 @@ export interface Catch {
 export interface StateTask {
   Type: 'Task';
   Resource: string;
-  Arguments: {
-    Payload: string | Record<string, any>;
-    FunctionName: string;
-  };
+  Arguments: any;
   Output?: string | Record<string, any>;
   Assign?: Record<string, any>;
   Next?: string;
@@ -178,4 +175,9 @@ export interface SchemaProps {
   initializeAssets?: boolean;
   stateNames?: StateNames | undefined;
   lambdas?: LambdaStates | undefined;
+}
+
+export interface DefinitionSchema {
+  StartAt: string;
+  States: Record<string, States>;
 }
