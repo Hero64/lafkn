@@ -4,7 +4,7 @@ import {
   State,
   StateMachine,
 } from '@lafken/state-machine/main';
-import { StateMachinePayload } from './greeting.field';
+import { StateMachinePayload } from '../greeting.field';
 
 @NestedStateMachine({
   startAt: 'log',

@@ -8,12 +8,14 @@ import { createModule } from '@lafken/main';
 
 // import { QueueIntegration } from './greeting.api.queue';
 // import { GreetingQueues } from './greeting.queue';
-import { GreetingStepFunction } from './greeting.state-machine';
+import { GreetingStepFunction } from './state-machine/greeting.state-machine';
+import { SimpleStateMachine } from './state-machine/simple.state-machine';
 
 const greetingModule = createModule({
   name: 'greeting',
   resources: [
     GreetingStepFunction,
+    SimpleStateMachine,
     // GreetingApi,
     // GreetingSchedule,
     // GreetingEvent,
