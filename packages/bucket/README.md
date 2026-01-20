@@ -1,12 +1,12 @@
-# @lafken/bucket
+# @lafkn/bucket
 
-`@lafken/bucket` helps you create and manage Amazon S3 buckets directly in your infrastructure. It provides decorators that automatically generate the required bucket resources, and also exposes a repository that can be used within your Lambda functions to perform S3 operations through the AWS SDK.
+`@lafkn/bucket` helps you create and manage Amazon S3 buckets directly in your infrastructure. It provides decorators that automatically generate the required bucket resources, and also exposes a repository that can be used within your Lambda functions to perform S3 operations through the AWS SDK.
 
 
 ## Installation
 
 ```bash
-npm install @lafken/bucket
+npm install @lafkn/bucket
 ```
 
 ## Configuration
@@ -14,11 +14,11 @@ npm install @lafken/bucket
 To get started, you must add the resolver when creating your application. Import the BucketResolver and instantiate it, passing the bucket classes that are decorated with the @Bucket decorator. These decorated classes define the S3 buckets that will be created as part of your infrastructure.
 
 ```typescript
-import { ApiResolver } from '@lafken/bucket/resolver';
+import { ApiResolver } from '@lafkn/bucket/resolver';
 
 //...
 @Bucket({
-  name: 'lafken-example-documents',
+  name: 'lafkn-example-documents',
   forceDestroy: true,
   eventBridgeEnabled: true,
 })
@@ -42,7 +42,7 @@ You can define and configure an S3 bucket by creating a class and decorating it 
 
 ```typescript
 @Bucket({
-  name: 'lafken-example-documents',
+  name: 'lafkn-example-documents',
   forceDestroy: true,
   eventBridgeEnabled: true,
   versioned: true,
@@ -100,8 +100,8 @@ Buckets support the creation of lifecycle rules through the lifeCycleRules prope
 Once a bucket is defined, you can create a repository for it. A repository provides direct access to common S3 SDK operations such as uploading, moving, or deleting objects.
 
 ```typescript
-import { Bucket } from '@lafken/bucket/main';
-import { createRepository } from '@lafken/bucket/service';
+import { Bucket } from '@lafkn/bucket/main';
+import { createRepository } from '@lafkn/bucket/service';
 //...
 export class DocumentBucket {}
 export const documentRepository = createRepository(DocumentBucket);

@@ -11,7 +11,7 @@ import {
   PutObjectCommand,
   type PutObjectCommandInput,
 } from '@aws-sdk/client-s3';
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 import { client, getClientWithXRay } from '../client/client';
 import type { InputWithoutBucket } from './repository.types';
 import { getBucketInformation } from './repository.utils';

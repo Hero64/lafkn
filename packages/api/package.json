@@ -1,5 +1,5 @@
 {
-  "name": "@lafken/api",
+  "name": "@lafkn/api",
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@cdktf/provider-aws": "21.22.0",
-    "@lafken/common": "workspace:*",
-    "@lafken/resolver": "workspace:*",
+    "@lafkn/common": "workspace:*",
+    "@lafkn/resolver": "workspace:*",
     "cdktf": "0.21.0",
     "constructs": "10.4.4",
     "reflect-metadata": "0.2.2"

@@ -1,6 +1,6 @@
 import type { CognitoUserPoolLambdaConfig } from '@cdktf/provider-aws/lib/cognito-user-pool';
-import type { StripReadonly } from '@lafken/common';
-import { LambdaHandler } from '@lafken/resolver';
+import type { StripReadonly } from '@lafkn/common';
+import { LambdaHandler } from '@lafkn/resolver';
 import { Construct } from 'constructs';
 import type { ExtensionProps } from './extension.types';
 

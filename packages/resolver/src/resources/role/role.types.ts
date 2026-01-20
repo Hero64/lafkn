@@ -1,4 +1,4 @@
-import type { ServicesValues } from '@lafken/common';
+import type { ServicesValues } from '@lafkn/common';
 
 export interface RoleProps {
   /**

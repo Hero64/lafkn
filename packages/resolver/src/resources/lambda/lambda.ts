@@ -3,7 +3,7 @@ import { LambdaPermission } from '@cdktf/provider-aws/lib/lambda-permission';
 import type { Construct } from 'constructs';
 import { ContextName, type GlobalContext } from '../../types';
 import { Environment } from '../environment/environment';
-import { lafkenResource } from '../resource';
+import { lafknResource } from '../resource';
 import { Role } from '../role';
 import { lambdaAssets } from './asset/asset';
 import type {
@@ -13,7 +13,7 @@ import type {
   LambdaHandlerProps,
 } from './lambda.types';
 
-export class LambdaHandler extends lafkenResource.make(LambdaFunction) {
+export class LambdaHandler extends lafknResource.make(LambdaFunction) {
   constructor(scope: Construct, id: string, props: LambdaHandlerProps) {
     const appContext = LambdaHandler.getAppContext(scope);
     const moduleContext = LambdaHandler.getModuleContext(scope);
@@ -144,12 +144,12 @@ export class LambdaHandler extends lafkenResource.make(LambdaFunction) {
     const { services, appContext, moduleContext, name, scope } = props;
 
     if (!services) {
-      const appRole = lafkenResource.getResource<Role>(
+      const appRole = lafknResource.getResource<Role>(
         'app',
         `${appContext.contextCreator}-global-role`
       );
 
-      const moduleRole = lafkenResource.getResource<Role | undefined>(
+      const moduleRole = lafknResource.getResource<Role | undefined>(
         'module',
         `${moduleContext?.contextCreator}-module-role`
       );

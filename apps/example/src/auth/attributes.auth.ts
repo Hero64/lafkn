@@ -1,4 +1,4 @@
-import { Attributes, Custom, Standard } from '@lafken/auth/main';
+import { Attributes, Custom, Standard } from '@lafkn/auth/main';
 
 @Attributes()
 export class UserPoolAttributes {

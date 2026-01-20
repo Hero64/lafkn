@@ -4,8 +4,8 @@ import { ApiGatewayAuthorizer } from '@cdktf/provider-aws/lib/api-gateway-author
 import { ApiGatewayUsagePlan } from '@cdktf/provider-aws/lib/api-gateway-usage-plan';
 import { ApiGatewayUsagePlanKey } from '@cdktf/provider-aws/lib/api-gateway-usage-plan-key';
 import { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
-import { enableBuildEnvVariable } from '@lafken/common';
-import { lafkenResource } from '@lafken/resolver';
+import { enableBuildEnvVariable } from '@lafkn/common';
+import { lafknResource } from '@lafkn/resolver';
 import { Testing } from 'cdktf';
 import {
   ApiKeyAuthorizer,
@@ -16,8 +16,8 @@ import {
 } from '../../../../main';
 import { setupTestingRestApi } from '../../../utils/testing.utils';
 
-jest.mock('@lafken/resolver', () => {
-  const actual = jest.requireActual('@lafken/resolver');
+jest.mock('@lafkn/resolver', () => {
+  const actual = jest.requireActual('@lafkn/resolver');
 
   return {
     ...actual,
@@ -131,7 +131,7 @@ describe('authorizer factory', () => {
       },
     });
 
-    const UserPool = lafkenResource.make(CognitoUserPool);
+    const UserPool = lafknResource.make(CognitoUserPool);
 
     const userPool = new UserPool(stack, 'testing-user-pool', {
       name: 'testing-user-pool',

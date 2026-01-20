@@ -7,7 +7,7 @@ import {
   Get,
   IntegrationOptions,
   Post,
-} from '@lafken/api/main';
+} from '@lafkn/api/main';
 import { S3UploadFileEvent } from './greeting.field';
 
 @Api({
@@ -22,7 +22,7 @@ export class BucketIntegration {
     @IntegrationOptions() { getResourceValue }: BucketIntegrationOption
   ): BucketIntegrationResponse {
     return {
-      bucket: getResourceValue('lafken-example-documents', 'id'),
+      bucket: getResourceValue('lafkn-example-documents', 'id'),
       object: 'new.json',
     };
   }
@@ -37,7 +37,7 @@ export class BucketIntegration {
     @IntegrationOptions() { getResourceValue }: BucketIntegrationOption
   ): BucketIntegrationResponse {
     return {
-      bucket: getResourceValue('lafken-example-documents', 'id'),
+      bucket: getResourceValue('lafkn-example-documents', 'id'),
       object: e.fileName,
     };
   }
@@ -52,7 +52,7 @@ export class BucketIntegration {
     @IntegrationOptions() { getResourceValue }: BucketIntegrationOption
   ): BucketIntegrationResponse {
     return {
-      bucket: getResourceValue('lafken-example-documents', 'id'),
+      bucket: getResourceValue('lafkn-example-documents', 'id'),
       object: e.fileName,
     };
   }

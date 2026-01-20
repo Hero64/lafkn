@@ -1,6 +1,6 @@
 import { ScanCommand, type ScanCommandInput } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 import { QueryBuilderBase } from '../base/base';
 import type { QueryResponse } from '../query-builder.types';
 import type { ScanBuilderProps } from './scan.types';

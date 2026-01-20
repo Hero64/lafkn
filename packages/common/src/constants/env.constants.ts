@@ -1,2 +1,2 @@
-export const LAFKEN_CONTEXT = 'LAFKEN_CONTEXT';
-export const LAFKEN_CONTEXT_VALUE = 'BUILD';
+export const LAFKN_CONTEXT = 'LAFKN_CONTEXT';
+export const LAFKN_CONTEXT_VALUE = 'BUILD';

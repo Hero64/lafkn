@@ -7,7 +7,7 @@ import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@lafken/common';
+} from '@lafkn/common';
 import { Testing } from 'cdktf';
 import {
   Api,

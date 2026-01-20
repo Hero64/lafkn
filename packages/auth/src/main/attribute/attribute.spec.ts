@@ -3,7 +3,7 @@ import {
   getMetadataByKey,
   getMetadataPrototypeByKey,
   type PayloadMetadata,
-} from '@lafken/common';
+} from '@lafkn/common';
 import { Attributes, authFieldKey, authPayloadKey, Custom, Standard } from './attribute';
 import type {
   CustomAttributesMetadata,

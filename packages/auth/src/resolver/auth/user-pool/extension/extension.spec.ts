@@ -3,15 +3,15 @@ import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@lafken/common';
-import { LambdaHandler, setupTestingStack } from '@lafken/resolver';
+} from '@lafkn/common';
+import { LambdaHandler, setupTestingStack } from '@lafkn/resolver';
 import { Testing } from 'cdktf';
 import { AuthExtension, Trigger } from '../../../../main/extension/extension';
 import type { TriggerMetadata } from '../../../../main/extension/extension.types';
 import { Extension } from './extension';
 
-jest.mock('@lafken/resolver', () => {
-  const actual = jest.requireActual('@lafken/resolver');
+jest.mock('@lafkn/resolver', () => {
+  const actual = jest.requireActual('@lafkn/resolver');
 
   return {
     ...actual,

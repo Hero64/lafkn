@@ -1,5 +1,5 @@
 import { ApiGatewayModel } from '@cdktf/provider-aws/lib/api-gateway-model';
-import { uuid } from '@lafken/resolver';
+import { uuid } from '@lafkn/resolver';
 import { Fn, Token } from 'cdktf';
 import type { ApiFieldMetadata } from '../../../../main';
 import type { RestApi } from '../../rest-api';

@@ -6,7 +6,7 @@ import type {
   OnlyOne,
   QueueScopedNames,
   StateMachineScopedNames,
-} from '@lafken/common';
+} from '@lafkn/common';
 
 export interface IntegrationOptionBase<T = string, V = 'arn' | 'id'> {
   getResourceValue: GetResourceValue<T, V>;

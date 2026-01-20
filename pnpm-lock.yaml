@@ -32,34 +32,34 @@ importers:
 
   apps/example:
     dependencies:
-      '@lafken/api':
+      '@lafkn/api':
         specifier: workspace:*
         version: link:../../packages/api
-      '@lafken/auth':
+      '@lafkn/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@lafken/bucket':
+      '@lafkn/bucket':
         specifier: workspace:*
         version: link:../../packages/bucket
-      '@lafken/common':
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../../packages/common
-      '@lafken/dynamo':
+      '@lafkn/dynamo':
         specifier: workspace:*
         version: link:../../packages/dynamo
-      '@lafken/event':
+      '@lafkn/event':
         specifier: workspace:*
         version: link:../../packages/event
-      '@lafken/main':
+      '@lafkn/main':
         specifier: workspace:*
         version: link:../../packages/main
-      '@lafken/queue':
+      '@lafkn/queue':
         specifier: workspace:*
         version: link:../../packages/queue
-      '@lafken/schedule':
+      '@lafkn/schedule':
         specifier: workspace:*
         version: link:../../packages/schedule
-      '@lafken/state-machine':
+      '@lafkn/state-machine':
         specifier: workspace:*
         version: link:../../packages/state-machine
       cdktf:
@@ -76,12 +76,12 @@ importers:
   packages/api:
     dependencies:
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -113,12 +113,12 @@ importers:
   packages/auth:
     dependencies:
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -150,12 +150,12 @@ importers:
         specifier: 3.956.0
         version: 3.956.0
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       aws-xray-sdk:
@@ -212,12 +212,12 @@ importers:
         specifier: 3.956.0
         version: 3.956.0(@aws-sdk/client-dynamodb@3.956.0)
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       aws-xray-sdk:
@@ -255,12 +255,12 @@ importers:
   packages/event:
     dependencies:
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -292,15 +292,12 @@ importers:
   packages/main:
     dependencies:
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@cdktf/provider-random':
-        specifier: 12.0.1
-        version: 12.0.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -335,12 +332,12 @@ importers:
         specifier: 3.956.0
         version: 3.956.0
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       aws-lambda:
@@ -378,9 +375,9 @@ importers:
   packages/resolver:
     dependencies:
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
       cdktf:
@@ -412,12 +409,12 @@ importers:
   packages/schedule:
     dependencies:
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -452,12 +449,12 @@ importers:
         specifier: 3.956.0
         version: 3.956.0
       '@cdktf/provider-aws':
-        specifier: 21.22.1
-        version: 21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafken/common':
+        specifier: 21.22.0
+        version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
+      '@lafkn/common':
         specifier: workspace:*
         version: link:../common
-      '@lafken/resolver':
+      '@lafkn/resolver':
         specifier: workspace:*
         version: link:../resolver
       aws-lambda:
@@ -944,8 +941,8 @@ packages:
   '@cdktf/node-pty-prebuilt-multiarch@0.10.2':
     resolution: {integrity: sha512-Bpb0v9bzejJUAGmn8HfDFH6pYxFVHokiWV4mHvTao2XoYcEvETFVrniYIXlIg0e4yLlKB/U/z5WsC5PBsi3xEQ==}
 
-  '@cdktf/provider-aws@21.22.1':
-    resolution: {integrity: sha512-BuSHeaQFUL9l33pBzIMRT7cTQ69AM2mLtijjteCPhVQRmvuhuj9Lvfymf7knAMhYqAT6+Lrls9jiGVW/Us3zrQ==}
+  '@cdktf/provider-aws@21.22.0':
+    resolution: {integrity: sha512-QRDIAZ9VnLtiJgeuIRhXea3OpLU9u9RLhty82e17brDheWCCDgb27DXfLasfp/0K81QHpbjc43G+TJkThtA5rA==}
     engines: {node: '>= 20.9.0'}
     deprecated: See https://cdk.tf/imports for details on how to continue to use the aws provider in your CDK for Terraform (CDKTF) projects by generating the bindings locally.
     peerDependencies:
@@ -954,14 +951,6 @@ packages:
 
   '@cdktf/provider-generator@0.21.0':
     resolution: {integrity: sha512-N/IehJ6lZlVaNxP/0sxg0AeLJIhgcW3+Bk6m71UzoDAZFPBzW00k6nmSAlQiE0c5L92hHgLksfEL8VNbiPKmSw==}
-
-  '@cdktf/provider-random@12.0.1':
-    resolution: {integrity: sha512-yE9fteVRxekOl6MhJeM6sac1VkljCwGFrZxozq0aE11zTBmB4oQBr3nk9Z1A2C5C3IB/0jKmabYDNPqgrZDfNw==}
-    engines: {node: '>= 20.9.0'}
-    deprecated: See https://cdk.tf/imports for details on how to continue to use the random provider in your CDK for Terraform (CDKTF) projects by generating the bindings locally.
-    peerDependencies:
-      cdktf: ^0.21.0
-      constructs: ^10.4.2
 
   '@cdktf/provider-schema@0.21.0':
     resolution: {integrity: sha512-zVJmuE3wj4n48voZL9OMRyNe6rh4ST5qoXk96zTr+3WW8At29Y9WblrZI88R/dpk7l9VLvnraxxnP6JWoLhxWw==}
@@ -5385,7 +5374,7 @@ snapshots:
       nan: 2.24.0
       prebuild-install: 7.1.3
 
-  '@cdktf/provider-aws@21.22.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)':
+  '@cdktf/provider-aws@21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)':
     dependencies:
       cdktf: 0.21.0(constructs@10.4.4)
       constructs: 10.4.4
@@ -5402,11 +5391,6 @@ snapshots:
       - constructs
       - debug
       - supports-color
-
-  '@cdktf/provider-random@12.0.1(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)':
-    dependencies:
-      cdktf: 0.21.0(constructs@10.4.4)
-      constructs: 10.4.4
 
   '@cdktf/provider-schema@0.21.0(constructs@10.4.2)':
     dependencies:

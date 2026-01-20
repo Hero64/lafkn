@@ -1,4 +1,4 @@
-import { getPrimitiveType } from '@lafken/common';
+import { getPrimitiveType } from '@lafkn/common';
 import {
   type DynamoModelProps,
   type FieldProps,

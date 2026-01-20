@@ -1,4 +1,4 @@
-import type { BucketNames, OnlyOne } from '@lafken/common';
+import type { BucketNames, OnlyOne } from '@lafkn/common';
 import 'reflect-metadata';
 
 export enum BucketMetadataKeys {

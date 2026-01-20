@@ -1,19 +1,19 @@
-# @lafken/queue
+# @lafkn/queue
 
-`@lafken/queue` simplifies the creation and management of Amazon SQS queues and their integration with AWS Lambda. It provides decorators to define Standard and FIFO queues, configure their properties, and map message attributes and body content directly to your handler parameters.
+`@lafkn/queue` simplifies the creation and management of Amazon SQS queues and their integration with AWS Lambda. It provides decorators to define Standard and FIFO queues, configure their properties, and map message attributes and body content directly to your handler parameters.
 
 ## Installation
 
 ```bash
-npm install @lafken/queue
+npm install @lafkn/queue
 ```
 
 ## Configuration
 
-Add the `QueueResolver` from the `@lafken/queue/resolver` library to your application configuration.
+Add the `QueueResolver` from the `@lafkn/queue/resolver` library to your application configuration.
 
 ```typescript
-import { QueueResolver } from '@lafken/queue/resolver';
+import { QueueResolver } from '@lafkn/queue/resolver';
 
 createApp({
   name: 'awesome-app',
@@ -43,7 +43,7 @@ const greetingModule = createModule({
 Use the `@Queue` decorator to define a class that contains queue-processing methods.
 
 ```typescript
-import { Queue, Standard, Fifo } from '@lafken/queue';
+import { Queue, Standard, Fifo } from '@lafkn/queue';
 
 @Queue()
 export class NotificationService {
@@ -82,7 +82,7 @@ processOrder(@Event() event: SQSEvent) {
 
 ### Message Handling & Parameter Mapping
 
-`@lafken/queue` allows you to extract specific data from the SQS message directly into your method parameters using `@Param` and `@Payload`.
+`@lafkn/queue` allows you to extract specific data from the SQS message directly into your method parameters using `@Param` and `@Payload`.
 
 #### Accessing Message Body Fields
 

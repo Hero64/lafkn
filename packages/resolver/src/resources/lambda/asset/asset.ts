@@ -4,7 +4,7 @@ import { cwd } from 'node:process';
 import { AssetType, TerraformAsset } from 'cdktf';
 
 import { createSha1 } from '../../../utils';
-import { LafkenBuildPlugin } from '../build-plugin/build-plugin';
+import { LafknBuildPlugin } from '../build-plugin/build-plugin';
 import type {
   AddLambdaProps,
   AssetMetadata,
@@ -88,7 +88,7 @@ class LambdaAssets {
         platform: 'node',
         external: ['@aws-sdk', 'aws-lambda'],
         plugins: [
-          LafkenBuildPlugin({
+          LafknBuildPlugin({
             filename: prebuildPath,
             removeAttributes: ['lambda'],
             exports: Object.values(lambdaAsset.resources),

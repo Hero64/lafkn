@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 import type { QueryBuilderProps } from '../base/base.types';
 import type { Item, UpsertProps } from '../query-builder.types';
 

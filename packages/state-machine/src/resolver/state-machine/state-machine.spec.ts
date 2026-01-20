@@ -7,8 +7,8 @@ import {
   enableBuildEnvVariable,
   type GetResourceProps,
   getResourceMetadata,
-} from '@lafken/common';
-import { lafkenResource, setupTestingStackWithModule } from '@lafken/resolver';
+} from '@lafkn/common';
+import { lafknResource, setupTestingStackWithModule } from '@lafkn/resolver';
 import { Testing } from 'cdktf';
 import {
   Event,
@@ -21,8 +21,8 @@ import {
 } from '../../main';
 import { StateMachine as StateMachineResource } from './state-machine';
 
-jest.mock('@lafken/resolver', () => {
-  const actual = jest.requireActual('@lafken/resolver');
+jest.mock('@lafkn/resolver', () => {
+  const actual = jest.requireActual('@lafkn/resolver');
 
   return {
     ...actual,
@@ -52,7 +52,7 @@ const createStateMachine = async (classResource: ClassResource) => {
 
 describe('State Machine', () => {
   beforeEach(() => {
-    lafkenResource.reset();
+    lafknResource.reset();
   });
   enableBuildEnvVariable();
   it('should create a simple state machine', async () => {
@@ -259,12 +259,12 @@ describe('State Machine', () => {
     }
     const { stack } = await createStateMachine(TestingSM);
 
-    const Queue = lafkenResource.make(SqsQueue);
+    const Queue = lafknResource.make(SqsQueue);
 
     const queue = new Queue(stack, 'test');
     queue.isGlobal('queue', 'test');
 
-    await lafkenResource.callDependentCallbacks();
+    await lafknResource.callDependentCallbacks();
 
     const synthesized = Testing.synth(stack);
     expect(synthesized).toHaveResourceWithProperties(SfnStateMachine, {
@@ -297,7 +297,7 @@ describe('State Machine', () => {
 
     await createStateMachine(TestingSM);
 
-    expect(lafkenResource.callDependentCallbacks()).rejects.toThrow(
+    expect(lafknResource.callDependentCallbacks()).rejects.toThrow(
       'The schema has a unresolved dependency'
     );
   });
@@ -378,12 +378,12 @@ describe('State Machine', () => {
     class TestingSM {}
 
     const { stack } = await createStateMachine(TestingSM);
-    const Queue = lafkenResource.make(SqsQueue);
+    const Queue = lafknResource.make(SqsQueue);
 
     const queue = new Queue(stack, 'test');
     queue.isGlobal('queue', 'test');
 
-    await lafkenResource.callDependentCallbacks();
+    await lafknResource.callDependentCallbacks();
     const synthesized = Testing.synth(stack);
 
     expect(synthesized).toHaveResourceWithProperties(IamRolePolicy, {

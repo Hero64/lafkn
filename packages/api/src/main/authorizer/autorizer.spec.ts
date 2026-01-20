@@ -5,7 +5,7 @@ import {
   getMetadataPrototypeByKey,
   getResourceMetadata,
   type LambdaMetadata,
-} from '@lafken/common';
+} from '@lafkn/common';
 import {
   ApiKeyAuthorizer,
   AuthorizerHandler,

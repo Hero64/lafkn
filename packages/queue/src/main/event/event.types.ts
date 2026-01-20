@@ -5,7 +5,7 @@ import type {
   NumberField,
   ObjectField,
   StringField,
-} from '@lafken/common';
+} from '@lafkn/common';
 
 export interface ParamAttributeProps extends Omit<FieldProps, 'type'> {
   /**

@@ -3,7 +3,7 @@ import type {
   AuthNames,
   ResourceMetadata,
   ResourceProps,
-} from '@lafken/common';
+} from '@lafkn/common';
 import type { APIGatewayRequestAuthorizerEvent } from 'aws-lambda';
 
 import type { Method } from '../api';

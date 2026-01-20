@@ -1,7 +1,7 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { setupTestingStack } from '../../utils';
-import { lafkenResource } from '../resource';
+import { lafknResource } from '../resource';
 import { Environment } from './environment';
 
 describe('Environment', () => {
@@ -60,7 +60,7 @@ describe('Environment', () => {
   it('should resolve global parameter value', () => {
     const { stack } = setupTestingStack();
 
-    const Bucket = lafkenResource.make(S3Bucket);
+    const Bucket = lafknResource.make(S3Bucket);
 
     const bucket = new Bucket(stack, 'test', {});
     bucket.isGlobal('bucket', 'test');

@@ -1,19 +1,19 @@
-# @lafken/schedule
+# @lafkn/schedule
 
-`@lafken/schedule` simplifies the creation and management of Amazon EventBridge scheduled rules (Cron jobs) and their integration with AWS Lambda. It provides decorators to define scheduled tasks using standard cron expressions or structured time objects.
+`@lafkn/schedule` simplifies the creation and management of Amazon EventBridge scheduled rules (Cron jobs) and their integration with AWS Lambda. It provides decorators to define scheduled tasks using standard cron expressions or structured time objects.
 
 ## Installation
 
 ```bash
-npm install @lafken/schedule
+npm install @lafkn/schedule
 ```
 
 ## Configuration
 
-Add the `ScheduleResolver` from the `@lafken/schedule/resolver` library to your application configuration.
+Add the `ScheduleResolver` from the `@lafkn/schedule/resolver` library to your application configuration.
 
 ```typescript
-import { ScheduleResolver } from '@lafken/schedule/resolver';
+import { ScheduleResolver } from '@lafkn/schedule/resolver';
 
 createApp({
   name: 'awesome-app',
@@ -46,7 +46,7 @@ const greetingModule = createModule({
 Use the `@Schedule` decorator to define a class that contains scheduled tasks.
 
 ```typescript
-import { Schedule, Cron } from '@lafken/schedule';
+import { Schedule, Cron } from '@lafkn/schedule';
 
 @Schedule()
 export class DataSyncService {

@@ -10,7 +10,7 @@ const config: Config = {
     '^.+\\.ts?$': 'ts-jest',
   },
   moduleNameMapper: {
-    '^@lafken/(.*)$': '<rootDir>/../$1/src',
+    '^@lafkn/(.*)$': '<rootDir>/../$1/src',
   },
 };
 

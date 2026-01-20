@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { createLambdaDecorator, createResourceDecorator } from '@lafken/common';
+import { createLambdaDecorator, createResourceDecorator } from '@lafkn/common';
 
 import {
   type DefaultMethod,

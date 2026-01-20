@@ -3,7 +3,7 @@ import {
   enableBuildEnvVariable,
   LambdaReflectKeys,
   ResourceReflectKeys,
-} from '@lafken/common';
+} from '@lafkn/common';
 
 import { Event } from '../event/event';
 import { Param } from '../field/field';

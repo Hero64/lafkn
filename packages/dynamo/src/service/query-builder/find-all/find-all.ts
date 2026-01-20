@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 import { FindBuilder } from '../find/find';
 import type { FindBuilderProps } from '../find/find.types';
 

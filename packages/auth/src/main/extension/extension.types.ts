@@ -1,4 +1,4 @@
-import type { LambdaMetadata, LambdaProps, ResourceMetadata } from '@lafken/common';
+import type { LambdaMetadata, LambdaProps, ResourceMetadata } from '@lafkn/common';
 
 export type TriggerType =
   | 'preAuthentication'

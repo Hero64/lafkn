@@ -1,11 +1,11 @@
 import { SfnStateMachine } from '@cdktf/provider-aws/lib/sfn-state-machine';
-import type { S3Permissions, Services } from '@lafken/common';
-import { type AppModule, lafkenResource, Role } from '@lafken/resolver';
+import type { S3Permissions, Services } from '@lafkn/common';
+import { type AppModule, lafknResource, Role } from '@lafkn/resolver';
 import { Schema } from './schema/schema';
 import type { DefinitionSchema, PermissionType } from './schema/schema.types';
 import type { StateMachineProps } from './state-machine.types';
 
-export class StateMachine extends lafkenResource.make(SfnStateMachine) {
+export class StateMachine extends lafknResource.make(SfnStateMachine) {
   constructor(
     scope: AppModule,
     id: string,

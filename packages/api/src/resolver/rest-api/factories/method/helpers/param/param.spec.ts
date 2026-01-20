@@ -1,8 +1,8 @@
-import { getMetadataPrototypeByKey, LambdaReflectKeys } from '@lafken/common';
+import { getMetadataPrototypeByKey, LambdaReflectKeys } from '@lafkn/common';
 import { ParamHelper } from './param';
 
 // Mock the metadata function
-jest.mock('@lafken/common', () => ({
+jest.mock('@lafkn/common', () => ({
   getMetadataPrototypeByKey: jest.fn(),
   LambdaReflectKeys: {
     event_param: 'event_param',

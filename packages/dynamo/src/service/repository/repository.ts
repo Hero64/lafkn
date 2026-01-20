@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 import type { DynamoIndex, ModelPartition } from '../../main/model';
 import { client, getClientWithXRay } from '../client/client';
 import type { QueryBuilderProps } from '../query-builder/base/base.types';

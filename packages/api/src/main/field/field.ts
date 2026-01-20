@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { createFieldDecorator, createFieldName, FieldProperties } from '@lafken/common';
+import { createFieldDecorator, createFieldName, FieldProperties } from '@lafkn/common';
 import { RESOURCE_TYPE } from '../api';
 import type { ApiFieldMetadata, ApiFieldProps, ApiParamMetadata } from './field.types';
 

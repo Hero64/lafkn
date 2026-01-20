@@ -1,5 +1,5 @@
 import type { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 
 import type { ModelInformation } from '../query-builder.types';
 import type { filterResolver } from './base.utils';

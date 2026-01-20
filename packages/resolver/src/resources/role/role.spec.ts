@@ -4,7 +4,7 @@ import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { Testing } from 'cdktf';
 import { setupTestingStack } from '../../utils';
-import { lafkenResource } from '../resource';
+import { lafknResource } from '../resource';
 import { Role } from './role';
 
 describe('Role', () => {
@@ -77,7 +77,7 @@ describe('Role', () => {
   it('should create a role policy with function dependencies', () => {
     const { stack } = setupTestingStack();
 
-    const Bucket = lafkenResource.make(S3Bucket);
+    const Bucket = lafknResource.make(S3Bucket);
 
     const bucket = new Bucket(stack, 'test', {});
     bucket.isGlobal('bucket', 'test');
@@ -117,6 +117,6 @@ describe('Role', () => {
       ],
     });
 
-    expect(lafkenResource.callDependentCallbacks()).rejects.toThrow();
+    expect(lafknResource.callDependentCallbacks()).rejects.toThrow();
   });
 });

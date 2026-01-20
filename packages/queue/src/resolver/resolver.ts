@@ -3,8 +3,8 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
   type ResourceMetadata,
-} from '@lafken/common';
-import { type AppModule, lambdaAssets, type ResolverType } from '@lafken/resolver';
+} from '@lafkn/common';
+import { type AppModule, lambdaAssets, type ResolverType } from '@lafkn/resolver';
 import { type QueueLambdaMetadata, RESOURCE_TYPE } from '../main';
 import { Queue } from './queue/queue';
 

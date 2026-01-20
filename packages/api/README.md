@@ -1,23 +1,23 @@
-# @lafken/api
+# @lafkn/api
 
-`@lafken/api` helps you build AWS REST APIs in the simplest possible way.
-It provides decorators and helper functions so you can declare endpoints, events, and integrations with minimal code — while Lafken handles the AWS infrastructure for you.
+`@lafkn/api` helps you build AWS REST APIs in the simplest possible way.
+It provides decorators and helper functions so you can declare endpoints, events, and integrations with minimal code — while Lafkn handles the AWS infrastructure for you.
 
 
 ## Installation
 
 ```bash
-npm install @lafken/api
+npm install @lafkn/api
 ```
 
 ## Configuration
 
-The first step is to add a resolver to your application. To do this, import ApiResolver from @lafken/api/resolver and include it in the resolvers array by instantiating the class: new ApiResolver({}).
+The first step is to add a resolver to your application. To do this, import ApiResolver from @lafkn/api/resolver and include it in the resolvers array by instantiating the class: new ApiResolver({}).
 
 If you don’t provide any configuration, a default API will be created using minimal settings. By passing properties to the resolver, you can customize the API name, CORS options, authorizers, supported media types, and more. You can also extend the API’s capabilities using CDKTF.
 
 ```typescript
-import { ApiResolver } from '@lafken/api/resolver';
+import { ApiResolver } from '@lafkn/api/resolver';
 
 createApp({
   name: 'awesome-app',
@@ -68,7 +68,7 @@ const greetingModule = createModule({
 Create HTTP resources using the `@Get`, `@Post`, `@Put`, `@Patch`, `@Delete`, and `@Any` decorators. These endpoints can directly invoke Lambda functions or integrate with AWS services.
 
 ```typescript
-import { Post } from '@lafken/api/main';
+import { Post } from '@lafkn/api/main';
 //...
 @Post({
   path: '{name}'
@@ -80,7 +80,7 @@ sayHello () {
 ### Event/Payload
 A decorated method can receive an event payload using the `@Event` decorator, which takes a class annotated with the `@Payload` decorator. The `@Payload`/`@Param` decorators allow you to specify where each property comes from—body, path, query, headers, or context—binding those values to the event and automatically generating a fully resolved Velocity `requestTemplate` internally.
 ```typescript
-import { Post, Payload, Param, Event } from '@lafken/api/main';
+import { Post, Payload, Param, Event } from '@lafkn/api/main';
 // ...
 @Payload()
 class HelloPayload {
@@ -111,7 +111,7 @@ import {
   IntegrationOptions,
   BucketIntegrationOption,
   BucketIntegrationResponse
-} from '@lafken/api/main';
+} from '@lafkn/api/main';
 //...
 @Get({
   integration: 'bucket',
@@ -121,7 +121,7 @@ get(
   @IntegrationOptions() { getResourceValue }: BucketIntegrationOption
 ): BucketIntegrationResponse {
   return {
-    bucket: getResourceValue('lafken-example-documents', 'id'),
+    bucket: getResourceValue('lafkn-example-documents', 'id'),
     object: 'new.json',
   };
 }
@@ -184,7 +184,7 @@ sayHello(): GreetingResponse {
   }
 
   return {
-    fullName: 'Lafken',
+    fullName: 'Lafkn',
     id: 1,
   };
 }
@@ -208,7 +208,7 @@ If the method does not define a `response` property, a default set of status cod
 
 ### Authorizers
 
-To add authorization to your endpoints, Lafken supports three types of authorizers: `api-key`, `cognito`, and `custom`. These options allow you to apply different levels and styles of security to your application, depending on your needs.
+To add authorization to your endpoints, Lafkn supports three types of authorizers: `api-key`, `cognito`, and `custom`. These options allow you to apply different levels and styles of security to your application, depending on your needs.
 
 #### ApiKeyAuthorizer
 Allows you to specify the usage plans and API keys that will be applied to different endpoints in the application.
@@ -236,7 +236,7 @@ import {
   AuthorizerHandler,
   type AuthorizerResponse,
   CustomAuthorizer,
-} from '@lafken/api/main';
+} from '@lafkn/api/main';
 
 @CustomAuthorizer({
   name: 'AwesomeCustomAuthorizer',
@@ -257,11 +257,11 @@ The handler receives an `AuthorizationHandlerEvent`, which includes all informat
 The method must return an `AuthorizerResponse`, indicating whether the request is authorized (`allow: true`) and specifying the authorized principal.
 
 #### CognitoAuthorizer
-Enables integration with a Cognito User Pool to authorize your HTTP methods. Before using it, you must first configure `@lafken/auth`.  
+Enables integration with a Cognito User Pool to authorize your HTTP methods. Before using it, you must first configure `@lafkn/auth`.  
 To create a Cognito authorizer, decorate a class with the `@CognitoAuthorizer` decorator and provide the required properties
 
 ```typescript
-import { CognitoAuthorizer } from '@lafken/api/main';
+import { CognitoAuthorizer } from '@lafkn/api/main';
 
 @CognitoAuthorizer({
   userPool: 'example-user-pool',

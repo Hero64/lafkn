@@ -7,7 +7,7 @@ import type {
   ResourceProps,
   ServicesValues,
   StateMachineNames,
-} from '@lafken/common';
+} from '@lafkn/common';
 
 import type { JsonAtaString } from '../param';
 

@@ -9,7 +9,7 @@ import {
   Get,
   IntegrationOptions,
   Post,
-} from '@lafken/api/main';
+} from '@lafkn/api/main';
 import type { Client } from '../../model/client.model';
 import { DynamoPkEvent, DynamoPutEvent } from './greeting.field';
 

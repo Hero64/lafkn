@@ -5,7 +5,7 @@ import type {
   FieldTypes,
   OnlyNumber,
   OnlyNumberString,
-} from '@lafken/common';
+} from '@lafkn/common';
 
 export enum ModelMetadataKeys {
   model = 'dynamo:model',

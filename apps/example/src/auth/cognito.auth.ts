@@ -1,4 +1,4 @@
-import { CognitoAuthorizer } from '@lafken/api/main';
+import { CognitoAuthorizer } from '@lafkn/api/main';
 
 @CognitoAuthorizer({
   userPool: 'example-user-pool',

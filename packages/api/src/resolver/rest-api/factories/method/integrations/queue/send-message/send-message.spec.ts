@@ -5,8 +5,8 @@ import { ApiGatewayMethodResponse } from '@cdktf/provider-aws/lib/api-gateway-me
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
 import { SqsQueue } from '@cdktf/provider-aws/lib/sqs-queue';
-import { enableBuildEnvVariable } from '@lafken/common';
-import { lafkenResource } from '@lafken/resolver';
+import { enableBuildEnvVariable } from '@lafkn/common';
+import { lafknResource } from '@lafkn/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -125,7 +125,7 @@ describe('Queue send message integration', () => {
   it('should create queue integration with global resource', async () => {
     const { restApi, stack } = setupTestingRestApi();
 
-    const Queue = lafkenResource.make(SqsQueue);
+    const Queue = lafknResource.make(SqsQueue);
 
     const queue = new Queue(stack, 'test');
     queue.isGlobal('testing', 'test');

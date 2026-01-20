@@ -4,7 +4,7 @@ import {
   getMetadataByKey,
   getMetadataPrototypeByKey,
   type PayloadMetadata,
-} from '@lafken/common';
+} from '@lafkn/common';
 import { Param, Payload, stateMachineFieldKey, stateMachinePayloadKey } from './param';
 import type { StateMachineParamMetadata } from './param.types';
 

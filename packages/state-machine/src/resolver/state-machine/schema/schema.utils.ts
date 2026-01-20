@@ -1,4 +1,4 @@
-import { LambdaHandler } from '@lafken/resolver';
+import { LambdaHandler } from '@lafkn/resolver';
 import type {
   ExecutionSource,
   IntegrationMode,

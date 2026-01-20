@@ -1,10 +1,10 @@
-import { Field, Param, Payload, Response } from '@lafken/api/main';
+import { Field, Param, Payload, Response } from '@lafkn/api/main';
 import {
   Field as QueueField,
   Param as QueueParam,
   Payload as QueuePayload,
-} from '@lafken/queue/main';
-import { Param as SMParam, Payload as SMPayload } from '@lafken/state-machine/main';
+} from '@lafkn/queue/main';
+import { Param as SMParam, Payload as SMPayload } from '@lafkn/state-machine/main';
 @Payload()
 export class BaseEvent {
   @Param({

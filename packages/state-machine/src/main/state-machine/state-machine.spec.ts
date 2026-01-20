@@ -3,7 +3,7 @@ import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@lafken/common';
+} from '@lafkn/common';
 
 import { NestedStateMachine, RESOURCE_TYPE, State, StateMachine } from './state-machine';
 import {

@@ -2,7 +2,7 @@ import {
   type ClassResource,
   getMetadataPrototypeByKey,
   LambdaReflectKeys,
-} from '@lafken/common';
+} from '@lafkn/common';
 import type { ApiObjectParam, ApiParamMetadata } from '../../../../../../main';
 import type { ParamBySource } from './param.types';
 

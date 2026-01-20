@@ -4,7 +4,7 @@ import {
   createPayloadDecorator,
   FieldProperties,
   getEventFields,
-} from '@lafken/common';
+} from '@lafkn/common';
 import { RESOURCE_TYPE } from '../api';
 import type { ApiFieldMetadata } from '../field';
 import type { HTTP_STATUS_CODE_NUMBER } from '../status';

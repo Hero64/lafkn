@@ -1,10 +1,10 @@
 /**
- * Type declarations for Lafken framework resources
- * This file extends the interfaces from @lafken/common to define
+ * Type declarations for Lafkn framework resources
+ * This file extends the interfaces from @lafkn/common to define
  * the available resources for this specific application
  */
 
-declare module '@lafken/common' {
+declare module '@lafkn/common' {
   interface ModulesAvailable {
     greeting: {
       StateMachine: {
@@ -17,7 +17,7 @@ declare module '@lafken/common' {
   }
 
   interface BucketAvailable {
-    'lafken-example-documents': true;
+    'lafkn-example-documents': true;
   }
 
   interface ApiRestAvailable {

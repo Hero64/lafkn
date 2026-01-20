@@ -1,9 +1,9 @@
-# Lafken
+# Lafkn
 
-Lafken is a lightweight framework for building serverless applications on AWS with minimal infrastructure overhead.
-Instead of manually orchestrating resources, Lafken uses CDK for Terraform (CDKTF) under the hood to generate, synthesize, and manage all AWS infrastructure defined in your modules.
+Lafkn is a lightweight framework for building serverless applications on AWS with minimal infrastructure overhead.
+Instead of manually orchestrating resources, Lafkn uses CDK for Terraform (CDKTF) under the hood to generate, synthesize, and manage all AWS infrastructure defined in your modules.
 
-You focus on writing your application logic. Lafken takes care of the infrastructure
+You focus on writing your application logic. Lafkn takes care of the infrastructure
 
 ## Features
 
@@ -16,7 +16,7 @@ You focus on writing your application logic. Lafken takes care of the infrastruc
 ## Installation
 
 ```bash
-npm install @lafken/main
+npm install @lafkn/main
 ```
 
 ## Quick Example
@@ -24,7 +24,7 @@ npm install @lafken/main
 ### Create an application
 
 ```ts
-import { ApiResolver } from '@lafken/api/resolver';
+import { ApiResolver } from '@lafkn/api/resolver';
 
 createApp({
   name: 'awesome-app',
@@ -36,7 +36,7 @@ createApp({
 ### Create a module
 
 ```ts
-import { createModule } from '@lafken/main';
+import { createModule } from '@lafkn/main';
 import { GreetingApi } from './greeting.api';
 
 const greetingModule = createModule({
@@ -80,24 +80,24 @@ Each Lambda also supports additional configuration options such as memory size, 
 Environment variables support both static and dynamic values, including values retrieved directly from AWS Systems Manager Parameter Store (SSM). This is achieved using the `SSM::STRING` or `SSM::SECURE_STRING` notation followed by the parameter path, for example:
 `SSM::STRING::/path/from/ssm/variable`.
 
-Each resolver enforces its own rules for infrastructure creation using CDK for Terraform (CDKTF). The framework allows you to create custom resolvers by implementing the ResolverType interface provided by the `@lafken/resolver` package. This package also includes helpers and reusable resources to simplify the implementation of Lambda functions, IAM roles, and environment variables.
+Each resolver enforces its own rules for infrastructure creation using CDK for Terraform (CDKTF). The framework allows you to create custom resolvers by implementing the ResolverType interface provided by the `@lafkn/resolver` package. This package also includes helpers and reusable resources to simplify the implementation of Lambda functions, IAM roles, and environment variables.
 
-Additionally, the `@lafken/common` package provides utility helpers for creating decorators, enabling the definition of resources in custom libraries in a consistent and declarative manner.
+Additionally, the `@lafkn/common` package provides utility helpers for creating decorators, enabling the definition of resources in custom libraries in a consistent and declarative manner.
 
 #### Overriding Resource Names
 
-It is very common to reference resources by name in order to retrieve properties such as the resource ARN or ID, which can then be used as integrations or environment variables. To support this use case, the `@lafken/common` library exposes a set of types that can be overridden.
+It is very common to reference resources by name in order to retrieve properties such as the resource ARN or ID, which can then be used as integrations or environment variables. To support this use case, the `@lafkn/common` library exposes a set of types that can be overridden.
 
 These types represent the resources available within your application and provide TypeScript autocomplete and type safety when referencing existing infrastructure resources.
 
 Configuration
 
-To enable this functionality, create or update the `lafken-types.d.ts` file and extend the `@lafken/common` module by declaring the resources available in your application.
+To enable this functionality, create or update the `lafkn-types.d.ts` file and extend the `@lafkn/common` module by declaring the resources available in your application.
 
 Below is an example configuration:
 
 ```typescript
-declare module '@lafken/common' {
+declare module '@lafkn/common' {
 
   // Register application modules
   interface ModulesAvailable {
@@ -117,7 +117,7 @@ declare module '@lafken/common' {
 
   // bucket
   interface BucketAvailable {
-    'lafken-example-documents': true;
+    'lafkn-example-documents': true;
   }
   // api
   interface ApiRestAvailable {
@@ -162,7 +162,7 @@ Each interface corresponds to a specific type of infrastructure resource and can
 
 ### Additional Documentation
 
-Lafken includes several sub-packages with their own documentation:
+Lafkn includes several sub-packages with their own documentation:
 
 * [Main module](packages/main/README.md)
 * [Common module](packages/common/README.md)
@@ -178,5 +178,5 @@ Lafken includes several sub-packages with their own documentation:
 
 ## Configuration
 
-Lafken can be configured depending on your project needs.
+Lafkn can be configured depending on your project needs.
 More details will be added as configuration options are defined.

@@ -6,8 +6,8 @@ import {
   type DynamodbTableLocalSecondaryIndex,
 } from '@cdktf/provider-aws/lib/dynamodb-table';
 import { PipesPipe } from '@cdktf/provider-aws/lib/pipes-pipe';
-import type { FieldTypes } from '@lafken/common';
-import { lafkenResource, Role } from '@lafken/resolver';
+import type { FieldTypes } from '@lafkn/common';
+import { lafknResource, Role } from '@lafkn/resolver';
 import type { Construct } from 'constructs';
 import type {
   DynamoIndex,
@@ -24,7 +24,7 @@ const mapFieldType: Partial<Record<FieldTypes, string>> = {
   Boolean: 'BOOL',
 };
 
-export class Table extends lafkenResource.make(DynamodbTable) {
+export class Table extends lafknResource.make(DynamodbTable) {
   constructor(scope: Construct, props: TableProps) {
     const {
       modelProps,

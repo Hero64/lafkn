@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 
 export type SignInAliases = 'email' | 'phone' | 'preferred_username';
 export type CognitoPlan = 'lite' | 'essentials' | 'plus';

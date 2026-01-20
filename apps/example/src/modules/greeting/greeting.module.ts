@@ -1,4 +1,4 @@
-import { createModule } from '@lafken/main';
+import { createModule } from '@lafkn/main';
 
 // import { GreetingEvent } from './greeting.event';
 

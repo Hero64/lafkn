@@ -6,8 +6,8 @@ import { ApiGatewayModel } from '@cdktf/provider-aws/lib/api-gateway-model';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
 import { SfnStateMachine } from '@cdktf/provider-aws/lib/sfn-state-machine';
-import { enableBuildEnvVariable } from '@lafken/common';
-import { lafkenResource } from '@lafken/resolver';
+import { enableBuildEnvVariable } from '@lafkn/common';
+import { lafknResource } from '@lafkn/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -155,7 +155,7 @@ describe('State machine start integration', () => {
   it('should create state machine integration with global resource', async () => {
     const { restApi, stack } = setupTestingRestApi();
 
-    const StateMachine = lafkenResource.make(SfnStateMachine);
+    const StateMachine = lafknResource.make(SfnStateMachine);
 
     const stateMachine = new StateMachine(stack, 'test', {
       definition: '',
@@ -170,7 +170,7 @@ describe('State machine start integration', () => {
       'startWithResource'
     );
 
-    await lafkenResource.callDependentCallbacks();
+    await lafknResource.callDependentCallbacks();
     const synthesized = Testing.synth(stack);
 
     expect(synthesized).toHaveResourceWithProperties(ApiGatewayIntegration, {

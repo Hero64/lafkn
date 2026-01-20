@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 
 import type { BatchWriteBuilderProps } from '../batch-write/batch-write.types';
 

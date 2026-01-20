@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafken/common';
+import type { ClassResource } from '@lafkn/common';
 import type { QueryBuilderProps } from '../base/base.types';
 import type { DynamoIndexes } from '../dynamo-index/dynamo-index';
 import type { QueryProps } from '../query-builder.types';

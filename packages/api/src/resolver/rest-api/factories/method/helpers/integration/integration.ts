@@ -4,14 +4,14 @@ import type {
   ServicesName,
   SQSPermissions,
   StateMachinePermissions,
-} from '@lafken/common';
-import { lafkenResource, ResolveResources, Role } from '@lafken/resolver';
+} from '@lafkn/common';
+import { lafknResource, ResolveResources, Role } from '@lafkn/resolver';
 import type { Construct } from 'constructs';
 import type { IntegrationOption, ServiceRoleName } from './integration.types';
 
 export class IntegrationHelper {
   public createRole(name: ServiceRoleName, scope: Construct) {
-    const role = lafkenResource.getResource<Role>('role', name);
+    const role = lafknResource.getResource<Role>('role', name);
 
     if (role) {
       return role;

@@ -1,5 +1,5 @@
-import type { GetResourceProps } from '@lafken/common';
-import { lafkenResource } from '../resources';
+import type { GetResourceProps } from '@lafkn/common';
+import { lafknResource } from '../resources';
 
 export class ResolveResources {
   private unresolved: string[] = [];
@@ -7,7 +7,7 @@ export class ResolveResources {
   public getResourceValue(module: string, id: string, type: string) {
     this.unresolved = [];
 
-    const resource = lafkenResource.getResource(module, id);
+    const resource = lafknResource.getResource(module, id);
 
     if (!resource) {
       this.unresolved.push(`${module}::${id}::${type}`);

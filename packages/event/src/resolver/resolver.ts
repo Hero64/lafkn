@@ -5,13 +5,13 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
   type ResourceMetadata,
-} from '@lafken/common';
+} from '@lafkn/common';
 import {
   type AppModule,
   type AppStack,
   lambdaAssets,
   type ResolverType,
-} from '@lafken/resolver';
+} from '@lafkn/resolver';
 import { type EventRuleMetadata, RESOURCE_TYPE } from '../main';
 import type { EventRuleResolverProps } from './resolver.types';
 import { Rule } from './rule/rule';

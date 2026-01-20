@@ -1,12 +1,12 @@
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
-import { enableBuildEnvVariable } from '@lafken/common';
+import { enableBuildEnvVariable } from '@lafkn/common';
 import {
   ContextName,
-  lafkenResource,
+  lafknResource,
   lambdaAssets,
   type ResolverType,
   Role,
-} from '@lafken/resolver';
+} from '@lafkn/resolver';
 import { App, Aspects, TerraformStack } from 'cdktf';
 import PrettyError from 'pretty-error';
 import { AppAspect } from '../aspect/aspect';
@@ -42,7 +42,7 @@ export class AppStack extends TerraformStack {
     await this.triggerHook(resolvers, 'afterCreate');
 
     this.addAspectProperties();
-    await lafkenResource.callDependentCallbacks();
+    await lafknResource.callDependentCallbacks();
     await lambdaAssets.createAssets();
     if (extend) {
       await extend(this);
@@ -99,7 +99,7 @@ export class AppStack extends TerraformStack {
       new AppAspect({
         tags: {
           ...(this.props.globalConfig?.tags || {}),
-          'lafken:app': this.id,
+          'lafkn:app': this.id,
         },
       })
     );

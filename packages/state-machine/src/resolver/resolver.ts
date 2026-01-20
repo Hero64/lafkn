@@ -2,8 +2,8 @@ import {
   type ClassResource,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@lafken/common';
-import { type AppModule, lambdaAssets, type ResolverType } from '@lafken/resolver';
+} from '@lafkn/common';
+import { type AppModule, lambdaAssets, type ResolverType } from '@lafkn/resolver';
 
 import {
   type LambdaStateMetadata,

@@ -1,4 +1,4 @@
-import type { FieldTypes } from '@lafken/common';
+import type { FieldTypes } from '@lafkn/common';
 
 const mapValueTypeField: Record<string, FieldTypes> = {
   string: 'String',

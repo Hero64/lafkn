@@ -1,5 +1,5 @@
-import type { ClassResource } from '@lafken/common';
-import type { AppModule, ResolverType } from '@lafken/resolver';
+import type { ClassResource } from '@lafkn/common';
+import type { AppModule, ResolverType } from '@lafkn/resolver';
 import { RESOURCE_TYPE } from '../main/extension/extension';
 import { Auth } from './auth/auth';
 import type { AuthOptions } from './resolver.types';

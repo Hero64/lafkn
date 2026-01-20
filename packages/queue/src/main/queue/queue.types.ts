@@ -1,4 +1,4 @@
-import type { LambdaMetadata, LambdaProps, QueueNames } from '@lafken/common';
+import type { LambdaMetadata, LambdaProps, QueueNames } from '@lafkn/common';
 
 export interface StandardProps {
   /**

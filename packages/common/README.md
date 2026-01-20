@@ -1,6 +1,6 @@
-# @lafken/common
+# @lafkn/common
 
-`@lafken/common` is the core utility package for the Lafken framework. It provides the essential factory functions and utilities used to create the decorators that define infrastructure resources and Lambda handlers throughout the ecosystem.
+`@lafkn/common` is the core utility package for the Lafkn framework. It provides the essential factory functions and utilities used to create the decorators that define infrastructure resources and Lambda handlers throughout the ecosystem.
 
 ## Features
 
@@ -18,7 +18,7 @@ It automatically captures:
 - Custom metadata defined in your props.
 
 ```typescript
-import { createResourceDecorator } from '@lafken/common';
+import { createResourceDecorator } from '@lafkn/common';
 
 export const MyCustomResource = createResourceDecorator({
   type: 'MY_CUSTOM_RESOURCE',
@@ -37,7 +37,7 @@ Use this factory to create method-level decorators that mark methods as Lambda f
 - Argument injection (Event, Context, Callback).
 
 ```typescript
-import { createLambdaDecorator } from '@lafken/common';
+import { createLambdaDecorator } from '@lafkn/common';
 
 export const MyLambdaTrigger = <T>(props: T) =>
   createLambdaDecorator({
@@ -56,11 +56,11 @@ class MyService {
 
 ### Metadata Utilities
 
-`@lafken/common` provides utilities to read the metadata stored by these decorators, which resolvers use to build the actual infrastructure.
+`@lafkn/common` provides utilities to read the metadata stored by these decorators, which resolvers use to build the actual infrastructure.
 
 - `getResourceMetadata(target)`: Retrieves metadata from a resource class.
 - `getResourceHandlerMetadata(target)`: Retrieves metadata for all lambda handlers in a class.
 
 ## Usage
 
-This package is intended for internal use within the Lafken framework or for advanced users extending the framework with custom resource types. It ensures consistent metadata handling across all `@lafken/*` packages.
+This package is intended for internal use within the Lafkn framework or for advanced users extending the framework with custom resource types. It ensures consistent metadata handling across all `@lafkn/*` packages.

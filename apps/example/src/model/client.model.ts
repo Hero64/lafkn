@@ -4,7 +4,7 @@ import {
   PartitionKey,
   type PrimaryPartition,
   SortKey,
-} from '@lafken/dynamo/main';
+} from '@lafkn/dynamo/main';
 
 @Model({
   name: 'clients',

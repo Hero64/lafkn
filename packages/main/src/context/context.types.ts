@@ -1,4 +1,4 @@
-import type { LambdaGlobalConfig } from '@lafken/resolver';
+import type { LambdaGlobalConfig } from '@lafkn/resolver';
 
 export interface ContextProps {
   globalConfig?: LambdaGlobalConfig;

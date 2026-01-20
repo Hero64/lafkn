@@ -1,6 +1,6 @@
-# @lafken/state-machine
+# @lafkn/state-machine
 
-`@lafken/state-machine` helps you create and manage AWS Step Functions state machines using decorators. It simplifies the definition of complex workflows by allowing you to define states, transitions, and integrations directly within your TypeScript classes.
+`@lafkn/state-machine` helps you create and manage AWS Step Functions state machines using decorators. It simplifies the definition of complex workflows by allowing you to define states, transitions, and integrations directly within your TypeScript classes.
 
 > [!NOTE]
 > This library exclusively supports **JSONata** for data transformation and querying. **JSONPath is not supported**.
@@ -8,15 +8,15 @@
 ## Installation
 
 ```bash
-npm install @lafken/state-machine
+npm install @lafkn/state-machine
 ```
 
 ## Configuration
 
-Add the `StateMachineResolver` from the `@lafken/state-machine/resolver` library to your application configuration.
+Add the `StateMachineResolver` from the `@lafkn/state-machine/resolver` library to your application configuration.
 
 ```typescript
-import { StateMachineResolver } from '@lafken/state-machine/resolver';
+import { StateMachineResolver } from '@lafkn/state-machine/resolver';
 
 createApp({
   name: 'awesome-app',
@@ -55,7 +55,7 @@ const greetingModule = createModule({
 Use the `@StateMachine` decorator to define a class as a state machine resource. You must specify the `startAt` property to define the entry point of the state machine.
 
 ```typescript
-import { StateMachine, State } from '@lafken/state-machine';
+import { StateMachine, State } from '@lafkn/state-machine';
 
 @StateMachine({
   startAt: 'initialState',

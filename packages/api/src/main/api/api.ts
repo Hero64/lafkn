@@ -4,7 +4,7 @@ import {
   createLambdaDecorator,
   createResourceDecorator,
   getEventFields,
-} from '@lafken/common';
+} from '@lafkn/common';
 
 import {
   type ApiLambdaBaseProps,

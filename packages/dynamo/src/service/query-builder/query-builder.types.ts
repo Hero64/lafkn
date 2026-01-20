@@ -5,7 +5,7 @@ import type {
   KeyOfClass,
   OnlyNumberString,
   OnlyOne,
-} from '@lafken/common';
+} from '@lafkn/common';
 import type {
   FieldsMetadata,
   ModelPartition,

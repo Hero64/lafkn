@@ -1,18 +1,18 @@
 import {
   type AppModule,
   ContextName,
-  lafkenResource,
+  lafknResource,
   type ResolverType,
   Role,
   setupTestingStack,
-} from '@lafken/resolver';
+} from '@lafkn/resolver';
 import 'cdktf/lib/testing/adapters/jest';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import {
   createLambdaDecorator,
   createResourceDecorator,
   enableBuildEnvVariable,
-} from '@lafken/common';
+} from '@lafkn/common';
 import { Testing } from 'cdktf';
 import { createModule, StackModule } from './module';
 
@@ -77,7 +77,7 @@ describe('Module', () => {
     });
 
     await module(stack, {});
-    const role = lafkenResource.getResource<Role>('module', 'testing-module-module-role');
+    const role = lafknResource.getResource<Role>('module', 'testing-module-module-role');
 
     expect(role).toBeDefined();
     expect(role).toBeInstanceOf(Role);
@@ -130,7 +130,7 @@ describe('Module', () => {
 
     expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
       tags: {
-        'lafken:module': 'testing-module',
+        'lafkn:module': 'testing-module',
         foo: 'bar',
       },
     });

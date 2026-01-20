@@ -1,9 +1,9 @@
-import { LAFKEN_CONTEXT, LAFKEN_CONTEXT_VALUE } from '../constants/env.constants';
+import { LAFKN_CONTEXT, LAFKN_CONTEXT_VALUE } from '../constants/env.constants';
 
 export const enableBuildEnvVariable = () => {
-  process.env[LAFKEN_CONTEXT] = LAFKEN_CONTEXT_VALUE;
+  process.env[LAFKN_CONTEXT] = LAFKN_CONTEXT_VALUE;
 };
 
 export const isBuildEnvironment = () => {
-  return process.env[LAFKEN_CONTEXT] === LAFKEN_CONTEXT_VALUE;
+  return process.env[LAFKN_CONTEXT] === LAFKN_CONTEXT_VALUE;
 };
