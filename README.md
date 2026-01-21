@@ -16,7 +16,7 @@ You focus on writing your application logic. Lafkn takes care of the infrastruct
 ## Installation
 
 ```bash
-npm install @lafkn/main
+npm create lafkn@latest
 ```
 
 ## Quick Example
