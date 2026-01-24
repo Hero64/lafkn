@@ -2,13 +2,13 @@ import {
   type ClassResource,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@lafkn/common';
+} from '@lafken/common';
 import {
   type AppModule,
   type AppStack,
   lambdaAssets,
   type ResolverType,
-} from '@lafkn/resolver';
+} from '@lafken/resolver';
 import { type ApiLambdaMetadata, type ApiResourceMetadata, RESOURCE_TYPE } from '../main';
 import type { RestApiOptions } from './resolver.types';
 import { RestApi } from './rest-api/rest-api';

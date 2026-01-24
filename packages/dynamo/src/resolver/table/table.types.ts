@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafkn/common';
+import type { ClassResource } from '@lafken/common';
 
 export interface TableProps {
   classResource: ClassResource;

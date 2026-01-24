@@ -5,7 +5,7 @@ import {
   type LambdaArgumentsType,
   LambdaArgumentTypes,
   LambdaReflectKeys,
-} from '@lafkn/common';
+} from '@lafken/common';
 import type { SQSEvent, SQSRecord } from 'aws-lambda';
 import type { QueueParamMetadata } from '../event/event.types';
 import type { FifoProps, QueueLambdaMetadata, StandardProps } from './queue.types';

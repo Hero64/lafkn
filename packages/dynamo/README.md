@@ -1,4 +1,4 @@
-# @lafkn/dynamo
+# @lafken/dynamo
 
 This package simplifies the creation and management of DynamoDB tables. It provides decorators that allow you to define the table’s configuration declaratively, as well as to enable a direct service that can be consumed within Lambda functions for performing DynamoDB operations.
 
@@ -6,7 +6,7 @@ This package simplifies the creation and management of DynamoDB tables. It provi
 ## Installation
 
 ```bash
-npm install @lafkn/dynamo
+npm install @lafken/dynamo
 ```
 
 ## Configuration
@@ -14,7 +14,7 @@ npm install @lafkn/dynamo
 To get started, you must add the DynamoResolver to your application. Import the resolver and instantiate it, passing the classes that will define the DynamoDB tables. Each class must be decorated with the @Model decorator, which receives the configuration applied to the table, along with the properties that compose the data model.
 
 ```typescript
-import { ApiResolver } from '@lafkn/bucket/resolver';
+import { ApiResolver } from '@lafken/bucket/resolver';
 
 //...
 @Model({
@@ -81,7 +81,7 @@ To consume and process these events, use the @alicanto/event package, which prov
     type: 'NEW_IMAGE',
     filters: {
       keys: {
-        email: [{ suffix: 'lafkn.com' }],
+        email: [{ suffix: 'lafken.com' }],
       },
       newImage: {
         name: ['foo'],
@@ -101,9 +101,9 @@ export const clientRepository = createRepository(Client);
 // ...
 await clientRepository
   .create({
-    name: 'lafkn',
+    name: 'lafken',
     age: 1,
-    email: 'awesome@lafkn.com',
+    email: 'awesome@lafken.com',
     expireAt: 1000000000,
   })
   .exec();
@@ -111,7 +111,7 @@ await clientRepository
 await clientRepository.findAll({
   keyCondition: {
     partition: {
-      email: 'awesome@lafkn.com'
+      email: 'awesome@lafken.com'
     }
   }
 }).exec();
@@ -124,9 +124,9 @@ Using the transaction helper, you can group several repository actions—such as
 ```typescript
 await transaction([
   clientRepository.create({
-    name: 'lafkn',
+    name: 'lafken',
     age: 1,
-    email: 'awesome@lafkn.com',
+    email: 'awesome@lafken.com',
     expireAt: 1000000000,
   }),
   documentRepository.create({

@@ -1,12 +1,12 @@
-# @lafkn/main
+# @lafken/main
 
-This is the core entry point of an Lafkn application. Internally, it initializes the @cdktf/provider-aws, allowing you to register resolvers, modules, and global configuration. It orchestrates the creation of all the infrastructure required for a fully serverless application.
+This is the core entry point of an Lafken application. Internally, it initializes the @cdktf/provider-aws, allowing you to register resolvers, modules, and global configuration. It orchestrates the creation of all the infrastructure required for a fully serverless application.
 
 ## Installation
 
 
 ```bash
-npm  install  @lafkn/main
+npm  install  @lafken/main
 ```
 
 

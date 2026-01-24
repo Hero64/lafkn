@@ -5,8 +5,8 @@ import { ApiGatewayMethodResponse } from '@cdktf/provider-aws/lib/api-gateway-me
 import { DynamodbTable } from '@cdktf/provider-aws/lib/dynamodb-table';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicy } from '@cdktf/provider-aws/lib/iam-role-policy';
-import { enableBuildEnvVariable } from '@lafkn/common';
-import { lafknResource } from '@lafkn/resolver';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -145,7 +145,7 @@ describe('Dynamo put integration', () => {
   it('should create dynamodb integration with global resource', async () => {
     const { restApi, stack } = setupTestingRestApi();
 
-    const Table = lafknResource.make(DynamodbTable);
+    const Table = lafkenResource.make(DynamodbTable);
 
     const table = new Table(stack, 'test', {
       name: 'test',

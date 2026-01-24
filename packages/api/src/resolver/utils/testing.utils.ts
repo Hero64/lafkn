@@ -2,8 +2,8 @@ import {
   type ClassResource,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@lafkn/common';
-import { lafknResource } from '@lafkn/resolver';
+} from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { TerraformStack, Testing } from 'cdktf';
 import type { ApiLambdaMetadata, ApiResourceMetadata } from '../../main';
 import type { RestApiProps } from '../resolver.types';
@@ -12,7 +12,7 @@ import { RestApi } from '../rest-api/rest-api';
 export const setupTestingRestApi = (props: Omit<RestApiProps, 'name'> = {}) => {
   const app = Testing.app();
 
-  const AppStack = lafknResource.make(TerraformStack);
+  const AppStack = lafkenResource.make(TerraformStack);
 
   const stack = new AppStack(app, 'testing-stack');
   stack.isGlobal('app', 'testing-stack');

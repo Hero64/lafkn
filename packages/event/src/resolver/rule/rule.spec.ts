@@ -7,14 +7,14 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
   type ResourceMetadata,
-} from '@lafkn/common';
-import { LambdaHandler, setupTestingStackWithModule } from '@lafkn/resolver';
+} from '@lafken/common';
+import { LambdaHandler, setupTestingStackWithModule } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { EventRule, type EventRuleMetadata, Rule } from '../../main';
 import { Rule as RuleResolver } from './rule';
 
-jest.mock('@lafkn/resolver', () => {
-  const actual = jest.requireActual('@lafkn/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,

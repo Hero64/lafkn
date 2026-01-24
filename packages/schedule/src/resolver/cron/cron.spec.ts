@@ -6,14 +6,14 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
   type ResourceMetadata,
-} from '@lafkn/common';
-import { LambdaHandler, setupTestingStackWithModule } from '@lafkn/resolver';
+} from '@lafken/common';
+import { LambdaHandler, setupTestingStackWithModule } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { Cron, type EventCronMetadata, Schedule } from '../../main';
 import { Cron as CronResolver } from './cron';
 
-jest.mock('@lafkn/resolver', () => {
-  const actual = jest.requireActual('@lafkn/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,

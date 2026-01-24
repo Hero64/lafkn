@@ -1,4 +1,4 @@
-# @lafkn/main
+# @lafken/main
 
 ## 0.1.1
 
@@ -6,8 +6,8 @@
 
 - upgrade types field in package.json
 - Updated dependencies
-  - @lafkn/common@0.1.1
-  - @lafkn/resolver@0.1.1
+  - @lafken/common@0.1.1
+  - @lafken/resolver@0.1.1
 
 ## 0.1.0
 
@@ -18,5 +18,5 @@
 ### Patch Changes
 
 - Updated dependencies
-  - @lafkn/resolver@0.1.0
-  - @lafkn/common@0.1.0
+  - @lafken/resolver@0.1.0
+  - @lafken/common@0.1.0

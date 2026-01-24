@@ -1,5 +1,5 @@
 import { marshall } from '@aws-sdk/util-dynamodb';
-import type { ClassResource } from '@lafkn/common';
+import type { ClassResource } from '@lafken/common';
 import type { LocalIndex } from '../../../main';
 import type { GlobalIndexProperty } from '../dynamo-index/dynamo-index.types';
 import type { AndFilter, Filter, KeyCondition, OrFilter } from '../query-builder.types';

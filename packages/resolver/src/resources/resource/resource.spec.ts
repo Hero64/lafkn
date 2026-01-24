@@ -1,10 +1,10 @@
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { setupTestingStack } from '../../utils';
-import { lafknResource } from './resource';
+import { lafkenResource } from './resource';
 
-describe('Lafkn resource', () => {
-  const Bucket = lafknResource.make(S3Bucket);
-  it('should create lafkn resource', () => {
+describe('Lafken resource', () => {
+  const Bucket = lafkenResource.make(S3Bucket);
+  it('should create lafken resource', () => {
     const { stack } = setupTestingStack();
 
     const bucket = new Bucket(stack, 'test');
@@ -20,7 +20,7 @@ describe('Lafkn resource', () => {
 
     bucket.isGlobal('bucket', 'testing');
 
-    const resourceBucket = lafknResource.getResource('bucket', 'testing');
+    const resourceBucket = lafkenResource.getResource('bucket', 'testing');
 
     expect(bucket).toBe(resourceBucket);
   });
@@ -33,7 +33,7 @@ describe('Lafkn resource', () => {
     const dependentFn = jest.fn();
 
     bucket.isDependent(dependentFn);
-    await lafknResource.callDependentCallbacks();
+    await lafkenResource.callDependentCallbacks();
 
     expect(dependentFn).toHaveBeenCalledTimes(1);
   });

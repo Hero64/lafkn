@@ -10,7 +10,7 @@ import type {
   Integration,
   IntegrationProps,
 } from '../../integration.types';
-import { LafknIntegration } from '../../integration.utils';
+import { LafkenIntegration } from '../../integration.utils';
 
 export class SendMessageIntegration implements Integration {
   constructor(protected props: IntegrationProps) {}
@@ -35,7 +35,7 @@ export class SendMessageIntegration implements Integration {
       options
     );
 
-    const integration = new LafknIntegration(
+    const integration = new LafkenIntegration(
       restApi,
       `${resourceMetadata.name}-${handler.name}-integration`,
       {

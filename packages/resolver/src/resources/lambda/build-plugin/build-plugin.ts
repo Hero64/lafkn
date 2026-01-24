@@ -1,8 +1,8 @@
-import type { LafknBuildPluginProps } from './build-plugin.types';
+import type { LafkenBuildPluginProps } from './build-plugin.types';
 
-export const LafknBuildPlugin = (props: LafknBuildPluginProps) => {
+export const LafkenBuildPlugin = (props: LafkenBuildPluginProps) => {
   return {
-    name: 'lafkn-build-plugin',
+    name: 'lafken-build-plugin',
     transform(code: string, id: string) {
       if (id === props.filename) {
         let exportContent = '';

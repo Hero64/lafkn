@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafkn/common';
+import type { ClassResource } from '@lafken/common';
 import type { ModelPartition } from '../../../main/model';
 import type { QueryBuilderProps } from '../base/base.types';
 import type { Item } from '../query-builder.types';

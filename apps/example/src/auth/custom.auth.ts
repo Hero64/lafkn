@@ -3,7 +3,7 @@ import {
   AuthorizerHandler,
   type AuthorizerResponse,
   CustomAuthorizer,
-} from '@lafkn/api/main';
+} from '@lafken/api/main';
 
 @CustomAuthorizer({
   name: 'ExampleCustomAuthorizer',

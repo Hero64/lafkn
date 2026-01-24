@@ -1,6 +1,6 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { ApiGatewayResource } from '@cdktf/provider-aws/lib/api-gateway-resource';
-import { enableBuildEnvVariable } from '@lafkn/common';
+import { enableBuildEnvVariable } from '@lafken/common';
 import { Testing } from 'cdktf';
 import { setupTestingRestApi } from '../../../utils/testing.utils';
 

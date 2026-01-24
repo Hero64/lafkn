@@ -1,19 +1,19 @@
-# @lafkn/auth
+# @lafken/auth
 
-`@lafkn/auth` simplifies the creation and management of Amazon Cognito User Pools and User Pool Clients. It allows you to configure authentication flows, password policies, and standard attributes, as well as extend functionality using Lambda triggers through extensions.
+`@lafken/auth` simplifies the creation and management of Amazon Cognito User Pools and User Pool Clients. It allows you to configure authentication flows, password policies, and standard attributes, as well as extend functionality using Lambda triggers through extensions.
 
 ## Installation
 
 ```bash
-npm install @lafkn/auth
+npm install @lafken/auth
 ```
 
 ## Configuration
 
-Add the `AuthResolver` from the `@lafkn/auth/resolver` library to your application configuration.
+Add the `AuthResolver` from the `@lafken/auth/resolver` library to your application configuration.
 
 ```typescript
-import { AuthResolver } from '@lafkn/auth/resolver';
+import { AuthResolver } from '@lafken/auth/resolver';
 
 createApp({
   name: 'awesome-app',
@@ -58,12 +58,12 @@ new AuthResolver({
 
 ### Extensions (Triggers)
 
-`@lafkn/auth` supports extending Cognito functionality using Lambda triggers. You can define "Extensions" which are classes decorated with `@AuthExtension`, containing methods decorated with `@Trigger`.
+`@lafken/auth` supports extending Cognito functionality using Lambda triggers. You can define "Extensions" which are classes decorated with `@AuthExtension`, containing methods decorated with `@Trigger`.
 
 1.  **Define an Extension:**
 
 ```typescript
-import { AuthExtension, Trigger } from '@lafkn/auth';
+import { AuthExtension, Trigger } from '@lafken/auth';
 
 @AuthExtension()
 export class AuthTriggers {

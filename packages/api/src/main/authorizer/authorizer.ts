@@ -4,7 +4,7 @@ import {
   createResourceDecorator,
   isBuildEnvironment,
   type LambdaMetadata,
-} from '@lafkn/common';
+} from '@lafken/common';
 import type { APIGatewayRequestAuthorizerEvent } from 'aws-lambda';
 
 import type { Method } from '../api';

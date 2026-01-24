@@ -1,4 +1,4 @@
-import type { ClassResource, ResourceMetadata } from '@lafkn/common';
+import type { ClassResource, ResourceMetadata } from '@lafken/common';
 import type { QueueLambdaMetadata } from '../../main';
 
 export interface QueueProps {

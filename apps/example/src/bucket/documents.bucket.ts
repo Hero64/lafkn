@@ -1,7 +1,7 @@
-import { Bucket } from '@lafkn/bucket/main';
+import { Bucket } from '@lafken/bucket/main';
 
 @Bucket({
-  name: 'lafkn-example-documents',
+  name: 'lafken-example-documents',
   forceDestroy: true,
   eventBridgeEnabled: true,
 })

@@ -1,13 +1,13 @@
 import path from 'node:path';
-import { LafknBuildPlugin } from './build-plugin';
+import { LafkenBuildPlugin } from './build-plugin';
 
-describe('LafknBuildPlugin', () => {
+describe('LafkenBuildPlugin', () => {
   const tempDir: string = path.join(__dirname, 'temp');
 
   test('should export lambda functions', async () => {
     const inputFile = path.join(tempDir, 'input.js');
 
-    const plugin = LafknBuildPlugin({
+    const plugin = LafkenBuildPlugin({
       filename: inputFile,
       exports: [
         {

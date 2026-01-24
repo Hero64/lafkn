@@ -1,4 +1,4 @@
-import type { FieldMetadata, FieldProps } from '@lafkn/common';
+import type { FieldMetadata, FieldProps } from '@lafken/common';
 
 export enum CognitoPropertyReflectKeys {
   custom = 'cognito:custom-attribute',

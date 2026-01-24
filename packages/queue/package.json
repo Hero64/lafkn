@@ -1,5 +1,5 @@
 {
-  "name": "@lafkn/queue",
+  "name": "@lafken/queue",
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
@@ -44,8 +44,8 @@
   "dependencies": {
     "@aws-sdk/client-sqs": "3.956.0",
     "@cdktf/provider-aws": "21.22.0",
-    "@lafkn/common": "workspace:*",
-    "@lafkn/resolver": "workspace:*",
+    "@lafken/common": "workspace:*",
+    "@lafken/resolver": "workspace:*",
     "aws-lambda": "1.0.7",
     "cdktf": "0.21.0",
     "constructs": "10.4.4",

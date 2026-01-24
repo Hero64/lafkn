@@ -1,6 +1,6 @@
 import type { CloudwatchEventBus } from '@cdktf/provider-aws/lib/cloudwatch-event-bus';
-import type { EventBusNames } from '@lafkn/common';
-import type { AppStack } from '@lafkn/resolver';
+import type { EventBusNames } from '@lafken/common';
+import type { AppStack } from '@lafken/resolver';
 
 interface ExtendProps {
   scope: AppStack;

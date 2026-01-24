@@ -5,11 +5,11 @@ import type {
   Services,
   ServicesName,
   ServicesValues,
-} from '@lafkn/common';
+} from '@lafken/common';
 import { Fn } from 'cdktf';
 import type { Construct } from 'constructs';
 import { resolveCallbackResource } from '../../utils';
-import { lafknResource } from '../resource';
+import { lafkenResource } from '../resource';
 import type { RoleProps } from './role.types';
 
 const defaultPermissions: Record<ServicesName, string[]> = {
@@ -115,9 +115,9 @@ export const mapServicesName: Partial<Record<ServicesName, string>> = {
   event: 'events',
 };
 
-const RolePolicy = lafknResource.make(IamRolePolicy);
+const RolePolicy = lafkenResource.make(IamRolePolicy);
 
-export class Role extends lafknResource.make(IamRole) {
+export class Role extends lafkenResource.make(IamRole) {
   constructor(
     scope: Construct,
     id: string,

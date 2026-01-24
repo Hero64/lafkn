@@ -1,7 +1,7 @@
-import type { ModuleGlobalReferenceNames } from '@lafkn/common';
+import type { ModuleGlobalReferenceNames } from '@lafken/common';
 import { Construct } from 'constructs';
 
-class LafknResource {
+class LafkenResource {
   private globals: Record<string, Construct> = {};
   private dependent: (() => void)[] = [];
 
@@ -44,4 +44,4 @@ class LafknResource {
   }
 }
 
-export const lafknResource = new LafknResource();
+export const lafkenResource = new LafkenResource();

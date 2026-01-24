@@ -1,4 +1,4 @@
-import { Event, Fifo, Queue, Standard } from '@lafkn/queue/main';
+import { Event, Fifo, Queue, Standard } from '@lafken/queue/main';
 import { QueuePayloadEvent } from './greeting.field';
 
 @Queue({

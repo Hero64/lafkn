@@ -6,7 +6,7 @@ import {
   createFieldName,
   createPayloadDecorator,
   FieldProperties,
-} from '@lafkn/common';
+} from '@lafken/common';
 import { RESOURCE_TYPE } from '../state-machine';
 import type { JsonAtaString, ParamProps, StateMachineParamMetadata } from './param.types';
 

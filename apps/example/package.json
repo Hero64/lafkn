@@ -1,5 +1,5 @@
 {
-  "name": "@lafkn/example",
+  "name": "@lafken/example",
   "version": "0.0.2",
   "private": true,
   "license": "MIT",
@@ -12,16 +12,16 @@
     "clean": "rm -rf cdktf.out dist .out"
   },
   "dependencies": {
-    "@lafkn/api": "workspace:*",
-    "@lafkn/auth": "workspace:*",
-    "@lafkn/bucket": "workspace:*",
-    "@lafkn/common": "workspace:*",
-    "@lafkn/dynamo": "workspace:*",
-    "@lafkn/event": "workspace:*",
-    "@lafkn/main": "workspace:*",
-    "@lafkn/queue": "workspace:*",
-    "@lafkn/schedule": "workspace:*",
-    "@lafkn/state-machine": "workspace:*",
+    "@lafken/api": "workspace:*",
+    "@lafken/auth": "workspace:*",
+    "@lafken/bucket": "workspace:*",
+    "@lafken/common": "workspace:*",
+    "@lafken/dynamo": "workspace:*",
+    "@lafken/event": "workspace:*",
+    "@lafken/main": "workspace:*",
+    "@lafken/queue": "workspace:*",
+    "@lafken/schedule": "workspace:*",
+    "@lafken/state-machine": "workspace:*",
     "cdktf": "0.21.0",
     "dayjs": "1.11.19"
   },

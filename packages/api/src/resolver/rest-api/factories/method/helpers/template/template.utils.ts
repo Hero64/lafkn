@@ -1,4 +1,4 @@
-import type { FieldTypes } from '@lafkn/common';
+import type { FieldTypes } from '@lafken/common';
 import type { Source } from '../../../../../../main';
 
 export const TEMPLATE_KEY_REPLACE = '{{key}}';

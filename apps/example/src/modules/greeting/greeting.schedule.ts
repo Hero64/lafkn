@@ -1,4 +1,4 @@
-import { Cron, Schedule } from '@lafkn/schedule/main';
+import { Cron, Schedule } from '@lafken/schedule/main';
 
 @Schedule()
 export class GreetingSchedule {

@@ -1,6 +1,6 @@
 import type { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
 import type { ApiGatewayMethod } from '@cdktf/provider-aws/lib/api-gateway-method';
-import type { ClassResource } from '@lafkn/common';
+import type { ClassResource } from '@lafken/common';
 import type { Construct } from 'constructs';
 import type { ApiLambdaMetadata, ApiResourceMetadata } from '../../../../../main';
 import type { RestApi } from '../../../rest-api';

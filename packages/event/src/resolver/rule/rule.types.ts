@@ -1,5 +1,5 @@
 import type { CloudwatchEventBus } from '@cdktf/provider-aws/lib/cloudwatch-event-bus';
-import type { ResourceMetadata } from '@lafkn/common';
+import type { ResourceMetadata } from '@lafken/common';
 import type { EventRuleMetadata } from '../../main';
 
 export interface RuleProps {

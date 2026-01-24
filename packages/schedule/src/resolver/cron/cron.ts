@@ -1,10 +1,10 @@
 import { CloudwatchEventRule } from '@cdktf/provider-aws/lib/cloudwatch-event-rule';
 import { CloudwatchEventTarget } from '@cdktf/provider-aws/lib/cloudwatch-event-target';
-import { type AppModule, LambdaHandler, lafknResource } from '@lafkn/resolver';
+import { type AppModule, LambdaHandler, lafkenResource } from '@lafken/resolver';
 import type { ScheduleTime } from '../../main';
 import type { CronProps } from './cron.types';
 
-export class Cron extends lafknResource.make(CloudwatchEventRule) {
+export class Cron extends lafkenResource.make(CloudwatchEventRule) {
   constructor(
     scope: AppModule,
     id: string,

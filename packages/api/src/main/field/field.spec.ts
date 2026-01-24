@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { enableBuildEnvVariable, getMetadataPrototypeByKey } from '@lafkn/common';
+import { enableBuildEnvVariable, getMetadataPrototypeByKey } from '@lafken/common';
 import { Payload } from '../event';
 import { apiFieldKey, Field, Param } from './field';
 import type { ApiArrayParam, ApiParamMetadata } from './field.types';

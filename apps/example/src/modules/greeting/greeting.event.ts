@@ -1,4 +1,4 @@
-import { Event, EventRule, Rule } from '@lafkn/event/main';
+import { Event, EventRule, Rule } from '@lafken/event/main';
 
 @EventRule({
   minify: false,
@@ -19,7 +19,7 @@ export class GreetingEvent {
       detailType: ['Object Created'],
       detail: {
         bucket: {
-          name: ['lafkn-example-documents'],
+          name: ['lafken-example-documents'],
         },
         object: {
           key: [

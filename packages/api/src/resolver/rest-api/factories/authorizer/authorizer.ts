@@ -12,8 +12,8 @@ import {
   getMetadataPrototypeByKey,
   getResourceMetadata,
   type LambdaMetadata,
-} from '@lafkn/common';
-import { LambdaHandler, lafknResource, lambdaAssets } from '@lafkn/resolver';
+} from '@lafken/common';
+import { LambdaHandler, lafkenResource, lambdaAssets } from '@lafken/resolver';
 import type { TerraformResource } from 'cdktf';
 import {
   ApiAuthorizerType,
@@ -230,7 +230,7 @@ export class AuthorizerFactory {
   }
 
   private createCognitoAuthorizer({ metadata }: AuthorizerDataCognito) {
-    const userPool = lafknResource.getResource<CognitoUserPool>(
+    const userPool = lafkenResource.getResource<CognitoUserPool>(
       'auth',
       metadata.userPool
     );

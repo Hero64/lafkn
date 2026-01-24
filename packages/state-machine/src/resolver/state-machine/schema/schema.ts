@@ -6,8 +6,8 @@ import {
   getResourceMetadata,
   type LambdaMetadata,
   LambdaReflectKeys,
-} from '@lafkn/common';
-import { lambdaAssets, resolveCallbackResource } from '@lafkn/resolver';
+} from '@lafken/common';
+import { lambdaAssets, resolveCallbackResource } from '@lafken/resolver';
 import type { Construct } from 'constructs';
 import {
   type IntegrationStateProps,

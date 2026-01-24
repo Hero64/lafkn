@@ -6,14 +6,14 @@ import {
   createLambdaDecorator,
   createResourceDecorator,
   enableBuildEnvVariable,
-} from '@lafkn/common';
+} from '@lafken/common';
 import {
   type AppModule,
   ContextName,
-  lafknResource,
+  lafkenResource,
   type ResolverType,
   Role,
-} from '@lafkn/resolver';
+} from '@lafken/resolver';
 import { App, Testing } from 'cdktf';
 import { createModule } from '../module';
 import { AppStack, createApp } from './app';
@@ -83,7 +83,7 @@ describe('App', () => {
         },
       },
     });
-    const role = lafknResource.getResource<Role>('app', 'testing-global-role');
+    const role = lafkenResource.getResource<Role>('app', 'testing-global-role');
 
     expect(role).toBeDefined();
     expect(role).toBeInstanceOf(Role);
@@ -146,7 +146,7 @@ describe('App', () => {
     class TestResolver implements ResolverType {
       type: string = 'test-resolver';
       async create(scope: AppModule) {
-        const Bucket = lafknResource.make(S3Bucket);
+        const Bucket = lafkenResource.make(S3Bucket);
         const bucket = new Bucket(scope, 'bucket');
         bucket.isDependent(dependentCallback);
       }
@@ -193,8 +193,8 @@ describe('App', () => {
 
     expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
       tags: {
-        'lafkn:app': 'testing',
-        'lafkn:module': 'testing',
+        'lafken:app': 'testing',
+        'lafken:module': 'testing',
         foo: 'bar',
       },
     });

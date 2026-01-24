@@ -1,20 +1,20 @@
-# @lafkn/event
+# @lafken/event
 
-`@lafkn/event` helps you create listeners for EventBridge events and trigger Lambda functions to process those events. It provides decorators that simplify configuring event listeners—whether for custom events or built-in sources like S3 and DynamoDB.
+`@lafken/event` helps you create listeners for EventBridge events and trigger Lambda functions to process those events. It provides decorators that simplify configuring event listeners—whether for custom events or built-in sources like S3 and DynamoDB.
 
 ## Installation
 
 ```bash
-npm install @lafkn/event
+npm install @lafken/event
 ```
 
 ## Configuration
 
-Add the EventRuleResolver from the @lafkn/event/resolver library.
+Add the EventRuleResolver from the @lafken/event/resolver library.
 In its configuration, you can define one or more event buses. If no event bus is provided, the default EventBridge bus will be used for communication.
 
 ```typescript
-import { ApiResolver } from '@lafkn/event/resolver';
+import { ApiResolver } from '@lafken/event/resolver';
 
 createApp({
   name: 'awesome-app',
@@ -98,7 +98,7 @@ To enable S3 integration within an event rule, set the integration property to '
     detailType: ['Object Created'],
     detail: {
       bucket: {
-        name: ['lafkn-example-documents'],
+        name: ['lafken-example-documents'],
       },
       object: {
         key: [

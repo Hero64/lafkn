@@ -3,8 +3,8 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
   type ResourceMetadata,
-} from '@lafkn/common';
-import { type AppModule, lambdaAssets, type ResolverType } from '@lafkn/resolver';
+} from '@lafken/common';
+import { type AppModule, lambdaAssets, type ResolverType } from '@lafken/resolver';
 import { type EventCronMetadata, RESOURCE_TYPE } from '../main';
 import { Cron } from './cron/cron';
 

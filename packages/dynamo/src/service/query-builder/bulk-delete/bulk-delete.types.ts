@@ -1,4 +1,4 @@
-import type { ClassResource } from '@lafkn/common';
+import type { ClassResource } from '@lafken/common';
 import type { ModelPartition } from '../../../main/model';
 import type { BatchWriteBuilderProps } from '../batch-write/batch-write.types';
 import type { Item } from '../query-builder.types';

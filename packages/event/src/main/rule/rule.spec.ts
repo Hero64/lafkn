@@ -2,7 +2,7 @@ import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@lafkn/common';
+} from '@lafken/common';
 import { EventRule, Rule } from './rule';
 
 describe('Cron rule', () => {

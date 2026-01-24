@@ -1,4 +1,4 @@
-import { setupTestingStack } from '@lafkn/resolver';
+import { setupTestingStack } from '@lafken/resolver';
 import 'cdktf/lib/testing/adapters/jest';
 import { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
 import { CognitoUserPoolClient } from '@cdktf/provider-aws/lib/cognito-user-pool-client';

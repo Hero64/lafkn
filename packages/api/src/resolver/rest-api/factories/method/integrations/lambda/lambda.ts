@@ -1,5 +1,5 @@
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
-import { LambdaHandler } from '@lafkn/resolver';
+import { LambdaHandler } from '@lafken/resolver';
 import type { Integration, IntegrationProps } from '../integration.types';
 
 export class LambdaIntegration implements Integration {

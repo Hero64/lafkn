@@ -11,8 +11,8 @@ import {
   enableBuildEnvVariable,
   getResourceHandlerMetadata,
   getResourceMetadata,
-} from '@lafkn/common';
-import { lafknResource } from '@lafkn/resolver';
+} from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import {
   Api,
@@ -159,7 +159,7 @@ describe('Bucket upload integration', () => {
       (h) => h.name === 'uploadGlobalResource'
     ) as ApiLambdaMetadata;
 
-    const Bucket = lafknResource.make(S3Bucket);
+    const Bucket = lafkenResource.make(S3Bucket);
 
     const bucket = new Bucket(stack, 'test');
     bucket.isGlobal('bucket', 'test');

@@ -1,7 +1,7 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
-import { enableBuildEnvVariable } from '@lafkn/common';
-import { LambdaHandler } from '@lafkn/resolver';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { LambdaHandler } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { Api, Event, Get, Param, Payload } from '../../../../../../main';
 import {
@@ -9,8 +9,8 @@ import {
   setupTestingRestApi,
 } from '../../../../../utils/testing.utils';
 
-jest.mock('@lafkn/resolver', () => {
-  const actual = jest.requireActual('@lafkn/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,

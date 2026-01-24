@@ -1,5 +1,5 @@
 import type { LambdaFunction } from '@cdktf/provider-aws/lib/lambda-function';
-import type { ResourceMetadata } from '@lafkn/common';
+import type { ResourceMetadata } from '@lafken/common';
 import type { Construct } from 'constructs';
 
 interface BaseAsset

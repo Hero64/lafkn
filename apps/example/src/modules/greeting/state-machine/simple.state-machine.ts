@@ -1,5 +1,5 @@
-import type { GetResourceProps } from '@lafkn/common';
-import { IntegrationOptions, State, StateMachine } from '@lafkn/state-machine/main';
+import type { GetResourceProps } from '@lafken/common';
+import { IntegrationOptions, State, StateMachine } from '@lafken/state-machine/main';
 
 @StateMachine({
   services: [

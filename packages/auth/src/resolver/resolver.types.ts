@@ -1,6 +1,6 @@
 import type { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
 import type { CognitoUserPoolClient } from '@cdktf/provider-aws/lib/cognito-user-pool-client';
-import type { AuthNames, ClassResource } from '@lafkn/common';
+import type { AuthNames, ClassResource } from '@lafken/common';
 import type { Construct } from 'constructs';
 import type { UserPool } from './auth/user-pool/user-pool.types';
 import type { UserClient } from './auth/user-pool-client/user-pool-client.types';

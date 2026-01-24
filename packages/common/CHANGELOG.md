@@ -1,4 +1,4 @@
-# @lafkn/common
+# @lafken/common
 
 ## 0.1.1
 

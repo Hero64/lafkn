@@ -1,4 +1,4 @@
 import { ApiGatewayIntegration } from '@cdktf/provider-aws/lib/api-gateway-integration';
-import { lafknResource } from '@lafkn/resolver';
+import { lafkenResource } from '@lafken/resolver';
 
-export const LafknIntegration = lafknResource.make(ApiGatewayIntegration);
+export const LafkenIntegration = lafkenResource.make(ApiGatewayIntegration);

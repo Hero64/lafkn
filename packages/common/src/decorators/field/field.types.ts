@@ -71,8 +71,8 @@ export type FieldTypes = FieldMetadata['type'];
 export type PrimitiveTypes = Extract<FieldTypes, 'String' | 'Number' | 'Boolean'>;
 
 export enum FieldProperties {
-  field = 'lafkn:field',
-  payload = 'lafkn:payload',
+  field = 'lafken:field',
+  payload = 'lafken:payload',
 }
 
 export interface CreateFieldDecoratorProps<P extends FieldProps, M> {

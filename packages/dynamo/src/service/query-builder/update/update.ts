@@ -1,6 +1,6 @@
 import { UpdateItemCommand, type UpdateItemCommandInput } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
-import type { ClassResource } from '@lafkn/common';
+import type { ClassResource } from '@lafken/common';
 
 import { QueryBuilderBase } from '../base/base';
 import type { DeepReplaceValue, Item, ObjectToBoolean } from '../query-builder.types';

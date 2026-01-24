@@ -1,9 +1,9 @@
-import type { FieldTypes } from '@lafkn/common';
+import type { FieldTypes } from '@lafken/common';
 import { Method } from '../../../../../../../main';
 import type { ResponseHandler } from '../../../helpers/response/response.types';
 import { getSuccessStatusCode } from '../../../helpers/response/response.utils';
 import type { InitializedClass, Integration } from '../../integration.types';
-import { LafknIntegration } from '../../integration.utils';
+import { LafkenIntegration } from '../../integration.utils';
 import type { DynamoIntegrationBaseProps } from './base.types';
 
 const mapDynamoType: Record<FieldTypes, string> = {
@@ -31,7 +31,7 @@ export class DynamoBaseIntegration<T> implements Integration {
     const { integrationResponse, resolveResource } =
       await this.callIntegrationMethod<T>();
 
-    const integration = new LafknIntegration(
+    const integration = new LafkenIntegration(
       restApi,
       `${resourceMetadata.name}-${handler.name}-integration`,
       {

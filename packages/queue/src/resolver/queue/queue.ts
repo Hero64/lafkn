@@ -4,8 +4,8 @@ import {
   type FieldTypes,
   getMetadataPrototypeByKey,
   LambdaReflectKeys,
-} from '@lafkn/common';
-import { type AppModule, LambdaHandler, lafknResource } from '@lafkn/resolver';
+} from '@lafken/common';
+import { type AppModule, LambdaHandler, lafkenResource } from '@lafken/resolver';
 import type { QueueObjectParam, QueueParamMetadata } from '../../main';
 import type { QueueProps } from './queue.types';
 
@@ -13,7 +13,7 @@ const attributeAllowedTypes = new Set<FieldTypes>(['String', 'Number']);
 const bodyParsedTypes = new Set<FieldTypes>(['String', 'Object', 'Array']);
 const bodyUnparsedTypes = new Set<FieldTypes>(['String']);
 
-export class Queue extends lafknResource.make(SqsQueue) {
+export class Queue extends lafkenResource.make(SqsQueue) {
   constructor(
     scope: AppModule,
     id: string,

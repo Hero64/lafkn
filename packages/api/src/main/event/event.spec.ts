@@ -5,7 +5,7 @@ import {
   getMetadataPrototypeByKey,
   LambdaReflectKeys,
   type PayloadMetadata,
-} from '@lafkn/common';
+} from '@lafken/common';
 
 import { type ApiObjectParam, type ApiParamMetadata, Field, Param } from '../field';
 import { apiPayloadKey, Event, Payload, Response } from './event';

@@ -32,34 +32,34 @@ importers:
 
   apps/example:
     dependencies:
-      '@lafkn/api':
+      '@lafken/api':
         specifier: workspace:*
         version: link:../../packages/api
-      '@lafkn/auth':
+      '@lafken/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@lafkn/bucket':
+      '@lafken/bucket':
         specifier: workspace:*
         version: link:../../packages/bucket
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../../packages/common
-      '@lafkn/dynamo':
+      '@lafken/dynamo':
         specifier: workspace:*
         version: link:../../packages/dynamo
-      '@lafkn/event':
+      '@lafken/event':
         specifier: workspace:*
         version: link:../../packages/event
-      '@lafkn/main':
+      '@lafken/main':
         specifier: workspace:*
         version: link:../../packages/main
-      '@lafkn/queue':
+      '@lafken/queue':
         specifier: workspace:*
         version: link:../../packages/queue
-      '@lafkn/schedule':
+      '@lafken/schedule':
         specifier: workspace:*
         version: link:../../packages/schedule
-      '@lafkn/state-machine':
+      '@lafken/state-machine':
         specifier: workspace:*
         version: link:../../packages/state-machine
       cdktf:
@@ -78,10 +78,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -115,10 +115,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -152,10 +152,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       aws-xray-sdk:
@@ -214,10 +214,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       aws-xray-sdk:
@@ -257,10 +257,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -294,10 +294,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -334,10 +334,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       aws-lambda:
@@ -377,7 +377,7 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
       cdktf:
@@ -411,10 +411,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       cdktf:
@@ -451,10 +451,10 @@ importers:
       '@cdktf/provider-aws':
         specifier: 21.22.0
         version: 21.22.0(cdktf@0.21.0(constructs@10.4.4))(constructs@10.4.4)
-      '@lafkn/common':
+      '@lafken/common':
         specifier: workspace:*
         version: link:../common
-      '@lafkn/resolver':
+      '@lafken/resolver':
         specifier: workspace:*
         version: link:../resolver
       aws-lambda:

@@ -1,7 +1,7 @@
 import { ApiGatewayDeployment } from '@cdktf/provider-aws/lib/api-gateway-deployment';
 import { ApiGatewayRestApi } from '@cdktf/provider-aws/lib/api-gateway-rest-api';
 import { ApiGatewayStage } from '@cdktf/provider-aws/lib/api-gateway-stage';
-import { lafknResource } from '@lafkn/resolver';
+import { lafkenResource } from '@lafken/resolver';
 import type { Construct } from 'constructs';
 import type { RestApiProps } from '../resolver.types';
 import { AuthorizerFactory } from './factories/authorizer/authorizer';
@@ -12,7 +12,7 @@ import { ResourceFactory } from './factories/resource/resource';
 import { ResponseFactory } from './factories/response/response';
 import { ValidatorFactory } from './factories/validator/validator';
 
-export class RestApi extends lafknResource.make(ApiGatewayRestApi) {
+export class RestApi extends lafkenResource.make(ApiGatewayRestApi) {
   public stageName: string;
 
   public resourceFactory: ResourceFactory;

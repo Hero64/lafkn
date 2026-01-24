@@ -15,8 +15,8 @@ import {
   getResourceHandlerMetadata,
   getResourceMetadata,
   type StripReadonly,
-} from '@lafkn/common';
-import { lafknResource } from '@lafkn/resolver';
+} from '@lafken/common';
+import { lafkenResource } from '@lafken/resolver';
 import { Token } from 'cdktf';
 import type { Construct } from 'constructs';
 import {
@@ -44,7 +44,7 @@ import type {
   UserVerification,
 } from './user-pool.types';
 
-export class UserPool extends lafknResource.make(CognitoUserPool) {
+export class UserPool extends lafkenResource.make(CognitoUserPool) {
   public attributeByName: Record<
     string,
     CustomAttributesMetadata | StandardAttributeMetadata

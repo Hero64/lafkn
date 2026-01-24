@@ -1,4 +1,4 @@
-import type { PayloadMetadata, PayloadProps } from '@lafkn/common';
+import type { PayloadMetadata, PayloadProps } from '@lafken/common';
 
 import type { ApiFieldMetadata } from '../field';
 import type { HTTP_STATUS_CODE_NUMBER } from '../status';

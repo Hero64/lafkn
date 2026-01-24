@@ -5,7 +5,7 @@ import {
   Post,
   type QueueIntegrationOption,
   type QueueSendMessageIntegrationResponse,
-} from '@lafkn/api/main';
+} from '@lafken/api/main';
 import { ApiQueuePayload } from './greeting.field';
 
 @Api({

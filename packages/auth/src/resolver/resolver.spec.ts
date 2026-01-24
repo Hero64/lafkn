@@ -1,8 +1,8 @@
 import 'cdktf/lib/testing/adapters/jest';
 import { CognitoUserPool } from '@cdktf/provider-aws/lib/cognito-user-pool';
 import { CognitoUserPoolClient } from '@cdktf/provider-aws/lib/cognito-user-pool-client';
-import { enableBuildEnvVariable } from '@lafkn/common';
-import { type AppModule, setupTestingStack } from '@lafkn/resolver';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { type AppModule, setupTestingStack } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { AuthResolver } from './resolver';
 

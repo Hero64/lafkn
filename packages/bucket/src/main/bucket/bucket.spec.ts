@@ -1,4 +1,4 @@
-import { enableBuildEnvVariable } from '@lafkn/common';
+import { enableBuildEnvVariable } from '@lafken/common';
 import { Bucket } from './bucket';
 import { BucketMetadataKeys } from './bucket.types';
 

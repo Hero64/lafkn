@@ -2,15 +2,15 @@ import 'cdktf/lib/testing/adapters/jest';
 import { ApiGatewayMethod } from '@cdktf/provider-aws/lib/api-gateway-method';
 import { ApiGatewayResource } from '@cdktf/provider-aws/lib/api-gateway-resource';
 import { ApiGatewayStage } from '@cdktf/provider-aws/lib/api-gateway-stage';
-import { enableBuildEnvVariable } from '@lafkn/common';
-import { type AppStack, setupTestingStackWithModule } from '@lafkn/resolver';
+import { enableBuildEnvVariable } from '@lafken/common';
+import { type AppStack, setupTestingStackWithModule } from '@lafken/resolver';
 import { Testing } from 'cdktf';
 import { Api, Get } from '../main';
 import { ApiResolver } from './resolver';
 import { RestApi } from './rest-api/rest-api';
 
-jest.mock('@lafkn/resolver', () => {
-  const actual = jest.requireActual('@lafkn/resolver');
+jest.mock('@lafken/resolver', () => {
+  const actual = jest.requireActual('@lafken/resolver');
 
   return {
     ...actual,
